@@ -1,0 +1,36 @@
+.operation-pool .el-input--prefix .el-input__inner {
+  padding-left: 60px;
+  height: 80px;
+  border-radius: 24px;
+  border: none;
+  font-size: 20px;
+  color: #333;
+}
+.coinlist-box {
+  border-radius: 24px;
+  border: 0;
+  overflow: hidden;
+  margin-top: 6px !important;
+  height: 150px;
+}
+.write-amount .el-input-number {
+  flex: 1;
+}
+.write-amount .el-input-number .el-input__inner {
+  text-align: left;
+  font-size: 28px;
+  color: #000;
+  border: 0;
+}
+.write-amount .el-input-number.is-controls-right .el-input-number__increase,
+.write-amount .el-input-number.is-controls-right .el-input-number__decrease {
+  border: 0;
+  background: none;
+}
+.write-amount .el-input-number.is-controls-right .el-input-number__increase:hover,
+.write-amount .el-input-number.is-controls-right .el-input-number__decrease:hover {
+  background-color: #eee;
+}
+.el-input-number__decrease, .el-input-number__increase {
+  color: #000;
+}
