@@ -22,7 +22,7 @@
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item
                 v-for="(locale, index) in $i18n.locales"
-                :key="locale.code"
+                :key="index"
                 :command="locale.code"
                 :divided="!!index">
                 <nuxt-link
@@ -58,10 +58,13 @@
             </el-dropdown-menu>
           </el-dropdown>
           <!-- wallet -->
-          <div class="wallet-address">
+          <div class="wallet-address" v-if="walletAddress">
             <img src="~/static/images/walletico.png" alt="" class="walletico">
-            <span>0x...88dd</span>
+            <span>{{ walletAddress.substr(0,3) }}...{{ walletAddress.substr(-4) }}</span>
             <img src="~/static/images/arrow-down-white.png" alt="" class="arrowico">
+          </div>
+          <div class="wallet-address" v-else @click="onConnectWallet">
+            <span>connect</span>
           </div>
         </div>
       </div>
@@ -94,8 +97,19 @@ export default {
       ]
     }
   },
-  created () {
-    console.log(this.$i18n.locales)
+  computed: {
+    walletAddress () {
+      return this.$store.state.wallet.walletAddress
+    }
+  },
+  async created () {
+    this.onConnectWallet()
+  },
+  methods: {
+    async onConnectWallet () {
+      const walletAddress = await this.$store.dispatch('wallet/linkWallet')
+      console.log('钱包已连接：', walletAddress)
+    }
   }
 }
 </script>
@@ -140,7 +154,7 @@ export default {
         transition: all 0.3s;
         font-size: 15px;
         &:hover,
-        &.nuxt-link-active {
+        &.nuxt-link-exact-active {
           color: #356DF3;
         }
       }
@@ -211,6 +225,7 @@ export default {
       cursor: pointer;
       box-shadow: 1px 1px 1px rgba($color: #000000, $alpha: 0.3);
       position: relative;
+      min-width: 110px;
       @include flexBox;
       .walletico {
         width: 20px;

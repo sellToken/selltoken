@@ -11,7 +11,7 @@
   border: 0;
   overflow: hidden;
   margin-top: 6px !important;
-  height: 150px;
+  min-height: 150px;
 }
 .write-amount .el-input-number {
   flex: 1;
@@ -33,4 +33,34 @@
 }
 .el-input-number__decrease, .el-input-number__increase {
   color: #000;
+}
+.disc-join .el-input-number {
+  width: 500px;
+
+}
+.disc-join .el-input__inner {
+  border: 1px solid #0b48e6;
+  border-radius: 100px;
+  max-width: 100%;
+  color: #0b48e6;
+  font-size: 25px;
+  height: 64px;
+  text-indent: 10px;
+  padding: 4px;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+}
+.disc-join .el-button--primary.is-disabled {
+  background: #999;
+  border: #999;
+}
+.operation-pool .el-input__clear {
+  font-size: 20px;
+}
+.themebtn.is-disabled {
+  background: #999 !important;
+  border: #999;
+  color: #000 !important;
+  top: 0 !important;
 }

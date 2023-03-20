@@ -18,18 +18,20 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    '~/static/css/style.css',
+    'swiper/dist/css/swiper.css',
     'element-ui/lib/theme-chalk/index.css',
+    '~/static/css/style.css',
     '~/static/css/element.css'
   ],
 
   styleResources: {
-    scss: '~/static/css/global.scss'
+    scss: '~/assets/global.scss'
   },
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '@/plugins/element-ui'
+    '@/plugins/element-ui',
+    '@/plugins/vue-swiper'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -61,7 +63,32 @@ export default {
           {
             code: 'zhCN',
             file: 'zhCN.json',
-            name: '简体中文'
+            name: '繁體中文'
+          },
+          {
+            code: 'zhCN',
+            file: 'zhCN.json',
+            name: '한국어'
+          },
+          {
+            code: 'zhCN',
+            file: 'zhCN.json',
+            name: '日本語'
+          },
+          {
+            code: 'zhCN',
+            file: 'zhCN.json',
+            name: 'اللغة العربية'
+          },
+          {
+            code: 'zhCN',
+            file: 'zhCN.json',
+            name: 'Pilipino'
+          },
+          {
+            code: 'zhCN',
+            file: 'zhCN.json',
+            name: 'Tiếng Việt'
           }
         ],
         lazy: true,
@@ -85,6 +112,6 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    transpile: [/^element-ui/],
+    transpile: [/^element-ui/,/^swiper/,/^web3/]
   }
 }

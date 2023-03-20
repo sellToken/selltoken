@@ -11,3 +11,32 @@ a{text-decoration:none;}
   padding: 0 20px;
   box-sizing: border-box;
 }
+.themebtn {
+  text-decoration: none;
+  color: #333;
+  border-radius: 15px;
+  background: linear-gradient(90deg,#56ffee 25.14%,#82ffca 67.46%,#a7ff62 116.99%,#fcff63 167.07%);
+  padding: 11px 50px;
+  margin: auto;
+  font-size: 16px;
+  font-family: "Inter-Regular", sans-serif;
+  font-weight: 600;
+  line-height: 24px;
+  transition-duration: 0.15s;
+  transition-property: color, background-color;
+  transition-timing-function: linear;
+  border: 0;
+  top: 0;
+  position: relative;
+}
+.themebtn:hover {
+  color: #000;
+}
+.themebtn:focus {
+  color: #000;
+}
+.themebtn:active {
+  top: 2px;
+  color: #000;
+  background: linear-gradient(90deg,#4cecdc 25.14%,#79f8c3 67.46%,#99ec59 116.99%,#edf05b 167.07%);
+}

@@ -14,34 +14,49 @@
       </div>
       <!-- 操作池 -->
       <div class="operation-pool">
-        <el-autocomplete
-          v-model="selectValue"
-          placeholder="Search Contract Address"
-          :fetch-suggestions="querySearch"
-          @select="handleSelect"
-          popper-class="coinlist-box">
-          <img src="~/static/images/searchico.png" alt="" slot="prefix" class="prefico" />
-          <template slot-scope="{ item }">
-            <div class="coinlist-cell">
-              <div>
-                <img src="~/static/images/TRDT.png" alt="" class="coinico">
-                <span class="name">{{ item.name }}</span>
+        <div class="w-autowint" v-if="!selectInfo">
+          <el-autocomplete
+            v-model="selectValue"
+            placeholder="Search Contract Address"
+            :fetch-suggestions="querySearch"
+            @select="handleSelectCoinbase"
+            popper-class="coinlist-box"
+            ref="selectRef">
+            <img src="~/static/images/searchico.png" alt="" slot="prefix" class="prefico" />
+            <template slot-scope="{ item }">
+              <div class="coinlist-cell" v-if="item.name">
+                <div>
+                  <img :src="coinbaseIcos[item.name]||require('~/static/images/defaultico.png')" alt="" class="coinico">
+                  <span class="name">{{ item.name }}</span>
+                </div>
+                <div class="raddbox">
+                  <span class="balance-text">{{ item.balance }}</span>
+                  <div v-if="item.name !== 'TRDT'" @click.stop="onAddCoinbase(item)">
+                    <img src="~/static/images/add2.png" alt="" class="addico" v-if="item.isAdd">
+                    <img src="~/static/images/add.png" alt="" class="addico" v-else>
+                  </div>
+                </div>
               </div>
-              <span class="balance-text">{{ item.balance }}</span>
-            </div>
-          </template>
-        </el-autocomplete>
+              <div class="not-have" v-else>
+                <p>no data</p>
+              </div>
+            </template>
+          </el-autocomplete>
+        </div>
+        <div class="select-info" v-else @click="onClearSelectInfo">
+          <img :src="coinbaseIcos[selectInfo.name]||require('~/static/images/defaultico.png')" alt="" class="c-logo">
+          <span class="si-unit">{{ selectInfo.name }}</span>
+          <i class="el-icon-arrow-down"></i>
+          <span class="si-balance">Balance: {{ selectInfo.balance }}</span>
+        </div>
         <h3 class="pair-h3">Select Pair</h3>
         <div class="pair-content">
-          <div class="unitem" :class="{active: selectPairIndex == 0}" 
-            @click="selectPairIndex = 0">
-            <img src="~/static/images/BNB.png" alt="">
-            <span>BNB</span>
-          </div>
-          <div class="unitem" :class="{active: selectPairIndex == 1}" 
-            @click="selectPairIndex = 1">
-            <img src="~/static/images/USDT.png" alt="">
-            <span>USDT</span>
+          <div class="unitem" 
+            v-for="(item, index) in pairLists" :key="index"
+            :class="{active: selectPairIndex === index}" 
+            @click="onChangePairIndex(index)">
+            <img :src="require(`~/static/images/${item}.png`)" alt="">
+            <span>{{ item }}</span>
           </div>
         </div>
         <!-- 输入BNB -->
@@ -56,50 +71,529 @@
           </div>
         </div>
         <div class="max-short">
-          <p>Max Short:<b>0.00000000</b> BNB</p>
+          <p>Max Short:<b>{{ maxAmountShort }}</b> BNB</p>
         </div>
         <div class="shortbtn-cell">
-          <el-button disabled>Open Short</el-button>
-          <el-button disabled>Open Short</el-button>
+          <el-button 
+            :disabled="!addr2Token||!selectInfo||selectInfo.pairs=='No pair'"
+            @click="onOpenShort">
+            Open Short
+          </el-button>
+          <el-button class="btncolor2" @click="toLiquidity"
+            :disabled="!addr2Token||!selectInfo">
+            Liquidity
+          </el-button>
         </div>
       </div>
       <!-- 奖池 -->
       <div class="jackpot-box">
-        <div class="">
-
+        <div class="jack-item">
+          <div class="j-radius"></div>
+          <div class="j-title">
+            <h6>Close position</h6>
+          </div>
+          <div class="j-amount">
+            <p>
+              <img src="~/static/images/BNB.png" alt="" class="j-unit">
+              <b>{{ shortsInfos[1] || '0.00000000' }}</b>
+            </p>
+          </div>
+          <div class="j-title">
+            <h6>Open Short</h6>
+          </div>
+          <div class="j-amount">
+            <p>
+              <img src="~/static/images/BNB.png" alt="" class="j-unit">
+              <b>{{ shortsInfos[0] || '0.00000000' }}</b>
+            </p>
+          </div>
+          <img src="~/static/images/v1.png" alt="" class="j-ico">
         </div>
+        <div class="jack-item">
+          <div class="j-radius"></div>
+          <div class="j-title">
+            <h6>Liquidity</h6>
+          </div>
+          <div class="j-amount">
+            <!-- <p class="small">
+              <img src="~/static/images/defaultico.png" alt="" class="j-unit" style="top:-2px;">
+              <b>{{ shortsInfos[2] || '0.0000' }}</b>
+            </p>
+            <p>
+              ≈
+              <img src="~/static/images/BNB.png" alt="" class="j-unit">
+              <b>{{ shortsInfos[3] || '0.00000000' }}</b>
+            </p> -->
+            <p class="size-text">
+              代币余额：
+              <img src="~/static/images/defaultico.png" alt="" class="j-unit">
+              <b>{{ shortsInfos[2] || '0.0000' }}</b>
+            </p>
+            <p class="size-text">
+              不可赎回：
+              <img src="~/static/images/defaultico.png" alt="" class="j-unit">
+              <b>{{ shortsInfos[3] || '0.0000' }}</b>
+            </p>
+            <p class="size-text">
+              永久锁定：
+              <b>{{ (((shortsInfos[3]/shortsInfos[2])*100)||0).toFixed(2) }}%</b>
+            </p>
+          </div>
+          <img src="~/static/images/v2.png" alt="" class="j-ico">
+        </div>
+        <div class="jack-item">
+          <div class="j-radius"></div>
+          <div class="j-title">
+            <h6>Liquidity mining</h6>
+          </div>
+          <div class="j-amount">
+            <p class="size-text">
+              质押数量：
+              <img src="~/static/images/defaultico.png" alt="" class="j-unit">
+              <b>{{ miningUserInfos[0] || '-' }}</b>
+            </p>
+            <p class="size-text">
+              到期时间：
+              <b>{{ miningUserInfos[1] || '-' }}</b>
+            </p>
+            <p class="size-text">
+              赎回数量：
+              <img src="~/static/images/defaultico.png" alt="" class="j-unit">
+              <b>{{ miningUserInfos[3] || '-' }}</b>
+            </p>
+            <div class="j-btn">
+              <el-button class="themebtn" 
+                :disabled="!miningUserInfos[0]||miningUserInfos[0]==0"
+                @click="onRedeemCoinbase">赎回</el-button>
+            </div>
+          </div>
+          <img src="~/static/images/v3.png" alt="" class="j-ico">
+        </div>
+      </div>
+    </div>
+    <!-- 订单 -->
+    <div class="orderinfo-box" v-if="myOrderLists.length">
+      <div class="swiper-orderinfo" v-swiper:mySwiper="SwiperOptions">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" v-for="(item, index) in myOrderLists" :key="index">
+            <div class="orderinfo-item">
+              <div class="o-top">
+                <strong>SellToken</strong>
+                <div class="ot-logo">
+                  <img src="~/static/images/TRDT-logo.png" alt="">
+                </div>
+              </div>
+              <div class="o-info">
+                <h6>Contract Address</h6>
+                <div class="o-addr">
+                  <span>{{ item[0].substr(0, 10) }}...{{ item[0].substr(-10) }}</span>
+                  <img src="~/static/images/copyico.png" alt="" class="copybtn">
+                </div>
+                <h5>${{ item[3] }}</h5>
+                <div class="o-amount">
+                  <p>
+                    <img src="~/static/images/defaultico.png" alt="">
+                    {{ item[2] }}
+                  </p>
+                  <p>
+                    <img src="~/static/images/BNB.png" alt="">
+                    {{ item[1] }}
+                  </p>
+                </div>
+                <div class="cp-btnbox">
+                  <el-button class="themebtn"
+                    @click="onClosePostion(item[0])">Close position</el-button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div>
+    <!-- IDO -->
+    <div class="ido-content">
+      <h2>SeIIToKen IDO</h2>
+      <div class="container">
+        <div class="disc-box">
+          <div class="timecount-statistic">
+            <!-- <el-statistic :value="deadline3" time-indices
+              format="DD [day] HH [hour] mm [minute] ss [second]" :value-style="valueStyle">
+              <span slot="prefix">Distance End</span>
+            </el-statistic> -->
+            <span>Distance End</span>
+            <b>00</b>
+            <span>day</span>
+            <b>00</b>
+            <span>hour</span>
+            <b>00</b>
+            <span>minute</span>
+            <b>00</b>
+            <span>second</span>
+          </div>
+          <div class="sline">
+            <div class="slineitem"></div>
+          </div>
+          <div class="disc-join">
+            <el-input-number :controls="false" placeholder="BNB Value"></el-input-number>
+            <el-button type="primary" disabled>Into IDO(Not Started Yet)</el-button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- mind map -->
+    <div class="mindmap-video">
+      <video muted loop width="100%" style="margin:auto;" autoplay playsinline>
+        <source src="/videos/mindmap.mp4" type="video/webm">
+        <source src="/videos/mindmap.mp4" type="video/mp4">
+      </video>
+      <img src="~/static/images/flowimg.png" alt="" class="flow-img">
+    </div>
+    <!-- dife link -->
+    <div class="dife-linkbox">
+      <div class="container">
+        <div class="dife-info">
+          <h3>High quality help <span>Defi</span>Project<br> Provide support</h3>
+          <p>SellToken is a decentralized short trading exchange based on smart contracts. Its operation is completely based on immutable code. According to short trading requests submitted by users, the smart contract automatically executes the short trading operations to complete the user's short trading operations. SellToken means that ten thousand coins can be shorted, and encrypted world tokens can be shorted anytime and anywhere.</p>
+        </div>
+      </div>
+      <div class="link-logo">
+        <ul class="link-line-item">
+          <li
+            v-for="(item, index) in aLinkItem1" :key="index">
+            <img :src="item.icon" alt="">
+            <span>{{ item.name }}</span>
+          </li>
+        </ul>
+        <ul class="link-line-item linitem2">
+          <li
+            v-for="(item, index) in aLinkItem2" :key="index">
+            <img :src="item.icon" alt="">
+            <span>{{ item.name }}</span>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { BNB_ADDRESS, USDT_ADDRESS } from '@/contract/ABI';
 export default {
   name: 'IndexPage',
   data () {
     return {
-      selectValue: '',
-      restaurants: [
+      aLinkItem1: [
         {
-          "addr": "0x61f834516504fc02b3cd80d41722df08fd030141", 
-          "name": "TRDT",
-          "balance": "0.00"
+          icon: require('~/static/images/Arbitrum.svg'),
+          name: 'Arbitrum'
+        },
+        {
+          icon: require('~/static/images/Avalanche.svg'),
+          name: 'Avalanche'
+        },
+        {
+          icon: require('~/static/images/Binance.svg'),
+          name: 'Binance'
+        },
+        {
+          icon: require('~/static/images/Ethereum.svg'),
+          name: 'Ethereum'
+        },
+        {
+          icon: require('~/static/images/Solana.svg'),
+          name: 'Solana'
+        },
+        {
+          icon: require('~/static/images/Fandom.svg'),
+          name: 'Fantom'
         }
       ],
-      selectPairIndex: 0,
-      amountNumber: 0.1
+      aLinkItem2: [
+        {
+          icon: require('~/static/images/Moonbeam.svg'),
+          name: 'Moonbeam'
+        },
+        {
+          icon: require('~/static/images/Near.svg'),
+          name: 'Near'
+        },
+        {
+          icon: require('~/static/images/Nervos.svg'),
+          name: 'Nervos'
+        },
+        {
+          icon: require('~/static/images/Optimism.svg'),
+          name: 'Optimism'
+        },
+        {
+          icon: require('~/static/images/Polygon.svg'),
+          name: 'Polygon'
+        },
+        {
+          icon: require('~/static/images/Harmony.svg'),
+          name: 'Harmony'
+        },
+        {
+          icon: require('~/static/images/Iotex.svg'),
+          name: 'IoTeX'
+        }
+      ],
+      pairLists: ['BNB', 'USDT'],
+      deadline3: Date.now() + 1000 * 1000 * 60 * 30,
+      SwiperOptions: {
+        slidesPerView: 3,
+        spaceBetween: 30,
+        slidesPerGroup: 1,
+        loop: false,
+        loopFillGroupWithBlank: false,
+        autoplay: false,
+        breakpoints: {
+          750: {
+            slidesPerView: 3,
+            spaceBetween: 30,
+            slidesPerGroup: 1,
+          },
+          300: {
+            slidesPerView: 1,
+            spaceBetween: 10,
+            slidesPerGroup: 1,
+          }
+        },
+        navigation: {
+          nextEl: '.orderinfo-box .swiper-button-next',
+          prevEl: '.orderinfo-box .swiper-button-prev',
+        }
+      },
+      selectValue: '',
+      selectInfo: null,
+      selectIco: require('~/static/images/defaultico.png'),
+      contractLists: [
+        {
+          "addr": require('@/contract/ABI').TRDT_ADDRESS, 
+          "pairs": "",
+          "name": "TRDT",
+          "balance": "0.00",
+          "isAdd": true
+        }
+      ],
+      selectPairIndex: -1,
+      amountNumber: 0.1,
+      shortsInfos: {},
+      miningUserInfos: {},
+      commonAddrs: {
+        'BNB': BNB_ADDRESS,
+        'USDT': USDT_ADDRESS
+      },
+      maxAmountShort: '0.00000000',
+      myOrderLists: [],
+      timers: {0:null}, // 定时器
     }
   },
-  methods: {
-    handleSelect (item) {
-      console.log(item)
-      this.selectValue = item.addr;
+  computed: {
+    addr2Token () {
+      return this.commonAddrs[this.pairLists[this.selectPairIndex]];
     },
-    querySearch (queryString, cb) {
-      var restaurants = this.restaurants;
-      var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
-      // 调用 callback 返回建议列表的数据
-      cb(results);
+    coinbaseIcos () {
+      return this.$store.state.coinbaseIcos;
+    },
+    walletAddress () {
+      return this.$store.state.wallet.walletAddress;
+    },
+  },
+  created () {
+    this.queryMyOrderSell()
+  },
+  destroyed () {
+    for (let k in this.timers) {
+      clearTimeout(this.timers[k])
+    }
+  },
+  mounted () {
+    let cacheList = localStorage.getItem('contractLists');
+    this.contractLists = cacheList ? JSON.parse(cacheList) : this.contractLists;
+    this.allCacheInitBalance()
+  },
+  methods: {
+    async onClosePostion (addr) {
+      const { methods } = await this.$store.dispatch('contract/event');
+      methods.withdraw(addr).send((err, txHash) => {
+        if (!err) {
+          this.$store.dispatch('contract/cochainHashSuccess', { txHash })
+        } else {
+          this.$store.dispatch('contract/cochainHashError', { err })
+        }
+      })
+    },
+    async queryMyOrderSell () {
+      const { methods } = await this.$store.dispatch('contract/event');
+      methods.getMyPriceSell(this.walletAddress).call((err, res) => {
+        if (!err) {
+          this.myOrderLists = res[0].map((item, index) => {
+            return {
+              0: item,
+              1: (res[1][index]/Math.pow(10,18)).toFixed(8),
+              2: (res[2][index]/Math.pow(10,18)).toFixed(4),
+              3: (res[3][index]/Math.pow(10,18)).toFixed(8),
+            }
+          })
+          // 查询
+          this.timers[0] = setTimeout(this.queryMyOrderSell, 10 * 1000);
+        }
+      })
+    },
+    async onOpenShort () {
+      const { methods } = await this.$store.dispatch('contract/event');
+      const amount = web3.utils.toWei(String(this.amountNumber), 'ether');
+      methods.ShortStart(this.selectValue, this.addr2Token, 1).send({
+        value: amount
+      },(err, txHash) => {
+        if (!err) {
+          this.$store.dispatch('contract/cochainHashSuccess', { txHash })
+        } else {
+          this.$store.dispatch('contract/cochainHashError', { err })
+        }
+      })
+    },
+    toLiquidity () {
+      const addr1 = this.addr2Token;
+      const addr2 = this.selectValue;
+      this.$router.push({
+        path: '/liquidity',
+        query: {
+          addr1, addr2
+        }
+      })
+    },
+    // 赎回
+    async onRedeemCoinbase () {
+      const { methods } = await this.$store.dispatch('contract/event', 2);
+      methods.minerWithdraw(this.selectValue).send((err, txHash) => {
+        if (!err) {
+          this.$store.dispatch('contract/cochainHashSuccess', { txHash })
+        } else {
+          this.$store.dispatch('contract/cochainHashError', { err })
+        }
+      })
+    },
+    async queryMiningUser () {
+      const { methods } = await this.$store.dispatch('contract/event', 2);
+      methods.getUser(this.walletAddress, this.selectValue).call((err, res) => {
+        if (!err) {
+          this.miningUserInfos = {
+            0: (res[0]/Math.pow(10,18)).toFixed(4),
+            1: res[1] == 0 ? '0' : new Date(res[1]+'000').toLocaleString(),
+            2: (res[2]/Math.pow(10,18)).toFixed(4),
+            3: (res[3]/Math.pow(10,18)).toFixed(4),
+          }
+        }
+      })
+    },
+    async queryShorts () {
+      const { methods } = await this.$store.dispatch('contract/event');
+      methods.getShorts(this.selectValue).call((err, res) => {
+        if (!err) {
+          console.log(res)
+          this.shortsInfos = {
+            0: (res[0]/Math.pow(10,18)).toFixed(8),
+            1: (res[1]/Math.pow(10,18)).toFixed(8),
+            2: (res[2]/Math.pow(10,18)).toFixed(4),
+            3: (res[3]/Math.pow(10,18)).toFixed(4),
+          }
+        }
+      })
+      // 查询最大做空
+      if (this.addr2Token && this.selectValue) {
+        methods.getShortsMoV(this.selectValue, this.addr2Token).call((err, res) => {
+          if (!err) {
+            this.maxAmountShort = (res/Math.pow(10, 18)).toFixed(8);
+            console.log('最大做空:', this.maxAmountShort)
+          }
+        })
+      }
+    },
+    onChangePairIndex (index) {
+      this.selectPairIndex = index;
+    },
+    handleSelectCoinbase (item) {
+      this.selectInfo = item;
+      this.selectValue = item.addr;
+      this.queryShorts()
+      this.queryMiningUser()
+    },
+    onClearSelectInfo () {
+      this.selectInfo = null;
+      this.$nextTick(() => {
+        this.$refs.selectRef.focus()
+      })
+    },
+    allCacheInitBalance () { // 初始化请求余额
+      this.contractLists.forEach(async (item) => {
+        const addrInfo = await this.queryAllCoinbase(item.addr);
+        item.pairs = addrInfo[1];
+        item.balance = (addrInfo[2]/Math.pow(10, 18)).toFixed(4);
+      })
+    },
+    async queryAllCoinbase (addr) {
+      const { methods } = await this.$store.dispatch('contract/event');
+      return new Promise((resolve, reject) => {
+        methods.getToke(addr).call((err, res) => {
+          if (!err) {
+            resolve(res)
+          } else {
+            reject(err)
+          }
+        })
+      })
+    },
+    onAddCoinbase (item) {
+      item.isAdd = !item.isAdd;
+      if (!item.isAdd) {
+        let index = -1;
+        for (let i = 0; i < this.contractLists.length; i ++) {
+          if (this.contractLists[i].addr == item.addr) {
+            index = i;
+            break;
+          }
+        }
+        if (index >= 0) {
+          this.contractLists.splice(index, 1)
+        }
+      } else {
+        this.contractLists.push(item)
+      }
+      localStorage.setItem('contractLists', JSON.stringify(this.contractLists));
+    },
+    async querySearch (queryAddress, cb) {
+      if (queryAddress && queryAddress.length === 42) {
+        try {
+          let now = this.contractLists.filter(item => {
+            return item.addr.toUpperCase() == queryAddress.toUpperCase();
+          })
+          if (now.length) {
+            cb(now)
+          } else {
+            const addrInfo = await this.queryAllCoinbase(queryAddress);
+            const results = [
+              {
+                "addr": queryAddress, 
+                "name": addrInfo[0],
+                "pairs": addrInfo[1],
+                "balance": (addrInfo[2]/Math.pow(10,18)).toFixed(4),
+                "isAdd": false
+              }
+            ];
+            console.log(222, results)
+            cb(results);
+          }
+        } catch (e) {
+          console.log('01-error', e)
+          cb([{}]);
+        }
+      } else {
+        cb(this.contractLists);
+      }
     }
   }
 }
@@ -108,9 +602,10 @@ export default {
 <style lang="scss" scoped>
 .page-index {
   position: relative;
+  background: #F2F5FA;
   .video-bg {
     position: absolute;
-    top: 0;
+    top: -80px;
     left: 0;
     width: 100%;
     height: 830px;
@@ -150,9 +645,41 @@ export default {
   border-radius: 24px;
   border: 1px solid hsla(0,0%,100%,.5);
   border-bottom: 1px solid hsla(0,0%,100%,.2);
-  background-image: linear-gradient(top,pink,blue 30%,#ff0 60%,green 90%);
   display: flex;
   flex-direction: column;
+  .w-autowint {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .select-info {
+    cursor: pointer;
+    min-height: 80px;
+    height: 80px;
+    box-sizing: border-box;
+    @include flexBox(space-between, center);
+    position: relative;
+    background-color: #fff;
+    border-radius: 24px;
+    padding: 10px;
+    .c-logo {
+      width: 30px;
+      height: 30px;
+      margin-right: 10px;
+      object-fit: cover;
+      position: relative;
+      top: -2px;
+    }
+    .si-unit {
+      font-weight: bold;
+      font-size: 24px;
+    }
+    .si-balance {
+      margin-left: auto;
+      color: #666;
+      font-size: 13px;
+    }
+  }
   .prefico {
     width: 20px;
     height: 100%;
@@ -169,7 +696,18 @@ export default {
     overflow: hidden;
     margin-bottom: 20px;
     margin-top: 10px;
+    position: relative;
     @include flexBox;
+    &::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 1px;
+      height: 20px;
+      background: #eee;
+      margin-top: -10px;
+    }
     .unitem {
       cursor: pointer;
       display: flex;
@@ -266,6 +804,9 @@ export default {
         background: #999 !important;
         top: 0;
       }
+      &.btncolor2 {
+        background: linear-gradient(90deg,#7d2dff 25.14%,#ac6ce6 67.46%,#df2dff 116.99%,#fcff63 167.07%);
+      }
     }
   }
 }
@@ -284,9 +825,371 @@ export default {
       color: #333;
       line-height: 1;
     }
+    .raddbox {
+      @include flexBox;
+    }
     .balance-text {
       color: #999;
     }
+    .addico {
+      vertical-align: middle;
+      position: relative;
+      width: 20px;
+      height: 20px;
+      margin-left: 20px;
+    }
   }
+}
+.jackpot-box {
+  padding: 20px 0 60px;
+  position: relative;
+  @include flexBox(space-between);
+  .jack-item {
+    position: relative;
+    padding: 24px 40px 40px;
+    border-radius: 48px;
+    min-height: 260px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    box-sizing: border-box;
+    transition: all 0.3s;
+    &:hover {
+      box-shadow: 0px 5px 25px rgba(31, 34, 38, 0.1), 
+        0px 10px 50px rgba(31, 34, 38, 0.1);
+    }
+    .j-radius {
+      width: 48px;
+      height: 48px;
+      background: #F2F5FA;
+      border-radius: 50%;
+      margin-left: auto;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 0;
+    }
+    .j-title {
+      height: 58px;
+      position: relative;
+      z-index: 2;
+      h6 {
+        font-size: 20px;
+        line-height: 58px;
+        color: #1f2226;
+      }
+    }
+    .j-amount {
+      position: relative;
+      z-index: 2;
+      height: 40px;
+      p {
+        font-size: 16px;
+        padding: 2px 0;
+        color: #666;
+        @include flexBox(flex-start, center);
+      }
+      .size-text {
+        font-size: 14px;
+        margin-top: 6px;
+      }
+      .small {
+        font-size: 14px;
+      }
+    }
+    .j-unit {
+      width: 20px;
+      height: 20px;
+      margin-right: 6px;
+      position: relative;
+    }
+    .j-ico {
+      width: 120px;
+      height: 120px;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      z-index: 0;
+      opacity: 0.5;
+    }
+    .j-btn {
+      margin-top: 16px;
+    }
+  }
+}
+.orderinfo-box {
+  padding: 90px 30px;
+  height: 550px;
+  box-sizing: border-box;
+  position: relative;
+  background: linear-gradient(180deg, rgba(242, 245, 250, 0) 0%, #F2F5FA 100%), linear-gradient(-270deg, #F4E7DE 0%, #E3DCFA 50%, #D0DCF9 100%, #DBE5F9 100%);
+  .swiper-orderinfo {
+    position: relative;
+  }
+  .swiper-button-prev, 
+  .swiper-button-next {
+    top: auto;
+    bottom: 50px;
+    background-size: 13px 22px;
+    right: 50%;
+    margin-right: -60px;
+  }
+  .swiper-button-prev {
+    left: 50%;
+    margin-left: -60px;
+  }
+  .orderinfo-item {
+    position: relative;
+    z-index: 99;
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    border: 1px solid #d8d8d8;
+    transition-duration: 200ms;
+    transition-property: box-shadow;
+    transition-timing-function: linear;
+    border-radius: 22px;
+    height: 358px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 20px;
+    .o-top {
+      @include flexBox(space-between);
+      strong {
+        color: #1f2226;
+        font-size: 18px;
+      }
+      .ot-logo {
+        width: 32px;
+        height: 32px;
+        padding: 10px;
+        border-radius: 50%;
+        background: #F2F5FA;
+        img {
+          width: 100%;
+          height: 100%;
+          display: block;
+        }
+      }
+    }
+    .o-info {
+      width: 100%;
+      border: 1px solid #00a2f2;
+      background-color: #F2F5FA;
+      border-radius: 30px;
+      padding: 10px;
+      margin: 10px auto 0;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      text-align: left;
+      h6 {
+        color: red;
+      }
+      .o-addr {
+        margin-top: 6px;
+        @include flexBox(flex-start);
+        span {
+          font-size: 16px;
+          color: #2E343C;
+        }
+        .copybtn {
+          position: relative;
+          width: 30px;
+          height: 20px;
+          vertical-align: middle;
+          object-fit: contain;
+          cursor: pointer;
+        }
+      }
+      h5 {
+        color: #00a2f2;
+        font-size: 26px;
+        margin-top: 16px;
+      }
+      .o-amount {
+        p {
+          font-size: 18px;
+          line-height: 30px;
+          color: #2E343C;
+          @include flexBox(flex-start);
+          img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+          }
+        }
+      }
+      .cp-btnbox {
+        width: 100%;
+        padding: 20px 0 10px;
+        @include flexBox;
+      }
+    }
+  }
+}
+.ido-content {
+  padding: 30px 0 100px;
+  position: relative;
+  h2 {
+    font-size: 52px;
+    text-align: center;
+    font-weight: 600;
+    line-height: 58px;
+    padding-bottom: 48px;
+  }
+  .timecount-statistic {
+    padding: 30px;
+    @include flexBox;
+    span {
+      font-size: 32px;
+    }
+    b {
+      margin: 0px 10px;
+      border: 1px solid #ccc;
+      padding: 3px;
+      font-size: 33px;
+      background: linear-gradient(270.06deg, #FF820E 7.8%, #7926FF 52.51%, #356DF3 91.97%), #1F2226;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      -webkit-box-decoration-break: clone;
+    }
+  }
+  .sline {
+    height: 4px;
+    width: 100%;
+    background: #E1E9FD;
+    position: relative;
+    .slineitem {
+      animation-duration: 6000ms;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      animation-name: speedline;
+      background-color: #356DF3;
+      animation-fill-mode: both;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+    }
+    @keyframes speedline {
+      0% {width:0%;}
+      100% {width:100%;}
+    }
+  }
+  .disc-box {
+    position: relative;
+    border-radius: 48px;
+    background-color: #fff;
+    .disc-join {
+      @include flexBox;
+      flex-direction: column;
+      padding: 80px 100px;
+      .el-button {
+        padding: 0 80px;
+        height: 48px;
+        font-size: 16px;
+        min-width: 320px;
+        line-height: 24px;
+        box-sizing: border-box;
+        border-radius: 15px;
+        margin-top: 80px;
+      }
+    }
+  }
+}
+.mindmap-video {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  .video-item {
+    width: 100%;
+    height: 574px;
+  }
+  .flow-img {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+.dife-linkbox {
+  position: relative;
+  background: #fff;
+  .dife-info {
+    padding: 96px 0 50px;
+    text-align: center;
+    h3 {
+      font-size: 55px;
+      line-height: 52px;
+      margin-bottom: 32px;
+      span {
+        color: #0b48e6;
+        margin-right: 5px;
+      }
+    }
+    p {
+      color: #2E343C;
+      font-size: 24px;
+      line-height: 36px;
+      padding: 0 30px;
+    }
+  }
+  .link-logo {
+    overflow: hidden;
+    width: 100%;
+    .link-line-item {
+      margin: 5px 0;
+      display: flex;
+      padding: 0;
+      transform: translate3d(0px, 0px, 0px);
+      list-style: none;
+      transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1) 0s, opacity 0.8s cubic-bezier(0.77, 0, 0.175, 1) 0s;
+      animation: 35s linear 0s infinite alternate none running speedgroup1;
+      &.linitem2 {
+        animation: 35s linear 0s infinite alternate none running speedgroup2;
+        
+      }
+      @keyframes speedgroup1 {
+        0% { transform: translateX(-50%) translateZ(0px); } 
+        100% { transform: translateX(0) translateZ(0px); } 
+      }
+      @keyframes speedgroup2 {
+        0% { transform: translateX(0) translateZ(0px); } 
+        100% { transform: translateX(-50%) translateZ(0px); } 
+      }
+      li {
+        position: relative;
+        border-radius: 21px;
+        background-color: #fff;
+        transition-duration: 200ms;
+        transition-property: box-shadow;
+        transition-timing-function: linear;
+        color: #1f2226;
+        height: 100px;
+        min-width: 240px;
+        box-sizing: border-box;
+        @include flexBox(flex-start);
+        &:hover {
+          z-index: 1;
+          box-shadow: 0 0 10px rgba(31, 34, 38, 0.1), 0 5px 10px rgba(31, 34, 38, 0.15);
+        }
+        img {
+          width: 88px;
+          height: 40px;
+          object-fit: contain;
+        }
+        span {
+          color: #1f2226;
+          font-size: 18px;
+          font-family: "Inter-Bold", sans-serif;
+        }
+      }
+    }
+  }
+}
+.not-have {
+  text-align: center;
 }
 </style>
