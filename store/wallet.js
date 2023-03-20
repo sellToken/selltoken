@@ -10,14 +10,18 @@ export const mutations = {
 }
 
 export const actions = {
-  linkWallet ({ commit }) {
+  linkWallet ({ commit, state }) {
     return new Promise((resolve, reject) => {
-      window.ethereum.enable()
-      .then((wallets) => {
-        commit('writeWalletAddress', wallets[0])
-        resolve(wallets[0])
-      })
-      .catch(reject);
+      if (state.walletAddress) {
+        resolve(state.walletAddress)
+      } else {
+        window.ethereum.enable()
+        .then((wallets) => {
+          commit('writeWalletAddress', wallets[0])
+          resolve(wallets[0])
+        })
+        .catch(reject);
+      }
     })
   }
 }

@@ -1,10 +1,17 @@
-.operation-pool .el-input--prefix .el-input__inner {
+.autocomplete-custom .el-input--prefix .el-input__inner {
   padding-left: 60px;
   height: 80px;
   border-radius: 24px;
   border: none;
   font-size: 20px;
   color: #333;
+}
+.autocomplete-custom .el-input__clear {
+  font-size: 20px;
+}
+.autocomplete-custom-small .el-input--prefix .el-input__inner {
+  font-size: 16px;
+  height: 66px;
 }
 .coinlist-box {
   border-radius: 24px;
@@ -55,10 +62,8 @@
   background: #999;
   border: #999;
 }
-.operation-pool .el-input__clear {
-  font-size: 20px;
-}
-.themebtn.is-disabled {
+.themebtn.is-disabled,
+.inbtn-box .is-disabled {
   background: #999 !important;
   border: #999;
   color: #000 !important;

@@ -5,7 +5,9 @@ if (process.browser) {
 
 export const state = () => ({
   gas: 500000,
-  gasPrice: '5000000000'
+  gasPrice: '5000000000',
+  hashList: [],
+  chainLoading: false
 })
 
 export const mutations = {
@@ -19,9 +21,24 @@ export const actions = {
   async cochainHashSuccess ({}, { txHash }) {
 
   },
+  async common ({ state, dispatch }, { address,coinbase }) {
+    const ResultCommon = await import('@/contract/ABI.json');
+    const ContractAbi = {
+      ABI: ResultCommon.ABI,
+      ADDRESS: address || ResultCommon[`${coinbase}_ADDRESS`]
+    };
+    if (!ContractAbi.ADDRESS) return Promise.reject('address is undefined');
+    const walletAddress = await dispatch('wallet/linkWallet', {}, {root: true});
+    const sourceContract = new web3.eth.Contract(ContractAbi.ABI, ContractAbi.ADDRESS, {
+      gas: state.gas,
+      gasPrice: state.gasPrice,
+      from: walletAddress
+    });
+    return Promise.resolve(sourceContract);
+  },
   async event ({ state, dispatch }, version=1) {
     let ContractAbi;
-    switch (Number(version)) {
+    switch (version) {
       case 1:
         ContractAbi = await import('@/contract/Ev1.json');
       break;
@@ -30,7 +47,6 @@ export const actions = {
       break;
     }
     const walletAddress = await dispatch('wallet/linkWallet', {}, {root: true});
-    console.log(walletAddress)
     const sourceContract = new web3.eth.Contract(ContractAbi.ABI, ContractAbi.ADDRESS, {
       gas: state.gas,
       gasPrice: state.gasPrice,

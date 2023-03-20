@@ -59,7 +59,8 @@
           </el-dropdown>
           <!-- wallet -->
           <div class="wallet-address" v-if="walletAddress">
-            <img src="~/static/images/walletico.png" alt="" class="walletico">
+            <img src="~/static/images/walletico.png" alt="" class="walletico" v-if="!chainLoading">
+            <i class="el-icon-loading loadingico" v-else></i>
             <span>{{ walletAddress.substr(0,3) }}...{{ walletAddress.substr(-4) }}</span>
             <img src="~/static/images/arrow-down-white.png" alt="" class="arrowico">
           </div>
@@ -98,8 +99,11 @@ export default {
     }
   },
   computed: {
+    chainLoading () {
+      return this.$store.state.contract.chainLoading;
+    },
     walletAddress () {
-      return this.$store.state.wallet.walletAddress
+      return this.$store.state.wallet.walletAddress;
     }
   },
   async created () {
@@ -234,6 +238,10 @@ export default {
         margin-right: 10px;
         position: relative;
         top: -1px;
+      }
+      .loadingico {
+        margin-right: 10px;
+        color: #fff;
       }
       span {
         font-size: 14px;
