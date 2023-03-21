@@ -8,7 +8,7 @@
           </div>
           <ul class="navbar-list">
             <li v-for="(item, index) in navbarList" :key="index">
-              <nuxt-link v-if="!item.path.startsWith('http')" :to="item.path" class="n-ain">{{ item.name }}</nuxt-link>
+              <nuxt-link v-if="!item.path.startsWith('http')" :to="localePath(item.path)" class="n-ain">{{ item.name }}</nuxt-link>
               <a v-else :href="item.path" target="_blank" class="n-ain">{{ item.name }}</a>
             </li>
           </ul>
@@ -30,6 +30,7 @@
                   :to="switchLocalePath(locale.code)"
                   class="local-item">
                   <!-- <img :src="require(`~/static/images/${locale.code}.png`)" alt=""> -->
+                  <img src="~/static/images/lico.png" alt="" style="opacity: 0.8">
                   <span>{{ locale.name }}</span>
                 </nuxt-link>
               </el-dropdown-item>

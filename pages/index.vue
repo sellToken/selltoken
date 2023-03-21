@@ -215,7 +215,7 @@
         <source src="/videos/mindmap.mp4" type="video/webm">
         <source src="/videos/mindmap.mp4" type="video/mp4">
       </video>
-      <img src="~/static/images/flowimg.png" alt="" class="flow-img">
+      <!-- <img src="~/static/images/flowimg.png" alt="" class="flow-img"> -->
     </div>
     <!-- dife link -->
     <div class="dife-linkbox">
@@ -428,7 +428,7 @@ export default {
       const addr1 = this.selectValue;
       const addr2 = this.addr2Token;
       this.$router.push({
-        path: '/liquidity',
+        path: this.localePath('/liquidity'),
         query: {
           addr1, addr2
         }

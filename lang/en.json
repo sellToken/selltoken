@@ -9,6 +9,8 @@
     "ViewOnBscScan": "View on BscScan",
     "connect": "connect",
     "Close": "Close",
+    "CertiK":"CertiK Audit",
+    "GitHup":"GitHub",
     "TransactionSubmitted": "Transaction Submitted"
   },
   "PageFooter": {
@@ -31,7 +33,7 @@
   },
   "copySuccess": "Copy succeeded",
   "copyFail": "Copy failed",
-  "authorize": "authorize",
+  "authorize": "Approve",
   "PageHome": {
     "text1": "DEX Short Aggregator",
     "text2": "Blockchain Revolution <br> Short Token Smart Contracts",
@@ -40,13 +42,13 @@
     "text5": "Open Short",
     "text6": "Liquidity",
     "text7": "Close Position",
-    "text8": "代币余额",
-    "text9": "不可赎回",
-    "text10": "永久锁定",
-    "text11": "质押数量",
-    "text12": "到期时间",
-    "text13": "赎回数量",
-    "text14": "赎回",
+    "text8": "Token balance",
+    "text9": "Non redeemable",
+    "text10": "locked",
+    "text11": "Pledge quantity",
+    "text12": "Expiration time",
+    "text13": "Redemption Quantity",
+    "text14": "redeem",
     "text15": "Contract Address",
     "text16": "Distance End",
     "text17": "day",
@@ -56,7 +58,10 @@
     "text21": "Into IDO(Not Started Yet)",
     "text22": "High quality help <span>Defi</span>Project<br> Provide support",
     "text23": "SellToken is a decentralized short trading exchange based on smart contracts. Its operation is completely based on immutable code. According to short trading requests submitted by users, the smart contract automatically executes the short trading operations to complete the user's short trading operations. SellToken means that ten thousand coins can be shorted, and encrypted world tokens can be shorted anytime and anywhere.",
-    "text24": "day"
+    "text24": "day",
+    "text25": "Liquidity mining",
+    "text26": "BNB",
+    "text27":"~/static/images/BNB.png"
   },
   "PageLiquidity": {
     "text1": "increase",
@@ -65,6 +70,7 @@
     "text4": "Liquidity Details",
     "text5": "Token balance",
     "text6": "Non redeemable",
-    "text7": "locked"
+    "text7": "locked",
+    "text8": "Service Charge"
   }
 }

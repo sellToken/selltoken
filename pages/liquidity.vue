@@ -53,11 +53,11 @@
               </div>
             </div>
             <div class="s-fee">
-              <p>Service Charge: <b>{{ feeValue }}</b> BNB</p>
+              <p>{{ $t('PageLiquidity.text8') }}: <b>{{ feeValue }}</b> BNB</p>
             </div>
             <div class="inbtn-box">
               <el-button type="primary" :disabled="!amountNumber2" v-if="!isAuth2"
-                @click="onAuthContract(selectInfo2.addr)">authorize</el-button>
+                @click="onAuthContract(selectInfo2.addr)">{{ $t('authorize') }}</el-button>
               <el-button type="primary" 
                 :disabled="!amountNumber2||!isAuth2"
                 @click="onSetPool2">{{ $t('PageLiquidity.text1') }}</el-button>
