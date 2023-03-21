@@ -41,6 +41,17 @@
           </div>
           <div class="qui-item">
             <auto-search size="small" @select="onSelectCoinbase2"></auto-search>
+            <!-- 选择交易对 -->
+            <!-- <h3 class="pair-h3">{{ $t('PageHome.text3') }}</h3> -->
+            <div class="pair-content">
+              <div class="unitem" 
+                v-for="(item, index) in pairLists" :key="index"
+                :class="{active: selectPairIndex === index}" 
+                @click="onChangePairIndex(index)">
+                <img :src="require(`~/static/images/${item}.png`)" alt="">
+                <span>{{ item }}</span>
+              </div>
+            </div>
             <!-- 输入代币 -->
             <div class="write-amount">
               <el-input-number 
@@ -73,8 +84,8 @@
       <h2>{{ $t('PageLiquidity.text4') }}</h2>
       <div class="container">
         <div class="details-box">
-          <p>{{ $t('PageLiquidity.text5') }}：<b>{{ shortsInfos[2] || '0.0000' }}</b> TRDT</p>
-          <p>{{ $t('PageLiquidity.text6') }}：<b>{{ shortsInfos[3] || '0.0000' }}</b> TRDT</p>
+          <p>{{ $t('PageLiquidity.text5') }}：<b>{{ shortsInfos[2] || '0.0000' }}</b> {{ selectInfo1 ? selectInfo1.name : '' }}</p>
+          <p>{{ $t('PageLiquidity.text6') }}：<b>{{ shortsInfos[3] || '0.0000' }}</b> {{ selectInfo1 ? selectInfo1.name : '' }}</p>
           <p>{{ $t('PageLiquidity.text7') }}：<b>{{ ((shortsInfos[3]/shortsInfos[2]*100)||0).toFixed(2) }}%</b> </p>
         </div>
       </div>
@@ -101,12 +112,17 @@ export default {
         'BNB': BNB_ADDRESS,
         'USDT': USDT_ADDRESS
       },
+      pairLists: ['BNB', 'USDT'],
+      selectPairIndex: -1,
       feeValue: '0.00000000',
       shortsInfos: {},
       defaultAddress: ''
     }
   },
   computed: {
+    addr2Token () {
+      return this.commonAddrs[this.pairLists[this.selectPairIndex]];
+    },
     coinbaseIcos () {
       return this.$store.state.coinbaseIcos;
     },
@@ -119,6 +135,9 @@ export default {
     this.queryShorts()
   },
   methods: {
+    onChangePairIndex (index) {
+      this.selectPairIndex = index;
+    },
     async queryShorts () {
       if (this.selectInfo1 && this.selectInfo1.addr) {
         const { methods } = await this.$store.dispatch('contract/event');
@@ -167,7 +186,7 @@ export default {
     },
     async onSetPool2 () {
       const { methods } = await this.$store.dispatch('contract/event', 2);
-      const coinbaseAddress = await this.getTokenAddress(this.selectInfo2.addr);
+      const coinbaseAddress = this.addr2Token; // await this.getTokenAddress(this.selectInfo2.addr);
       const payAmount = web3.utils.toWei(String(this.amountNumber2), 'ether');
       const valueAmount = await this.queryFee();
       methods.setPool(this.selectInfo2.addr, coinbaseAddress, payAmount, 0, 1)
@@ -270,7 +289,7 @@ export default {
     @include flexBox;
     .qui-item {
       width: 398px;
-      height: 468px;
+      height: 488px;
       padding: 30px 28px;
       box-sizing: border-box;
       background: linear-gradient(180deg,hsla(0,0%,100%,.4),hsla(0,0%,100%,.1) 87.46%);
@@ -326,6 +345,64 @@ export default {
           color: #13151a;
           min-width: 44px;
           text-align: center;
+        }
+      }
+    }
+
+    .pair-h3 {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .no-pair {
+      font-size: 12px;
+      color: red;
+      height: 20px;
+      width: 100%;
+      @include flexBox;
+    }
+    .pair-content {
+      background-color: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+      // margin-bottom: 20px;
+      margin-top: 10px;
+      position: relative;
+      @include flexBox;
+      &::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 1px;
+        height: 20px;
+        background: #eee;
+        margin-top: -10px;
+      }
+      .unitem {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        height: 40px;
+        margin: 10px 16px;
+        img {
+          width: 24px;
+          height: 24px;
+          object-fit: contain;
+          margin-right: 10px;
+        }
+        span {
+          font-size: 16px;
+          color: #666;
+        }
+        &.active {
+          border-radius: 10px;
+          background: linear-gradient(90deg,#56ffee 25.14%,#82ffca 67.46%,#a7ff62 116.99%,#fcff63 167.07%);
+          span {
+            font-weight: bold;
+            color: #000;
+          }
         }
       }
     }
@@ -385,7 +462,7 @@ export default {
   text-align: center;
   font-size: 14px;
   color: #333;
-  margin-top: 20px;
+  margin-top: 14px;
 }
 @media screen and (max-width: 750px) {
   .topliquidity-content {

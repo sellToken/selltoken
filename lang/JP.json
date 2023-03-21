@@ -3,6 +3,8 @@
   "copyFail": "コピーに失敗しました",
   "authorize": "承認する",
   "noPair": "取引ペアがありません",
+  "income": "收益",
+  "resupply": "复投",
   "PageHeader": {
     "Home": "ホスト",
     "Whitepaper": "白書",

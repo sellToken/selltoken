@@ -3,6 +3,8 @@
   "copyFail": "複製失敗",
   "authorize": "授權",
   "noPair": "沒有交易對",
+  "income": "收益",
+  "resupply": "复投",
   "PageHeader": {
     "Home": "首頁",
     "Whitepaper": "白皮書",

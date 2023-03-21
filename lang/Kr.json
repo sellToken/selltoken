@@ -3,6 +3,8 @@
   "copyFail": "복사 실패",
   "authorize": "승인하다",
   "noPair": "거래 없음",
+  "income": "收益",
+  "resupply": "复投",
   "PageHeader": {
     "Home": "잠금",
     "Whitepaper": "백지",

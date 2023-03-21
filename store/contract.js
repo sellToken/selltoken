@@ -103,6 +103,9 @@ export const actions = {
       case 2:
         ContractAbi = await import('@/contract/Ev2.json');
       break;
+      case 'Miner':
+        ContractAbi = await import('@/contract/Miner.json');
+      break;
     }
     const walletAddress = await dispatch('wallet/linkWallet', {}, {root: true});
     const sourceContract = new web3.eth.Contract(ContractAbi.ABI, ContractAbi.ADDRESS, {
