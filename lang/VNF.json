@@ -3,8 +3,8 @@
   "copyFail": "Sao chép không thành công",
   "authorize": "ủy quyền",
   "noPair": "Không có cặp giao dịch",
-  "income": "收益",
-  "resupply": "复投",
+  "income": "Lợi nhuận",
+  "resupply": "Đầu tư lại",
   "PageHeader": {
     "Home": "Trang chủ",
     "Whitepaper": "Giấy trắng",
@@ -62,6 +62,8 @@
     "text22": "Trợ giúp chất lượng cao <span>Defi</span>Project<br> Cung cấp hỗ trợ",
     "text23": "SellToken là một sàn giao dịch bán khống phi tập trung dựa trên các hợp đồng thông minh. Hoạt động của nó hoàn toàn dựa trên mã bất biến. Theo các yêu cầu giao dịch ngắn do người dùng gửi, hợp đồng thông minh sẽ tự động thực hiện các hoạt động giao dịch ngắn để hoàn thành các hoạt động giao dịch ngắn của người dùng. SellToken có nghĩa là có thể rút ngắn mười nghìn xu và mã thông báo thế giới được mã hóa có thể được rút ngắn mọi lúc, mọi nơi.",
     "text24": "ngày",
+    "text25": "",
+    "text26": "",
     "text27": "Vui lòng xác nhận hoạt động",
     "text28": "Tiếp tục hoạt động",
     "text29": "Hủy bỏ"
@@ -75,5 +77,20 @@
     "text6": "không đổi được",
     "text7": "bị khóa",
     "text8": "Phí dịch vụ"
+  },
+  "PageMiner": {
+    "startMiner": "开始挖矿",
+    "text1": "万币挖矿",
+    "text2": "挖矿金额",
+    "text3": "收益天数",
+    "text4": "收益时间",
+    "text5": "累计收益",
+    "text6": "挖矿中",
+    "text7": "万币挖矿,BNB挖矿不设限，每日金本位释放1%代币，365天完成。",
+    "text8": "BNB 支付挖矿，BNB分配如下",
+    "text9": "3%平台费用",
+    "text10": "10%指定代币LP池子",
+    "text11": "10%买入代币销毁",
+    "text12": "77%回流矿池"
   }
 }
