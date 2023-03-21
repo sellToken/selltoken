@@ -212,10 +212,10 @@
     <!-- mind map -->
     <div class="mindmap-video">
       <video muted loop width="100%" style="margin:auto;" autoplay playsinline>
-        <source src="/videos/mindmap.mp4" type="video/webm">
-        <source src="/videos/mindmap.mp4" type="video/mp4">
+        <source :src="`/lang/videos/${$i18n.locale}.mp4`" type="video/webm">
+        <source :src="`/lang/videos/${$i18n.locale}.mp4`" type="video/mp4">
       </video>
-      <!-- <img src="~/static/images/flowimg.png" alt="" class="flow-img"> -->
+      <img :src="`/lang/images/${$i18n.locale}.png`" alt="" class="flow-img">
     </div>
     <!-- dife link -->
     <div class="dife-linkbox">
