@@ -387,4 +387,35 @@ export default {
   color: #333;
   margin-top: 20px;
 }
+@media screen and (max-width: 750px) {
+  .topliquidity-content {
+    background: #c0c2e9;
+  }
+  .qui-box {
+    padding: 20px 0 !important;
+    flex-direction: column;
+    .qui-item {
+      max-width: 100% !important;
+      margin: 20px 0 0 !important;
+      padding: 20px !important;
+      height: auto !important;
+    }
+  }
+  .liquidity-details {
+    padding: 50px 0 60px;
+    h2 {
+      font-size: 26px;
+    }
+    .details-box {
+      padding: 30px 20px;
+      margin-top: 20px;
+      p {
+        font-size: 16px;
+      }
+    }
+  }
+  .topliquidity-content .qui-box .tabs-list .tabs-item {
+    width: 32%;
+  }
+}
 </style>

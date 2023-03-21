@@ -34,8 +34,9 @@ export const actions = {
         console.log('status---', err, res)
         if (!err) {
           commit('saveOldInfo', res)
-          if (res.status === null) {
+          if (res === null) {
             commit('changeLoading', true);
+            resolve(res);
           } else {
             Vue.prototype.$notify({
               title: res.status ? 'Successfully' : 'Uplink failed',
@@ -52,8 +53,8 @@ export const actions = {
             });
             commit('saveChainHash', '')
             commit('changeLoading', false);
+            resolve(res.status);
           }
-          resolve(res.status)
         } else {
           commit('saveChainHash', '')
           reject(err)

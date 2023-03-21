@@ -344,6 +344,7 @@ export default {
   justify-content: flex-start;
   .vlistitem {
     width: calc(100% / 5);
+    box-sizing: border-box;
   }
   .vping {
     display: flex;
@@ -439,6 +440,26 @@ export default {
     text-transform: inherit;
     &:hover {
       color: #356DF3;
+    }
+  }
+}
+@media screen and (max-width: 750px) {
+  .vlistbox {
+    flex-wrap: wrap;
+    gap: 0;
+    .vlistitem {
+      width: 50%;
+    }
+  }
+  .footer-copylink {
+    flex-direction: column;
+    .lt-logo {
+      width: 100%;
+      @include flexBox;
+    }
+    .f-text {
+      text-align: center;
+      padding: 10px 0;
     }
   }
 }

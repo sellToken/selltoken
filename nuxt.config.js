@@ -21,7 +21,8 @@ export default {
     'swiper/dist/css/swiper.css',
     'element-ui/lib/theme-chalk/index.css',
     '~/static/css/style.css',
-    '~/static/css/element.css'
+    '~/static/css/element.css',
+    '~/static/css/mobile.css'
   ],
 
   styleResources: {

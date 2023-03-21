@@ -43,7 +43,7 @@
 }
 .disc-join .el-input-number {
   width: 500px;
-
+  max-width: 100%;
 }
 .disc-join .el-input__inner {
   border: 1px solid #0b48e6;
@@ -72,3 +72,8 @@
 .dialog-sucbox {
   border-radius: 20px !important;
 }
+/* @media screen and (max-width: 750px){
+  .disc-join .el-input-number {
+
+  }
+} */

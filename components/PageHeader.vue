@@ -80,10 +80,10 @@
       </div>
       <div class="drawer-content">
         <el-result title="Transaction Submitted"
-          v-if="oldChainStatus">
+          v-if="txChainHash || oldChainStatus">
           <div class="" slot="icon">
             <img src="~/static/images/upico.png" alt="" class="sucico"
-              v-if="!oldChainStatus.status && oldChainStatus.status != 0">
+              v-if="(txChainHash && !oldChainStatus)">
             <img src="~/static/images/success.png" alt="" class="sucico"
               v-else-if="oldChainStatus.status">
             <img src="~/static/images/fail.png" alt="" class="sucico"

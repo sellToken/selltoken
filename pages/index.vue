@@ -1009,4 +1009,74 @@ export default {
     }
   }
 }
+@media screen and (max-width: 750px) {
+  .operation-pool {
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
+    padding: 10px;
+    max-width: 100%;
+    .write-amount {
+      width: 100%;
+    }
+  }
+  .page-title {
+    min-height: auto;
+    padding: 50px 0;
+    h1 {
+      font-size: 30px;
+    }
+    span {
+      font-size: 23px;
+    }
+  }
+  .jackpot-box {
+    flex-direction: column;
+    .jack-item {
+      width: 100%;
+      margin-top: 30px;
+    }
+  }
+  .ido-content {
+    padding: 0;
+    h2 {
+      font-size: 26px;
+      padding-bottom: 20px;
+    }
+    .timecount-statistic {
+      span {
+        font-size: 0;
+        &::after {
+          content: '：';
+          font-size: 14px;
+        }
+        &:first-child, 
+        &:last-child {
+          display: none;
+        }
+      }
+      b {
+        font-size: 20px;
+        margin: 0 6px;
+      }
+    }
+  }
+  .disc-join {
+    padding: 30px 20px !important;
+    .el-button {
+      min-width: 100px !important;
+      max-width: 100% !important;
+      margin-top: 30px !important;
+      padding: 0;
+    }
+  }
+  .dife-linkbox .dife-info h3 {
+    font-size: 24px;
+  }
+  .dife-linkbox .dife-info p {
+    font-size: 14px;
+    padding: 0;
+  }
+}
 </style>
