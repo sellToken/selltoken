@@ -29,11 +29,11 @@
         <div class="write-amount">
           <el-input-number 
             v-model="amountNumber" controls-position="right" 
-            :min="0.1" :step="0.1">
+            :min="0.0000001" :step="0.1">
           </el-input-number>
           <div class="amount-unit">
             <img src="~/static/images/BNB.png" alt="" class="unitico">
-            <span>BNB</span>
+            <span>{{ $t('PageHome.text26') }}</span>
           </div>
         </div>
         <div class="max-short">
@@ -110,7 +110,7 @@
         <div class="jack-item">
           <div class="j-radius"></div>
           <div class="j-title">
-            <h6>Liquidity mining</h6>
+            <h6>{{ $t('PageHome.text25') }}</h6>
           </div>
           <div class="j-amount">
             <p class="size-text">
@@ -506,7 +506,7 @@ export default {
   padding: 100px 0;
   min-height: 400px;
   h1 {
-    font-size: 60px;
+    font-size: 40px;
     line-height: 1.2;
   }
   h2 {
@@ -515,7 +515,7 @@ export default {
   span {
     background: linear-gradient(270.06deg, #FF820E 10%, #7926FF 52.51%, #356DF3 91.97%),
 			#1F2226;
-    font-size: 46px;
+    font-size: 30px;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     -webkit-box-decoration-break: clone;
@@ -1023,12 +1023,12 @@ export default {
   }
   .page-title {
     min-height: auto;
-    padding: 50px 0;
+    padding: 100px 0;
     h1 {
       font-size: 30px;
     }
     span {
-      font-size: 23px;
+      font-size: 25px;
     }
   }
   .jackpot-box {
