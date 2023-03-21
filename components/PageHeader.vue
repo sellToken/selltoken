@@ -66,7 +66,7 @@
             <img src="~/static/images/arrow-down-white.png" alt="" class="arrowico">
           </div>
           <div class="wallet-address" v-else @click="onConnectWallet">
-            <span>connect</span>
+            <span>{{ $t('PageHeader.connect') }}</span>
           </div>
         </div>
       </div>
@@ -75,11 +75,11 @@
       :visible.sync="showDrawerWallet"
       width="320px" custom-class="dialog-sucbox">
       <div class="drawer-title" slot="title">
-        <p v-if="oldChainStatus">Confirm</p>
-        <p v-else>No transactions</p>
+        <p v-if="oldChainStatus">{{  $t('PageHeader.Confirm')  }}</p>
+        <p v-else>{{ $t('PageHeader.NoTransactions') }}</p>
       </div>
       <div class="drawer-content">
-        <el-result title="Transaction Submitted"
+        <el-result :title="$t('PageHeader.TransactionSubmitted')"
           v-if="txChainHash || oldChainStatus">
           <div class="" slot="icon">
             <img src="~/static/images/upico.png" alt="" class="sucico"
@@ -91,13 +91,15 @@
           </div>
           <div slot="subTitle">
             <a :href="`https://bscscan.com/tx/${txChainHash||oldChainStatus.transactionHash}`" target="_blank" class="ain-view"
-              >View on BscScan</a>
+              >{{ $t('PageHeader.ViewOnBscScan') }}</a>
           </div>
           <template slot="extra">
-            <el-button type="primary" class="themebtn" @click="showDrawerWallet = false">Close</el-button>
+            <el-button type="primary" class="themebtn" @click="showDrawerWallet = false">
+            {{ $t('PageHeader.Close') }}
+            </el-button>
           </template>
         </el-result>
-        <el-empty description="No transactions" v-else></el-empty>
+        <el-empty :description="$t('PageHeader.NoTransactions')" v-else></el-empty>
       </div>
     </el-dialog>
   </div>
@@ -108,29 +110,31 @@ export default {
   name: 'PageHeader',
   data () {
     return {
-      navbarList: [
-        {
-          name: 'Home',
-          path: '/'
-        },
-        {
-          name: 'Whitepaper',
-          path: 'https://selltoken.org/Whitepaper.pdf'
-        },
-        {
-          name: 'Insert',
-          path: '/insert'
-        },
-        {
-          name: 'Liquidity',
-          path: '/liquidity'
-        }
-      ],
       showDrawerWallet: false,
       hashTimer: null
     }
   },
   computed: {
+    navbarList () {
+      return [
+        {
+          name: this.$t('PageHeader.Home'),
+          path: '/'
+        },
+        {
+          name: this.$t('PageHeader.Whitepaper'),
+          path: 'https://selltoken.org/Whitepaper.pdf'
+        },
+        {
+          name: this.$t('PageHeader.Insert'),
+          path: '/insert'
+        },
+        {
+          name: this.$t('PageHeader.Liquidity'),
+          path: '/liquidity'
+        }
+      ]
+    },
     oldChainStatus () {
       return this.$store.state.contract.oldChainStatus;
     },

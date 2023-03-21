@@ -9,13 +9,13 @@
     <div class="container">
       <!-- 标题 -->
       <div class="page-title">
-        <h1>DEX Short Aggregator</h1>
-        <h2><span>Blockchain Revolution<br/>Short Token Smart Contracts</span></h2>
+        <h1>{{ $t('PageHome.text1') }}</h1>
+        <h2><span>{{ $t('PageHome.text2') }}</span></h2>
       </div>
       <!-- 操作池 -->
       <div class="operation-pool">
         <auto-search @select="onSelectCoinbase"></auto-search>
-        <h3 class="pair-h3">Select Pair</h3>
+        <h3 class="pair-h3">{{ $t('PageHome.text2') }}</h3>
         <div class="pair-content">
           <div class="unitem" 
             v-for="(item, index) in pairLists" :key="index"
@@ -37,17 +37,17 @@
           </div>
         </div>
         <div class="max-short">
-          <p>Max Short:<b>{{ maxAmountShort }}</b> BNB</p>
+          <p>{{ $t('PageHome.text4') }}:<b>{{ maxAmountShort }}</b> BNB</p>
         </div>
         <div class="shortbtn-cell">
           <el-button 
             :disabled="!addr2Token||!selectInfo||selectInfo.pairs=='No pair'"
             @click="onOpenShort">
-            Open Short
+            {{ $t('PageHome.text5') }}
           </el-button>
           <el-button class="btncolor2" @click="toLiquidity"
             :disabled="!addr2Token||!selectInfo">
-            Liquidity
+            {{ $t('PageHome.text6') }}
           </el-button>
         </div>
       </div>
@@ -56,7 +56,7 @@
         <div class="jack-item">
           <div class="j-radius"></div>
           <div class="j-title">
-            <h6>Close position</h6>
+            <h6>{{ $t('PageHome.text7') }}</h6>
           </div>
           <div class="j-amount">
             <p>
@@ -65,7 +65,7 @@
             </p>
           </div>
           <div class="j-title">
-            <h6>Open Short</h6>
+            <h6>{{ $t('PageHome.text5') }}</h6>
           </div>
           <div class="j-amount">
             <p>
@@ -78,7 +78,7 @@
         <div class="jack-item">
           <div class="j-radius"></div>
           <div class="j-title">
-            <h6>Liquidity</h6>
+            <h6>{{ $t('PageHome.text6') }}</h6>
           </div>
           <div class="j-amount">
             <!-- <p class="small">
@@ -91,17 +91,17 @@
               <b>{{ shortsInfos[3] || '0.00000000' }}</b>
             </p> -->
             <p class="size-text">
-              代币余额：
+              {{ $t('PageHome.text8') }}：
               <img src="~/static/images/defaultico.png" alt="" class="j-unit">
               <b>{{ shortsInfos[2] || '0.0000' }}</b>
             </p>
             <p class="size-text">
-              不可赎回：
+              {{ $t('PageHome.text9') }}：
               <img src="~/static/images/defaultico.png" alt="" class="j-unit">
               <b>{{ shortsInfos[3] || '0.0000' }}</b>
             </p>
             <p class="size-text">
-              永久锁定：
+              {{ $t('PageHome.text10') }}：
               <b>{{ (((shortsInfos[3]/shortsInfos[2])*100)||0).toFixed(2) }}%</b>
             </p>
           </div>
@@ -114,23 +114,23 @@
           </div>
           <div class="j-amount">
             <p class="size-text">
-              质押数量：
+              {{ $t('PageHome.text11') }}：
               <img src="~/static/images/defaultico.png" alt="" class="j-unit">
               <b>{{ miningUserInfos[0] || '-' }}</b>
             </p>
             <p class="size-text">
-              到期时间：
+              {{ $t('PageHome.text12') }}：
               <b>{{ miningUserInfos[1] || '-' }}</b>
             </p>
             <p class="size-text">
-              赎回数量：
+              {{ $t('PageHome.text13') }}：
               <img src="~/static/images/defaultico.png" alt="" class="j-unit">
               <b>{{ miningUserInfos[3] || '-' }}</b>
             </p>
             <div class="j-btn">
               <el-button class="themebtn" 
                 :disabled="!miningUserInfos[0]||miningUserInfos[0]==0"
-                @click="onRedeemCoinbase">赎回</el-button>
+                @click="onRedeemCoinbase">{{ $t('PageHome.text14') }}</el-button>
             </div>
           </div>
           <img src="~/static/images/v3.png" alt="" class="j-ico">
@@ -150,7 +150,7 @@
                 </div>
               </div>
               <div class="o-info">
-                <h6>Contract Address</h6>
+                <h6>{{ $t('PageHome.text15') }}</h6>
                 <div class="o-addr">
                   <span>{{ item[0].substr(0, 10) }}...{{ item[0].substr(-10) }}</span>
                   <img src="~/static/images/copyico.png" alt="" class="copybtn"
@@ -169,7 +169,7 @@
                 </div>
                 <div class="cp-btnbox">
                   <el-button class="themebtn"
-                    @click="onClosePostion(item[0])">Close position</el-button>
+                    @click="onClosePostion(item[0])">{{ $t('PageHome.text7') }}</el-button>
                 </div>
               </div>
             </div>
@@ -189,22 +189,22 @@
               format="DD [day] HH [hour] mm [minute] ss [second]" :value-style="valueStyle">
               <span slot="prefix">Distance End</span>
             </el-statistic> -->
-            <span>Distance End</span>
+            <span>{{ $t('PageHome.text16') }}</span>
             <b>00</b>
-            <span>day</span>
+            <span>{{ $t('PageHome.text17') }}</span>
             <b>00</b>
-            <span>hour</span>
+            <span>{{ $t('PageHome.text18') }}</span>
             <b>00</b>
-            <span>minute</span>
+            <span>{{ $t('PageHome.text19') }}</span>
             <b>00</b>
-            <span>second</span>
+            <span>{{ $t('PageHome.text20') }}</span>
           </div>
           <div class="sline">
             <div class="slineitem"></div>
           </div>
           <div class="disc-join">
             <el-input-number :controls="false" placeholder="BNB Value"></el-input-number>
-            <el-button type="primary" disabled>Into IDO(Not Started Yet)</el-button>
+            <el-button type="primary" disabled>{{ $t('PageHome.text21') }}</el-button>
           </div>
         </div>
       </div>
@@ -221,8 +221,8 @@
     <div class="dife-linkbox">
       <div class="container">
         <div class="dife-info">
-          <h3>High quality help <span>Defi</span>Project<br> Provide support</h3>
-          <p>SellToken is a decentralized short trading exchange based on smart contracts. Its operation is completely based on immutable code. According to short trading requests submitted by users, the smart contract automatically executes the short trading operations to complete the user's short trading operations. SellToken means that ten thousand coins can be shorted, and encrypted world tokens can be shorted anytime and anywhere.</p>
+          <h3>{{ $t('PageHome.text22') }}</h3>
+          <p>{{ $t('PageHome.text23') }}</p>
         </div>
       </div>
       <div class="link-logo">
@@ -373,9 +373,9 @@ export default {
     onCopyText (text) {
       this.$copyText(text).then((e) => {
         console.log(e)
-        this.$message.success('Copy succeeded')
+        this.$message.success(this.$t('copySuccess'))
       }, () => {
-        this.$message.success('Copy failed')
+        this.$message.success(this.$t('copyFail'))
       })
     },
     onSelectCoinbase (item) {

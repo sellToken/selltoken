@@ -14,7 +14,7 @@
                 :class="{active: tabCurrent == item}"
                 v-for="(item, index) in tabList" :key="index"
                 @click="onSelectTabCurrent(item)">
-                <span class="text">{{ item }} Day</span>
+                <span class="text">{{ item }} {{ $t('PageHome.text17') }}</span>
               </div>
             </div>
             <!-- 输入代币 -->
@@ -30,13 +30,13 @@
             </div>
             <div class="inbtn-box">
               <el-button type="primary" :disabled="!amountNumber1" v-if="!isAuth1"
-                @click="onAuthContract(selectInfo1.addr)">authorize</el-button>
+                @click="onAuthContract(selectInfo1.addr)">{{ $t('authorize') }}</el-button>
               <el-button type="primary" 
                 :disabled="!amountNumber1||!isAuth1||!tabCurrent"
-                @click="onSetPool1">increase</el-button>
+                @click="onSetPool1">{{ $t('PageLiquidity.text1') }}</el-button>
             </div>
             <div class="inpintext">
-              <p>Add a short pool with user tokens, with 1-day interest of 0.01%, 5-day interest of 0.06%, 10-day interest of 0.135%, and withdraw the local currency and interest upon maturity</p>
+              <p>{{ $t('PageLiquidity.text2') }}</p>
             </div>
           </div>
           <div class="qui-item">
@@ -60,22 +60,22 @@
                 @click="onAuthContract(selectInfo2.addr)">authorize</el-button>
               <el-button type="primary" 
                 :disabled="!amountNumber2||!isAuth2"
-                @click="onSetPool2">increase</el-button>
+                @click="onSetPool2">{{ $t('PageLiquidity.text1') }}</el-button>
             </div>
             <div class="inpintext">
-              <p>The project party creates a token to short liquidity，<b>Permanently non redeemable</b></p>
+              <p>{{ $t('PageLiquidity.text3') }}</p>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="liquidity-details">
-      <h2>Liquidity Details</h2>
+      <h2>{{ $t('PageLiquidity.text4') }}</h2>
       <div class="container">
         <div class="details-box">
-          <p>Token balance：<b>{{ shortsInfos[2] || '0.0000' }}</b> TRDT</p>
-          <p>Non redeemable：<b>{{ shortsInfos[3] || '0.0000' }}</b> TRDT</p>
-          <p>locked：<b>{{ ((shortsInfos[3]/shortsInfos[2]*100)||0).toFixed(2) }}%</b> </p>
+          <p>{{ $t('PageLiquidity.text5') }}：<b>{{ shortsInfos[2] || '0.0000' }}</b> TRDT</p>
+          <p>{{ $t('PageLiquidity.text6') }}：<b>{{ shortsInfos[3] || '0.0000' }}</b> TRDT</p>
+          <p>{{ $t('PageLiquidity.text7') }}：<b>{{ ((shortsInfos[3]/shortsInfos[2]*100)||0).toFixed(2) }}%</b> </p>
         </div>
       </div>
     </div>

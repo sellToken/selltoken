@@ -3,7 +3,7 @@
     <div class="container">
       <!-- find on -->
       <div class="find-on">
-        <h5>Find on</h5>
+        <h5>{{ $t('PageFooter.text1') }}</h5>
         <div class="find-link">
           <a class="find-ain svgcolor1" href="#">
             <svg width="128" height="22" viewBox="0 0 128 22" xmlns="http://www.w3.org/2000/svg">
@@ -63,7 +63,7 @@
       <ul class="vlistbox">
         <li class="vlistitem">
           <p class="vping">
-            Products
+            {{ $t('PageFooter.text2') }}
           </p>
           <ul class="vainitemcell">
             <li class="vw100item">
@@ -116,7 +116,7 @@
         </li>
         <li class="vlistitem">
           <p class="vping">
-            Case Studies
+            {{ $t('PageFooter.text8') }}
           </p>
           <ul class="vainitemcell">
             <li class="vw100item">
@@ -150,14 +150,14 @@
         </li>
         <li class="vlistitem">
           <p class="vping">
-            Ecosystem
+            {{ $t('PageFooter.text3') }}
           </p>
           <ul class="vainitemcell">
             <li class="vw100item">
               <a class="aintext" tabindex="0" aria-disabled="false" role="link" href="#">
                 <span class="atext">
                   <div class="gintext">
-                    Network
+                    {{ $t('PageFooter.text4') }}
                   </div>
                 </span>
               </a>
@@ -166,7 +166,7 @@
               <a class="aintext" tabindex="0" aria-disabled="false" role="link" href="#">
                 <span class="atext">
                   <div class="gintext">
-                    Token
+                    {{ $t('PageFooter.text5') }}
                   </div>
                 </span>
               </a>
@@ -175,7 +175,7 @@
               <a class="aintext" tabindex="0" aria-disabled="false" role="link" href="https://www.selltoken.org/Whitepaper.pdf">
                 <span class="atext">
                   <div class="gintext">
-                    Whitepaper
+                    {{ $t('PageFooter.text6') }}
                   </div>
                 </span>
               </a>
@@ -184,7 +184,7 @@
               <a class="aintext" tabindex="0" aria-disabled="false" role="link" href="https://www.selltoken.org/WhitepaperCn.pdf">
                 <span class="atext">
                   <div class="gintext">
-                    WhitepaperCn
+                    {{ $t('PageFooter.text7') }}
                   </div>
                 </span>
               </a>
@@ -193,7 +193,7 @@
         </li>
         <li class="vlistitem">
           <p class="vping">
-            Socials
+            {{ $t('PageFooter.text9') }}
           </p>
           <ul class="vainitemcell">
             <li class="vw100item">
@@ -204,7 +204,7 @@
                       <path clip-rule="evenodd" d="M12.575 3.415c0-.132-.002-.262-.008-.39A5.9 5.9 0 0 0 14 1.485a5.562 5.562 0 0 1-1.65.452 2.937 2.937 0 0 0 1.262-1.65A5.464 5.464 0 0 1 11.79.99 2.862 2.862 0 0 0 9.694 0C8.107-.025 6.822 1.314 6.822 2.994c0 .239.025.47.073.695C4.506 3.535 2.391 2.292.975.417c-.246.449-.39.974-.39 1.537 0 1.063.507 2.008 1.278 2.567a2.765 2.765 0 0 1-1.3-.398v.039c0 1.486.99 2.732 2.303 3.023a2.707 2.707 0 0 1-1.297.044c.364 1.219 1.427 2.11 2.681 2.138A5.544 5.544 0 0 1 0 10.621 7.742 7.742 0 0 0 4.404 12c5.284 0 8.17-4.596 8.17-8.585z" fill="#82899a" fill-rule="evenodd">
                       </path>
                     </svg>
-                    Twitter
+                    {{ $t('PageFooter.text10') }}
                   </div>
                 </span>
               </a>
@@ -217,23 +217,36 @@
                       <path clip-rule="evenodd" d="M11.49 12.857a.72.72 0 0 0 .692.094.746.746 0 0 0 .452-.546C13.178 9.75 14.494 3.03 14.99.616a.52.52 0 0 0-.162-.492.485.485 0 0 0-.498-.091C11.709 1.04 3.638 4.19.339 5.46A.538.538 0 0 0 0 5.98c.008.23.156.43.37.496 1.48.46 3.422 1.1 3.422 1.1s.908 2.85 1.38 4.3c.06.182.197.325.378.375a.527.527 0 0 0 .506-.135l1.935-1.9s2.233 1.702 3.499 2.64zm-6.881-5.64l1.05 3.6.232-2.28 6.366-5.971a.186.186 0 0 0 .02-.245.173.173 0 0 0-.234-.042L4.609 7.216z" fill="#82899a" fill-rule="evenodd">
                       </path>
                     </svg>
-                    Telegram
+                    {{ $t('PageFooter.text11') }}
                   </div>
                 </span>
               </a>
             </li>
+            <!-- <li class="vw100item">
+              <a class="aintext" tabindex="0" aria-disabled="false" href="https://t.me/TrustTheTrident" role="link" target="_blank" rel="noreferrer">
+                <span class="atext">
+                  <div class="gintext">
+                    <svg fill="none" height="13" viewBox="0 0 15 13" width="15" xmlns="http://www.w3.org/2000/svg">
+                      <path clip-rule="evenodd" d="M11.49 12.857a.72.72 0 0 0 .692.094.746.746 0 0 0 .452-.546C13.178 9.75 14.494 3.03 14.99.616a.52.52 0 0 0-.162-.492.485.485 0 0 0-.498-.091C11.709 1.04 3.638 4.19.339 5.46A.538.538 0 0 0 0 5.98c.008.23.156.43.37.496 1.48.46 3.422 1.1 3.422 1.1s.908 2.85 1.38 4.3c.06.182.197.325.378.375a.527.527 0 0 0 .506-.135l1.935-1.9s2.233 1.702 3.499 2.64zm-6.881-5.64l1.05 3.6.232-2.28 6.366-5.971a.186.186 0 0 0 .02-.245.173.173 0 0 0-.234-.042L4.609 7.216z" fill="#82899a" fill-rule="evenodd">
+                      </path>
+                    </svg>
+                    {{ $t('PageFooter.text12') }}
+                  </div>
+                </span>
+              </a>
+            </li> -->
           </ul>
         </li>
         <li class="vlistitem">
           <p class="vping">
-            Company
+            {{ $t('PageFooter.text13') }}
           </p>
           <ul class="vainitemcell">
             <li class="vw100item">
               <a class="aintext" tabindex="0" aria-disabled="false" role="link" href="https://t.me/TrustTheTrident">
                 <span class="atext">
                   <div class="gintext">
-                    About Us
+                    {{ $t('PageFooter.text14') }}
                   </div>
                 </span>
               </a>
@@ -260,14 +273,14 @@
           <li>
             <a class="vrt" href="#">
               <span>
-                Terms of service
+                {{ $t('PageFooter.text15') }}
               </span>
             </a>
           </li>
           <li>
             <a class="vrt" href="#">
               <span>
-                Privacy Policy
+                {{ $t('PageFooter.text16') }}
               </span>
             </a>
           </li>

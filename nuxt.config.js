@@ -63,33 +63,33 @@ export default {
             name: 'English'
           },
           {
-            code: 'zhCN',
-            file: 'zhCN.json',
+            code: 'zhHK',
+            file: 'zhHK.json',
             name: '繁體中文'
           },
           {
-            code: 'zhCN',
-            file: 'zhCN.json',
+            code: 'Kr', // 韩文
+            file: 'Kr.json',
             name: '한국어'
           },
           {
-            code: 'zhCN',
-            file: 'zhCN.json',
+            code: 'JP', // 日语
+            file: 'JP.json',
             name: '日本語'
           },
           {
-            code: 'zhCN',
-            file: 'zhCN.json',
+            code: 'AR', // 阿拉伯语
+            file: 'AR.json',
             name: 'اللغة العربية'
           },
           {
-            code: 'zhCN',
-            file: 'zhCN.json',
+            code: 'PH', // 菲律宾
+            file: 'PH.json',
             name: 'Pilipino'
           },
           {
-            code: 'zhCN',
-            file: 'zhCN.json',
+            code: 'VNF', // 越南语
+            file: 'VNF.json',
             name: 'Tiếng Việt'
           }
         ],
