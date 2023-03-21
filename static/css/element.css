@@ -72,6 +72,10 @@
 .dialog-sucbox {
   border-radius: 20px !important;
 }
+.noneshadow {
+  box-shadow: none;
+  border-bottom: 1px solid #eee;
+}
 /* @media screen and (max-width: 750px){
   .disc-join .el-input-number {
 

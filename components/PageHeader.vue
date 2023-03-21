@@ -3,15 +3,24 @@
     <div class="fixed-header">
       <div class="container">
         <div class="left-navbar">
+          <div class="menubtn" @click="showMobileNavbar = true"><i class="el-icon-s-grid"></i></div>
           <div class="logo">
             <img src="~/static/images/logo.png" class="img" />
           </div>
-          <ul class="navbar-list">
+          <ul class="navbar-list" v-if="showMobileNavbar||maxWidthNavbar">
             <li v-for="(item, index) in navbarList" :key="index">
               <nuxt-link v-if="!item.path.startsWith('http')" :to="localePath(item.path)" class="n-ain">{{ item.name }}</nuxt-link>
               <a v-else :href="item.path" target="_blank" class="n-ain">{{ item.name }}</a>
             </li>
           </ul>
+          <!-- 移动端导航 -->
+          <el-drawer
+            title="SellToken"
+            :visible.sync="showMobileNavbar"
+            direction="ttb"
+            size="88px"
+            custom-class="noneshadow">
+          </el-drawer>
         </div>
         <div class="right-wallet">
           <!-- lang switch -->
@@ -112,7 +121,9 @@ export default {
   data () {
     return {
       showDrawerWallet: false,
-      hashTimer: null
+      hashTimer: null,
+      showMobileNavbar: false,
+      maxWidthNavbar: false
     }
   },
   computed: {
@@ -127,8 +138,8 @@ export default {
           path: 'https://selltoken.org/Whitepaper.pdf'
         },
         {
-          name: this.$t('PageHeader.Insert'),
-          path: '/insert'
+          name: this.$t('PageHeader.Miner'),
+          path: '/miner'
         },
         {
           name: this.$t('PageHeader.Liquidity'),
@@ -158,6 +169,9 @@ export default {
     }
   },
   watch: {
+    $route () {
+      this.showMobileNavbar = false;
+    },
     txChainHash () {
       if (this.txChainHash && this.txChainHash.length == 66) {
         this.showDrawerWallet = true;
@@ -170,7 +184,7 @@ export default {
     this.onConnectWallet()
   },
   mounted () {
-
+    this.maxWidthNavbar = window.innerWidth > 750
   },
   methods: {
     startHash () {
@@ -220,6 +234,11 @@ export default {
   .left-navbar {
     position: relative;
     @include flexBox(space-between);
+    .menubtn {
+      color: #999;
+      font-size: 24px;
+      display: none;
+    }
     .logo {
       width: 134px;
       height: 52px;
@@ -232,6 +251,7 @@ export default {
     }
     .navbar-list {
       padding-left: 20px;
+      z-index: 10;
       @include flexBox;
       .n-ain {
         padding: 10px 12px;
@@ -337,6 +357,7 @@ export default {
   }
 }
 .chainlink-cell {
+  white-space: nowrap;
   @include flexBox(flex-start, center);
   .linkico {
     width: 20px;
@@ -372,5 +393,61 @@ export default {
     text-decoration: underline;
   }
 }
-
+@media screen and (max-width: 750px) {
+  .fixed-header {
+    z-index: 3000;
+    .menubtn {
+      display: block !important;
+    }
+    .container {
+      padding: 0 10px;
+      height: 100%;
+    }
+    .right-wallet {
+      flex-direction: column;
+      align-items: flex-end;
+      .lang-switch {
+        top: 0;
+        margin-right: 100px;
+      }
+      .wallet-address {
+        padding: 4px 10px;
+        margin-top: 10px;
+        &:active {
+          top: 0;
+        }
+      }
+      .chain-link {
+        position: absolute;
+        margin: 0;
+        right: 2px;
+        top: -34px !important;
+        z-index: 10;
+        span {
+          display: none;
+        }
+      }
+    }
+    .navbar-list {
+      position: fixed;
+      left: 0;
+      top: 88px;
+      width: 100%;
+      background: #fff;
+      z-index: 10000 !important;
+      flex-direction: column;
+      box-sizing: border-box;
+      padding: 20px;
+      opacity: 1;
+      transition: opacity 1s linear 0s;
+      li {
+        width: 100%;
+        a {
+          width: 100%;
+          display: block;
+        }
+      }
+    }
+  }
+}
 </style>
