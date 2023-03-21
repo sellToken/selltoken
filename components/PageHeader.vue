@@ -29,7 +29,7 @@
                   tag="div"
                   :to="switchLocalePath(locale.code)"
                   class="local-item">
-                  <img :src="require(`~/static/images/${locale.code}.png`)" alt="">
+                  <!-- <img :src="require(`~/static/images/${locale.code}.png`)" alt=""> -->
                   <span>{{ locale.name }}</span>
                 </nuxt-link>
               </el-dropdown-item>

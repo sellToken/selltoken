@@ -10,12 +10,12 @@
       <!-- 标题 -->
       <div class="page-title">
         <h1>{{ $t('PageHome.text1') }}</h1>
-        <h2><span>{{ $t('PageHome.text2') }}</span></h2>
+        <h2><span v-html="$t('PageHome.text2')"></span></h2>
       </div>
       <!-- 操作池 -->
       <div class="operation-pool">
         <auto-search @select="onSelectCoinbase"></auto-search>
-        <h3 class="pair-h3">{{ $t('PageHome.text2') }}</h3>
+        <h3 class="pair-h3">{{ $t('PageHome.text3') }}</h3>
         <div class="pair-content">
           <div class="unitem" 
             v-for="(item, index) in pairLists" :key="index"
@@ -221,7 +221,7 @@
     <div class="dife-linkbox">
       <div class="container">
         <div class="dife-info">
-          <h3>{{ $t('PageHome.text22') }}</h3>
+          <h3 v-html="$t('PageHome.text22')"></h3>
           <p>{{ $t('PageHome.text23') }}</p>
         </div>
       </div>

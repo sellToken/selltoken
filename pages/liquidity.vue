@@ -63,7 +63,7 @@
                 @click="onSetPool2">{{ $t('PageLiquidity.text1') }}</el-button>
             </div>
             <div class="inpintext">
-              <p>{{ $t('PageLiquidity.text3') }}</p>
+              <p v-html="$t('PageLiquidity.text3')"></p>
             </div>
           </div>
         </div>
