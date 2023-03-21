@@ -69,3 +69,6 @@
   color: #000 !important;
   top: 0 !important;
 }
+.dialog-sucbox {
+  border-radius: 20px !important;
+}

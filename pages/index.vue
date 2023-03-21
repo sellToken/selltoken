@@ -153,7 +153,8 @@
                 <h6>Contract Address</h6>
                 <div class="o-addr">
                   <span>{{ item[0].substr(0, 10) }}...{{ item[0].substr(-10) }}</span>
-                  <img src="~/static/images/copyico.png" alt="" class="copybtn">
+                  <img src="~/static/images/copyico.png" alt="" class="copybtn"
+                    @click="onCopyText(item[0])">
                 </div>
                 <h5>${{ item[3] }}</h5>
                 <div class="o-amount">
@@ -369,6 +370,14 @@ export default {
   mounted () {
   },
   methods: {
+    onCopyText (text) {
+      this.$copyText(text).then((e) => {
+        console.log(e)
+        this.$message.success('Copy succeeded')
+      }, () => {
+        this.$message.success('Copy failed')
+      })
+    },
     onSelectCoinbase (item) {
       this.selectInfo = item;
       this.selectValue = item.addr;

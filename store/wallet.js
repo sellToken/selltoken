@@ -15,12 +15,14 @@ export const actions = {
       if (state.walletAddress) {
         resolve(state.walletAddress)
       } else {
-        window.ethereum.enable()
-        .then((wallets) => {
-          commit('writeWalletAddress', wallets[0])
-          resolve(wallets[0])
-        })
-        .catch(reject);
+        try {
+          window.ethereum.enable()
+          .then((wallets) => {
+            commit('writeWalletAddress', wallets[0])
+            resolve(wallets[0])
+          })
+          .catch(reject);
+        } catch (error) { }
       }
     })
   }

@@ -58,7 +58,8 @@
             </el-dropdown-menu>
           </el-dropdown>
           <!-- wallet -->
-          <div class="wallet-address" v-if="walletAddress">
+          <div class="wallet-address" v-if="walletAddress"
+            @click="showDrawerWallet = true">
             <img src="~/static/images/walletico.png" alt="" class="walletico" v-if="!chainLoading">
             <i class="el-icon-loading loadingico" v-else></i>
             <span>{{ walletAddress.substr(0,3) }}...{{ walletAddress.substr(-4) }}</span>
@@ -70,6 +71,35 @@
         </div>
       </div>
     </div>
+    <el-dialog
+      :visible.sync="showDrawerWallet"
+      width="320px" custom-class="dialog-sucbox">
+      <div class="drawer-title" slot="title">
+        <p v-if="oldChainStatus">Confirm</p>
+        <p v-else>No transactions</p>
+      </div>
+      <div class="drawer-content">
+        <el-result title="Transaction Submitted"
+          v-if="oldChainStatus">
+          <div class="" slot="icon">
+            <img src="~/static/images/upico.png" alt="" class="sucico"
+              v-if="!oldChainStatus.status && oldChainStatus.status != 0">
+            <img src="~/static/images/success.png" alt="" class="sucico"
+              v-else-if="oldChainStatus.status">
+            <img src="~/static/images/fail.png" alt="" class="sucico"
+              v-else>
+          </div>
+          <div slot="subTitle">
+            <a :href="`https://bscscan.com/tx/${txChainHash||oldChainStatus.transactionHash}`" target="_blank" class="ain-view"
+              >View on BscScan</a>
+          </div>
+          <template slot="extra">
+            <el-button type="primary" class="themebtn" @click="showDrawerWallet = false">Close</el-button>
+          </template>
+        </el-result>
+        <el-empty description="No transactions" v-else></el-empty>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -95,10 +125,18 @@ export default {
           name: 'Liquidity',
           path: '/liquidity'
         }
-      ]
+      ],
+      showDrawerWallet: false,
+      hashTimer: null
     }
   },
   computed: {
+    oldChainStatus () {
+      return this.$store.state.contract.oldChainStatus;
+    },
+    txChainHash () {
+      return this.$store.state.contract.txHash;
+    },
     chainLoading () {
       return this.$store.state.contract.chainLoading;
     },
@@ -106,10 +144,40 @@ export default {
       return this.$store.state.wallet.walletAddress;
     }
   },
-  async created () {
+  watch: {
+    txChainHash () {
+      if (this.txChainHash && this.txChainHash.length == 66) {
+        this.showDrawerWallet = true;
+        this.$store.dispatch('contract/queryTxHashStatus')
+        this.startHash()
+      }
+    }
+  },
+  created () {
     this.onConnectWallet()
   },
+  mounted () {
+
+  },
   methods: {
+    startHash () {
+      clearInterval(this.hashTimer);
+      this.hashTimer = setInterval(() => {
+        if (!this.txChainHash) {
+          clearInterval(this.hashTimer);
+        } else {
+          this.$store.dispatch('contract/queryTxHashStatus')
+        }
+      }, 8000)
+    },
+    onCopyText (text) {
+      this.$copyText(text).then((e) => {
+        console.log(e)
+        this.$message.success('Copy succeeded')
+      }, () => {
+        this.$message.success('Copy failed')
+      })
+    },
     async onConnectWallet () {
       const walletAddress = await this.$store.dispatch('wallet/linkWallet')
       console.log('钱包已连接：', walletAddress)
@@ -273,4 +341,23 @@ export default {
     margin-right: 10px;
   }
 }
+.drawer-title {
+  position: relative;
+  @include flexBox(flex-start);
+  .ticopybtn {
+    width: 20px;
+    height: 30px;
+    object-fit: contain;
+    margin-left: 10px;
+  }
+}
+.drawer-content {
+  border: 1px solid #eee;
+  border-radius: 10px;
+  .ain-view {
+    color: #32aa77;
+    text-decoration: underline;
+  }
+}
+
 </style>
