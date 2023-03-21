@@ -133,6 +133,14 @@ export default {
         {
           name: this.$t('PageHeader.Liquidity'),
           path: '/liquidity'
+        },
+        {
+          name: this.$t('PageHeader.CertiK'),
+          path: '/certiK'
+        },
+        {
+          name: this.$t('PageHeader.GitHup'),
+          path: 'https://github.com/sellToken'
         }
       ]
     },

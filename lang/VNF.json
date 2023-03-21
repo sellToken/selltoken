@@ -1,4 +1,8 @@
 {
+  "copySuccess": "Sao chép thành công",
+  "copyFail": "Sao chép không thành công",
+  "authorize": "ủy quyền",
+  "noPair": "Không có cặp giao dịch",
   "PageHeader": {
     "Home": "Trang chủ",
     "Whitepaper": "Giấy trắng",
@@ -31,9 +35,6 @@
     "text15": "Điều khoản dịch vụ",
     "text16": "Chính sách bảo mật"
   },
-  "copySuccess": "Sao chép thành công",
-  "copyFail": "Sao chép không thành công",
-  "authorize": "ủy quyền",
   "PageHome": {
     "text1": "Công cụ tổng hợp ngắn hạn DEX",
     "text2": "Cuộc cách mạng chuỗi khối <br> Hợp đồng thông minh mã thông báo ngắn",
@@ -59,8 +60,9 @@
     "text22": "Trợ giúp chất lượng cao <span>Defi</span>Project<br> Cung cấp hỗ trợ",
     "text23": "SellToken là một sàn giao dịch bán khống phi tập trung dựa trên các hợp đồng thông minh. Hoạt động của nó hoàn toàn dựa trên mã bất biến. Theo các yêu cầu giao dịch ngắn do người dùng gửi, hợp đồng thông minh sẽ tự động thực hiện các hoạt động giao dịch ngắn để hoàn thành các hoạt động giao dịch ngắn của người dùng. SellToken có nghĩa là có thể rút ngắn mười nghìn xu và mã thông báo thế giới được mã hóa có thể được rút ngắn mọi lúc, mọi nơi.",
     "text24": "ngày",
-    "text25": "khai thác mỏ",    
-    "text26": "BNB"
+    "text27": "Vui lòng xác nhận hoạt động",
+    "text28": "Tiếp tục hoạt động",
+    "text29": "Hủy bỏ"
   },
   "PageLiquidity": {
     "text1": "tăng",

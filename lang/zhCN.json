@@ -1,4 +1,8 @@
 {
+  "copySuccess": "複製成功",
+  "copyFail": "複製失敗",
+  "authorize": "授權",
+  "noPair": "沒有交易對",
   "PageHeader": {
     "Home": "首頁",
     "Whitepaper": "白皮書",
@@ -30,9 +34,6 @@
     "text15": "服務條款",
     "text16": "隱私政策"
   },
-  "copySuccess": "複製成功",
-  "copyFail": "複製失敗",
-  "authorize": "授權",
   "PageHome": {
     "text1": "DEX做空聚合器",
     "text2": "區塊鏈革命 <br> 做空智能合約",
@@ -57,7 +58,12 @@
     "text21": "參與 IDO(暫未開始)",
     "text22": "優質<span>Defi</span>項目<br>提供支持",
     "text23": "SellToken 是一個基於智能合約的去中心化空頭交易平台。 它的操作完全基於不可變代碼。 根據用戶提交的做空交易請求，智能合約自動執行做空交易操作，完成用戶的做空交易操作。 SellToken意味著一萬個幣可以做空，加密世界代幣可以隨時隨地做空。",
-    "text24": "天"
+    "text24": "天",
+    "text25": "流動性挖礦",    
+    "text26": "BNB",
+    "text27": "請確認操作",
+    "text28": "繼續操作",
+    "text29": "取消"
   },
   "PageLiquidity": {
     "text1": "添加",

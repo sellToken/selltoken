@@ -1,4 +1,8 @@
 {
+  "copySuccess": "Copy succeeded",
+  "copyFail": "Copy failed",
+  "authorize": "Approve",
+  "noPair": "No Pair",
   "PageHeader": {
     "Home": "Home",
     "Whitepaper": "Whitepaper",
@@ -31,9 +35,6 @@
     "text15": "Terms of service",
     "text16": "Privacy Policy"
   },
-  "copySuccess": "Copy succeeded",
-  "copyFail": "Copy failed",
-  "authorize": "Approve",
   "PageHome": {
     "text1": "DEX Short Aggregator",
     "text2": "Blockchain Revolution <br> Short Token Smart Contracts",
@@ -61,7 +62,9 @@
     "text24": "day",
     "text25": "Liquidity mining",
     "text26": "BNB",
-    "text27":"~/static/images/BNB.png"
+    "text27": "Please confirm the operation",
+    "text28": "Continue",
+    "text29": "Cancel"
   },
   "PageLiquidity": {
     "text1": "increase",

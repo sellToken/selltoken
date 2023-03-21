@@ -2,7 +2,6 @@
   <div class="page-index">
     <!-- 背景 -->
     <video muted loop class="video-bg" autoplay playsinline>
-      <source src="/videos/IMG_6322228.MP4" type="video/webm" />
       <source src="/videos/IMG_6322228.MP4" type="video/mp4" />
     </video>
     <!-- 顶部 -->
@@ -14,16 +13,18 @@
       </div>
       <!-- 操作池 -->
       <div class="operation-pool">
-        <auto-search @select="onSelectCoinbase"></auto-search>
+        <auto-search @select="onSelectCoinbase" @clear="onClearSelectInfo"></auto-search>
         <h3 class="pair-h3">{{ $t('PageHome.text3') }}</h3>
         <div class="pair-content">
           <div class="unitem" 
             v-for="(item, index) in pairLists" :key="index"
-            :class="{active: selectPairIndex === index}" 
-            @click="onChangePairIndex(index)">
+            :class="{active: selectPairIndex === index}" >
             <img :src="require(`~/static/images/${item}.png`)" alt="">
             <span>{{ item }}</span>
           </div>
+        </div>
+        <div class="no-pair">
+          <span v-if="selectInfo && selectPairIndex<0">{{ $t('noPair') }}</span>
         </div>
         <!-- 输入BNB -->
         <div class="write-amount">
@@ -37,7 +38,11 @@
           </div>
         </div>
         <div class="max-short">
-          <p>{{ $t('PageHome.text4') }}:<b>{{ maxAmountShort }}</b> BNB</p>
+          <p>
+            {{ $t('PageHome.text4') }}:
+            <b>{{ maxAmountShort }}</b>
+            <i v-if="queryMaxLoading" class="el-icon-loading"></i>
+            BNB</p>
         </div>
         <div class="shortbtn-cell">
           <el-button 
@@ -46,7 +51,7 @@
             {{ $t('PageHome.text5') }}
           </el-button>
           <el-button class="btncolor2" @click="toLiquidity"
-            :disabled="!addr2Token||!selectInfo">
+            :disabled="!selectInfo">
             {{ $t('PageHome.text6') }}
           </el-button>
         </div>
@@ -212,7 +217,6 @@
     <!-- mind map -->
     <div class="mindmap-video">
       <video muted loop width="100%" style="margin:auto;" autoplay playsinline>
-        <source :src="`/lang/videos/${$i18n.locale}.mp4`" type="video/webm">
         <source :src="`/lang/videos/${$i18n.locale}.mp4`" type="video/mp4">
       </video>
       <img :src="`/lang/images/${$i18n.locale}.png`" alt="" class="flow-img">
@@ -345,7 +349,8 @@ export default {
       },
       maxAmountShort: '0.00000000',
       myOrderLists: [],
-      timers: {0:null}, // 定时器
+      queryMaxLoading: false,
+      timers: {0:null, 1:null}, // 定时器
     }
   },
   computed: {
@@ -365,6 +370,7 @@ export default {
   destroyed () {
     for (let k in this.timers) {
       clearTimeout(this.timers[k])
+      clearInterval(this.timers[k])
     }
   },
   mounted () {
@@ -378,11 +384,22 @@ export default {
         this.$message.success(this.$t('copyFail'))
       })
     },
+    onClearSelectInfo () {
+      this.selectInfo = null;
+      this.selectPairIndex = -1;
+      this.maxAmountShort = '0.00000000';
+    },
     onSelectCoinbase (item) {
       this.selectInfo = item;
       this.selectValue = item.addr;
+      this.selectPairIndex = this.pairLists.indexOf(item.pairs)
       this.queryShorts()
       this.queryMiningUser()
+      this.queryMaxShorts()
+      clearInterval(this.timers[1])
+      this.timers[1] = setInterval(() => {
+        this.queryMaxShorts()
+      }, 10 * 1000)
     },
     async onClosePostion (addr) {
       const { methods } = await this.$store.dispatch('contract/event');
@@ -412,9 +429,29 @@ export default {
       })
     },
     async onOpenShort () {
+      let confirmMaxShort = true;
+      // 校验金额是否超过max
+      if (this.amountNumber > this.maxAmountShort) {
+        try {
+          confirmMaxShort = await this.$confirm(
+            this.$t('PageHome.text4') + ' ' + this.maxAmountShort + ' BNB', 
+            this.$t('PageHome.text27'), 
+          {
+            confirmButtonText: this.$t('PageHome.text28'),
+            cancelButtonText: this.$t('PageHome.text29'),
+            type: 'warning'
+          })
+        } catch (error) {
+          confirmMaxShort = false;
+          console.log('取消操作', error)
+          return false;
+        }
+      }
+      if (!confirmMaxShort) return false;
+      // 执行操作
       const { methods } = await this.$store.dispatch('contract/event');
       const amount = web3.utils.toWei(String(this.amountNumber), 'ether');
-      methods.ShortStart(this.selectValue, this.addr2Token, 1).send({
+      methods.ShortStart(this.selectValue, this.walletAddress, 1).send({
         value: amount
       },(err, txHash) => {
         if (!err) {
@@ -451,7 +488,7 @@ export default {
         if (!err) {
           this.miningUserInfos = {
             0: (res[0]/Math.pow(10,18)).toFixed(4),
-            1: res[1] == 0 ? '0' : new Date(res[1]+'000').toLocaleString(),
+            1: res[1] == 0 ? '0' : new Date(Number(res[1]+'000')).toLocaleString(),
             2: (res[2]/Math.pow(10,18)).toFixed(4),
             3: (res[3]/Math.pow(10,18)).toFixed(4),
           }
@@ -471,12 +508,20 @@ export default {
           }
         }
       })
+    },
+    async queryMaxShorts () {
+      const { methods } = await this.$store.dispatch('contract/event');
       // 查询最大做空
+      console.log(this.addr2Token , this.selectValue)
       if (this.addr2Token && this.selectValue) {
+        this.queryMaxLoading = true
         methods.getShortsMoV(this.selectValue, this.addr2Token).call((err, res) => {
+          this.queryMaxLoading = false
           if (!err) {
             this.maxAmountShort = (res/Math.pow(10, 18)).toFixed(8);
             console.log('最大做空:', this.maxAmountShort)
+          } else {
+            this.maxAmountShort = '0.00000000';
           }
         })
       }
@@ -540,11 +585,18 @@ export default {
     margin-top: 20px;
     text-align: center;
   }
+  .no-pair {
+    font-size: 12px;
+    color: red;
+    height: 20px;
+    width: 100%;
+    @include flexBox;
+  }
   .pair-content {
     background-color: #fff;
     border-radius: 20px;
     overflow: hidden;
-    margin-bottom: 20px;
+    // margin-bottom: 20px;
     margin-top: 10px;
     position: relative;
     @include flexBox;
@@ -559,7 +611,7 @@ export default {
       margin-top: -10px;
     }
     .unitem {
-      cursor: pointer;
+      cursor: no-drop;
       display: flex;
       align-items: center;
       justify-content: center;

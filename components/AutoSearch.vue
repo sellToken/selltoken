@@ -121,6 +121,7 @@ export default {
       this.selectInfo = null;
       this.$nextTick(() => {
         this.$refs.selectRef.focus()
+        this.$emit('clear')
       })
     },
     handleSelectCoinbase (item) {

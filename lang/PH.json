@@ -1,4 +1,8 @@
 {
+  "copySuccess": "Nagtagumpay ang pagkopya",
+  "copyFail": "Nabigo ang pagkopya",
+  "authorize": "Approve",
+  "noPair": "No Pair",
   "PageHeader": {
     "Home": "Bahay",
     "Whitepaper": "Puting papel",
@@ -31,9 +35,6 @@
     "text15": "Mga Tuntunin ng Serbisyo",
     "text16": "Patakaran sa Privacy"
   },
-  "copySuccess": "Nagtagumpay ang pagkopya",
-  "copyFail": "Nabigo ang pagkopya",
-  "authorize": "Approve",
   "PageHome": {
     "text1": "DEX Short Aggregator",
     "text2": "Blockchain Revolution <br> Mga Maikling Token Smart Contract",
@@ -59,8 +60,10 @@
     "text22": "Mataas na kalidad ng tulong <span>Defi</span>Proyekto<br> Magbigay ng suporta",
     "text23": "Ang SellToken ay isang desentralisadong short trading exchange batay sa mga smart contract. Ang operasyon nito ay ganap na nakabatay sa hindi nababagong code. Ayon sa mga maikling kahilingan sa pangangalakal na isinumite ng mga user, ang matalinong kontrata ay awtomatikong nagsasagawa ng mga maikling operasyon sa pangangalakal upang makumpleto ang mga maikling operasyon ng pangangalakal ng user. Nangangahulugan ang SellToken na ang sampung libong barya ay maaaring i-short, at ang mga naka-encrypt na token sa mundo ay maaaring i-short anumang oras at kahit saan.",
     "text24": "araw",
-    "text25": "pagmimina",    
-    "text26": "BNB"
+    "text25": "pagmimina",
+    "text27": "Paki-confirm ang operasyon",
+    "text28": "Magpatuloy",
+    "text29": "kanselahin"
   },
   "PageLiquidity": {
     "text1": "pagtaas",
