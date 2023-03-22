@@ -1,16 +1,16 @@
 {
   "new01": {
-    "text1": "代币做空",
-    "text2": "卖",
-    "text3": "合约",
-    "text4": "开仓成本",
-    "text5": "最新估值",
-    "text6": "代币名称",
-    "text7": "投资人",
-    "text8": "项目方",
-    "text9": "钱包已连接",
-    "text10": "查看上链记录",
-    "text11": "断开连接"
+    "text1": "Token shorting",
+    "text2": "Sell",
+    "text3": "contract",
+    "text4": "open cost",
+    "text5": "latest valuation",
+    "text6": "token name",
+    "text7": "Investors",
+    "text8": "Project side",
+    "text9": "wallet connected",
+    "text10": "View on-chain records",
+    "text11": "Disconnect"
   },
   "copySuccess": "Copy succeeded",
   "copyFail": "Copy failed",
@@ -92,18 +92,18 @@
     "text8": "Service Charge"
   },
   "PageMiner": {
-    "startMiner": "开始挖矿",
-    "text1": "万币挖矿",
-    "text2": "挖矿金额",
-    "text3": "收益天数",
-    "text4": "收益时间",
-    "text5": "累计收益",
-    "text6": "挖矿中",
-    "text7": "万币挖矿,BNB挖矿不设限，每日金本位释放1%代币，365天完成。",
-    "text8": "BNB 支付挖矿，BNB分配如下",
-    "text9": "3%平台费用",
-    "text10": "10%指定代币LP池子",
-    "text11": "10%买入代币销毁",
-    "text12": "77%回流矿池"
+    "startMiner": "start mining",
+    "text1": "token mining",
+    "text2": "mining amount",
+    "text3": "Earning days",
+    "text4": "Profit time",
+    "text5": "Cumulative income",
+    "text6": "mining",
+    "text7": "The SellToken aggregation platform also supports all ERC20 tokens. By paying the blockchain ecological currency to obtain mining rights, the daily income gold standard releases 1% of the tokens, and the mining is completed within 365 days to stop the income. The distribution of payment and mining fees is as follows:",
+    "text8": "BNB is paid for mining, and BNB is distributed as follows",
+    "text9": "3% Foundation",
+    "text10": "10% designated token LP pool",
+    "text11": "10% buy token burn",
+    "text12": "77% returned to the mining pool"
   }
 }

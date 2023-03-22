@@ -1,16 +1,16 @@
 {
   "new01": {
-    "text1": "代币做空",
-    "text2": "卖",
-    "text3": "合约",
-    "text4": "开仓成本",
-    "text5": "最新估值",
-    "text6": "代币名称",
-    "text7": "投资人",
-    "text8": "项目方",
-    "text9": "钱包已连接",
-    "text10": "查看上链记录",
-    "text11": "断开连接"
+    "text1": "Maikli ang token",
+    "text2": "Ibenta",
+    "text3": "kontrata",
+    "text4": "gastos",
+    "text5": "napapanahon",
+    "text6": "pangalan",
+    "text7": "Mga mamumuhunan",
+    "text8": "Project party",
+    "text9": "nakakonekta ang wallet",
+    "text10": "Tingnan ang mga on-chain na tala",
+    "text11": "Idiskonekta"
   },
   "copySuccess": "Nagtagumpay ang pagkopya",
   "copyFail": "Nabigo ang pagkopya",
@@ -92,18 +92,18 @@
     "text8": "Service Charge"
   },
   "PageMiner": {
-    "startMiner": "开始挖矿",
-    "text1": "万币挖矿",
-    "text2": "挖矿金额",
-    "text3": "收益天数",
-    "text4": "收益时间",
-    "text5": "累计收益",
-    "text6": "挖矿中",
-    "text7": "万币挖矿,BNB挖矿不设限，每日金本位释放1%代币，365天完成。",
-    "text8": "BNB 支付挖矿，BNB分配如下",
-    "text9": "3%平台费用",
-    "text10": "10%指定代币LP池子",
-    "text11": "10%买入代币销毁",
-    "text12": "77%回流矿池"
+    "startMiner": "pagmimina",
+    "text1": "pagmimina",
+    "text2": "ang halaga",
+    "text3": "langit",
+    "text4": "oras",
+    "text5": "Kabuuang kita",
+    "text6": "pagmimina",
+    "text7": "Ang SellToken aggregation platform ay sumusuporta sa lahat ng ERC20 token. Sa pamamagitan ng pagbabayad sa blockchain ecological currency upang makakuha ng mga karapatan sa pagmimina, ang pang-araw-araw na kita na gold standard ay naglalabas ng 1% ng mga token, at ang pagmimina ay nakumpleto sa loob ng 365 araw upang ihinto ang kita. Ang pamamahagi ng pagbabayad at ang mga bayad sa pagmimina ay ang mga sumusunod:",
+    "text8": "Ang BNB ay binabayaran para sa pagmimina, at ang BNB ay ipinamamahagi tulad ng sumusunod",
+    "text9": "3% bayad sa platform",
+    "text10": "10% itinalagang token LP pool",
+    "text11": "10% bumili ng token burn",
+    "text12": "77% ang bumalik sa mining pool"
   }
 }

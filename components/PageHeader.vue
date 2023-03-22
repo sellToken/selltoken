@@ -1,6 +1,25 @@
 <template>
   <div class="page-header">
     <div class="fixed-header">
+      <div class="coinname-assets">
+        <el-carousel height="30px" direction="vertical" :autoplay="false" indicator-position="none">
+          <el-carousel-item v-for="(item, index) in assetslists" :key="index">
+            <div class="cinlistbox">
+              <div class="medium"
+                v-for="info in item" :key="info.symbol">
+                <img :src="`https://assets.coincap.io/assets/icons/${info.symbol.toLocaleLowerCase()}@2x.png`" class="cnameico" />
+                <span>{{ info.symbol }}</span>
+                <span>${{ Number(info.priceUsd).toFixed(2) }}</span>
+                <strong
+                  :style="{
+                    color: info.changePercent24Hr>=0 ? '#21f1c7' : 'red'
+                  }"
+                  >{{ Number(info.changePercent24Hr).toFixed(2) }}%</strong>
+              </div>
+            </div>
+          </el-carousel-item>
+        </el-carousel>
+      </div>
       <div class="container">
         <div class="left-navbar">
           <div class="menubtn" @click="showMobileNavbar = true"><i class="el-icon-s-grid"></i></div>
@@ -18,7 +37,7 @@
             title="SellToken"
             :visible.sync="showMobileNavbar"
             direction="ttb"
-            size="88px"
+            size="118px"
             custom-class="noneshadow">
           </el-drawer>
         </div>
@@ -153,7 +172,8 @@ export default {
       hashTimer: null,
       showMobileNavbar: false,
       maxWidthNavbar: false,
-      showWalletAddress: false
+      showWalletAddress: false,
+      assetslists: []
     }
   },
   computed: {
@@ -212,11 +232,24 @@ export default {
   },
   created () {
     this.onConnectWallet()
+    this.getCoinbaseLists()
   },
   mounted () {
     this.maxWidthNavbar = window.innerWidth > 750
   },
   methods: {
+    getCoinbaseLists () {
+      this.$axios.get('https://api.coincap.io/v2/assets?limit=20')
+      .then(({ data }) => {
+        this.assetslists = [];
+        let len = Math.ceil(data.data.length/4);
+        for (let i = 0; i < len; i ++) {
+          let items = data.data.splice(0, 4);
+          this.assetslists.push(items);
+        }
+        console.log(this.assetslists)
+      })
+    },
     onClearWalletAddress () {
       this.$store.commit('wallet/writeWalletAddress', '')
       this.showWalletAddress = false;
@@ -252,13 +285,13 @@ export default {
 
 <style lang="scss" scoped>
 .page-header {
-  height: 88px;
+  height: 118px;
 }
 .fixed-header {
   background-color: #fff;
   box-shadow: 0px 3px 16px rgba(26, 36, 57, 0.1);
   box-sizing: border-box;
-  height: 88px;
+  height: 118px;
   width: 100%;
   position: fixed;
   left: 0;
@@ -430,6 +463,31 @@ export default {
     text-decoration: underline;
   }
 }
+.coinname-assets {
+  background: linear-gradient(to right, #376bf3, #5947fa, #9b3dc1, #fb7f16);
+  .cinlistbox {
+    padding: 0 30px;
+    color: #ffffff;
+    font-size: 14px;
+    @include flexBox(flex-start);
+    .medium {
+      margin-right: 30px;
+      height: 30px;
+      @include flexBox(flex-start);
+      .cnameico {
+        width: 20px;
+        height: 20px;
+        margin-right: 4px;
+      }
+      span {
+        margin-right: 4px;
+      }
+      strong {
+        margin-left: 6px;
+      }
+    }
+  }
+}
 @media screen and (max-width: 750px) {
   .fixed-header {
     z-index: 3000;
@@ -468,7 +526,7 @@ export default {
     .navbar-list {
       position: fixed;
       left: 0;
-      top: 88px;
+      top: 118px;
       width: 100%;
       background: #fff;
       z-index: 10000 !important;

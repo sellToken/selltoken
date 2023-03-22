@@ -1,16 +1,16 @@
 {
   "new01": {
-    "text1": "代币做空",
-    "text2": "卖",
-    "text3": "合约",
-    "text4": "开仓成本",
-    "text5": "最新估值",
-    "text6": "代币名称",
-    "text7": "投资人",
-    "text8": "项目方",
-    "text9": "钱包已连接",
-    "text10": "查看上链记录",
-    "text11": "断开连接"
+    "text1": "Mã thông báo ngắn",
+    "text2": "Bán",
+    "text3": "hợp đồng",
+    "text4": "trị giá",
+    "text5": "cập nhật",
+    "text6": "tên",
+    "text7": "nhà đầu tư",
+    "text8": "tiệc dự án",
+    "text9": "ví được kết nối",
+    "text10": "Xem hồ sơ trên chuỗi",
+    "text11": "Ngắt kết nối"
   },
   "copySuccess": "Sao chép thành công",
   "copyFail": "Sao chép không thành công",
@@ -92,18 +92,18 @@
     "text8": "Phí dịch vụ"
   },
   "PageMiner": {
-    "startMiner": "开始挖矿",
-    "text1": "万币挖矿",
-    "text2": "挖矿金额",
-    "text3": "收益天数",
-    "text4": "收益时间",
-    "text5": "累计收益",
-    "text6": "挖矿中",
-    "text7": "万币挖矿,BNB挖矿不设限，每日金本位释放1%代币，365天完成。",
-    "text8": "BNB 支付挖矿，BNB分配如下",
-    "text9": "3%平台费用",
-    "text10": "10%指定代币LP池子",
-    "text11": "10%买入代币销毁",
-    "text12": "77%回流矿池"
+    "startMiner": "khai thác mỏ",
+    "text1": "khai thác mỏ",
+    "text2": "số tiền",
+    "text3": "Số ngày",
+    "text4": "thời gian",
+    "text5": "Tổng cộng",
+    "text6": "khai thác mỏ",
+    "text7": "Nền tảng tổng hợp SellToken hỗ trợ tất cả các mã thông báo ERC20. Bằng cách thanh toán tiền tệ sinh thái chuỗi khối để có được quyền khai thác, tiêu chuẩn vàng thu nhập hàng ngày giải phóng 1% mã thông báo và việc khai thác được hoàn thành trong vòng 365 ngày để ngừng thu nhập. phí khai thác như sau:",
+    "text8": "BNB được trả tiền để khai thác và BNB được phân phối như sau",
+    "text9": "phí nền tảng 3%",
+    "text10": "Nhóm 10% token LP được chỉ định",
+    "text11": "Đốt 10% mã thông báo mua",
+    "text12": "77% quay trở lại nhóm khai thác"
   }
 }
