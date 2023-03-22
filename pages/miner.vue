@@ -48,24 +48,34 @@
         <div class="swiper-wrapper">
           <div class="swiper-slide" v-for="(item, index) in myMinerLists" :key="index">
             <div class="orderinfo-item ominer-item">
+              <img src="~/static/images/vinitembg.png" alt="" class="vimg-bg">
+              <div class="coin-colors"
+                :style="{backgroundColor: '#7cbbf1'}"></div>
               <div class="o-top">
-                <strong>{{ $t('PageMiner.text1') }}</strong>
                 <div class="ot-logo">
-                  <img src="~/static/images/TRDT-logo.png" alt="">
+                  <img :src="coinbaseIcos[selectInfo?selectInfo.name:'']||require('~/static/images/defaultico.png')" alt="">
                 </div>
+                <strong>{{ $t('PageMiner.text1') }}</strong>
               </div>
               <div class="o-info">
-                <h6>{{ $t('PageHome.text15') }}</h6>
+                <!-- <h6>{{ $t('PageHome.text15') }}</h6> -->
                 <div class="o-addr" v-if="selectInfo">
-                  <span>{{ selectInfo.addr.substr(0, 10) }}...{{ selectInfo.addr.substr(-10) }}</span>
+                  <div class="o-tag">合约</div>
+                  <span>{{ selectInfo.addr.substr(0, 4) }}...{{ selectInfo.addr.substr(-6) }}</span>
                   <img src="~/static/images/copyico.png" alt="" class="copybtn"
                     @click="onCopyText(selectInfo.addr)">
                 </div>
-                <h5>-</h5>
+                <!-- <h5>-</h5> -->
                 <div class="o-amount">
-                  <p>
-                    {{ $t('PageMiner.text2') }}： <b>{{ item[0] }}</b> BNB
-                  </p>
+                  <div class="mxtext">
+                    <p>
+                      <b>{{ $t('PageMiner.text2') }}：</b>
+                    </p>
+                    <p>
+                      <img src="~/static/images/BNB.png" >
+                      <strong>{{ item[0] }}</strong>
+                    </p>
+                  </div>
                   <p>
                     {{ $t('PageMiner.text3') }}： {{ item[1] }} {{ $t('PageHome.text17') }}
                   </p>
@@ -80,9 +90,9 @@
                   </p>
                 </div>
                 <div class="cp-btnbox">
-                  <el-button class="themebtn"
+                  <el-button class="inbtntext-int1"
                     @click="onIncome">{{ $t('income') }}</el-button>
-                  <el-button class="themebtn"
+                  <el-button class="inbtntext-int2"
                     @click="onResupply">{{ $t('resupply') }}</el-button>
                 </div>
               </div>
@@ -211,7 +221,6 @@ export default {
       const { methods } = await this.$store.dispatch('contract/event', 'Miner');
       methods.getMiner(this.selectInfo.addr).call((err, res) => {
         if (!err && res[0]) {
-          console.log(res)
           this.myMinerLists = res[0].map((text, index) => {
             return {
               0: (text/Math.pow(10,18)).toFixed(8),
@@ -261,266 +270,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.page-miner {
-  min-height: 600px;
-}
-.linebg {
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 600px;
-  z-index: 0;
-  position: absolute;
-  object-fit: cover;
-}
-.topliquidity-content {
-  position: relative;
-  .qui-box {
-    position: relative;
-    z-index: 10;
-    padding: 40px 20px;
-    @include flexBox;
-    .pair-h3 {
-      margin-top: 20px;
-      text-align: center;
-    }
-    .no-pair {
-      font-size: 12px;
-      color: red;
-      height: 20px;
-      width: 100%;
-      @include flexBox;
-    }
-    .pair-content {
-      background-color: #fff;
-      border-radius: 20px;
-      overflow: hidden;
-      // margin-bottom: 20px;
-      margin-top: 10px;
-      position: relative;
-      @include flexBox;
-      &::after {
-        content: '';
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 1px;
-        height: 20px;
-        background: #eee;
-        margin-top: -10px;
-      }
-      .unitem {
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex: 1;
-        height: 40px;
-        margin: 10px 16px;
-        img {
-          width: 24px;
-          height: 24px;
-          object-fit: contain;
-          margin-right: 10px;
-        }
-        span {
-          font-size: 16px;
-          color: #666;
-        }
-        &.active {
-          border-radius: 10px;
-          background: linear-gradient(90deg,#56ffee 25.14%,#82ffca 67.46%,#a7ff62 116.99%,#fcff63 167.07%);
-          span {
-            font-weight: bold;
-            color: #000;
-          }
-        }
-      }
-    }
-    .qui-item {
-      width: 398px;
-      height: 480px;
-      padding: 30px 28px;
-      box-sizing: border-box;
-      background: linear-gradient(180deg,hsla(0,0%,100%,.4),hsla(0,0%,100%,.1) 87.46%);
-      box-shadow: 0 20px 80px rgba(0,0,0,.05);
-      border-radius: 24px;
-      border: 1px solid hsla(0,0%,100%,.5);
-      border-bottom: 1px solid hsla(0,0%,100%,.2);
-      margin: 0 30px;
-    }
-    .tabs-list {
-      padding: 0 2px;
-      @include flexBox(space-between, center);
-      .tabs-item {
-        width: 102px;
-        height: 40px;
-        margin-top: 20px;
-        background: #fff;
-        border-radius: 10px;
-        font-size: 16px;
-        cursor: pointer;
-        @include flexBox;
-        flex-wrap: wrap;
-        &.active {
-          color: #fff;
-          background-color: #0b48e6;
-        }
-      }
-    }
-    .write-amount {
-      width: 100%;
-      height: 80px;
-      background: #fff;
-      border-radius: 24px;
-      padding: 12px 32px;
-      padding-left: 20px;
-      box-sizing: border-box;
-      margin-top: 20px;
-      @include flexBox(space-between, center);
-      .amount-unit {
-        padding-left: 10px;
-        @include flexBox;
-        .unitico {
-          width: 25px;
-          height: 25px;
-          border-radius: 50%;
-          position: relative;
-          top: -1px;
-        }
-        span {
-          font-style: normal;
-          font-size: 14.4px;
-          line-height: 20px;
-          color: #13151a;
-          min-width: 44px;
-          text-align: center;
-        }
-      }
-    }
-  }
-  .inbtn-box {
-    margin-top: 30px;
-    @include flexBox(space-between, center);
-    .el-button {
-      flex: 1;
-      height: 50px;
-      border-radius: 15px;
-      border: 0px;
-      background-color: #0b48e6;
-      color: #fff;
-      font-size: 18px;
-      position: relative;
-      top: 0;
-      &:active {
-        top: 2px;
-        background-color: #073eca;
-      }
-    }
-  }
-  .inpintext {
-    padding: 20px 0;
-    font-size: 14px;
-    text-align: center;
-    color: #333;
-    b {
-      color: red;
-    }
-  }
-}
-.cp-btnbox {
-  .themebtn {
-    padding: 8px 16px;
-    font-size: 14px;
-    min-width: 100px;
-  }
-}
-.miner-rules {
-  background: #F2F5FA;
-  padding: 60px;
-  h2 {
-    font-size: 40px;
-    text-align: center;
-  }
-  .details-box {
-    padding: 40px 10% 60px;
-    background-color: #fff;
-    border-radius: 20px;
-    h2 {
-      padding-bottom: 20px;
-    }
-    p {
-      font-size: 16px;
-      border-bottom: 1px dotted #ccc;
-      padding: 10px 0;
-      line-height: 1.8em;
-      color: #333;
-      b {
-        color: #00a2f2;
-      }
-    }
-  }
-}
-.orderinfo-box .orderinfo-item {
-  height: 370px;
-}
-.ominer-item {
-  .o-top {
-    .ot-logo {
-      width: 20px !important;
-      height: 20px !important;
-      padding: 4px !important;
-    }
-    strong {
-      font-size: 14px !important;
-    }
-  }
-  .o-amount {
-    p {
-      font-size: 14px !important;
-      line-height: 24px !important;
-    }
-  }
-  .o-info h5 {
-    font-size: 14px !important;
-    margin-top: 10px !important;
-  }
-}
-.s-fee {
-  text-align: center;
-  font-size: 14px;
-  color: #333;
-  margin-top: 20px;
-}
-@media screen and (max-width: 750px) {
-  .topliquidity-content {
-    background: #c0c2e9;
-  }
-  .qui-box {
-    padding: 20px 0 !important;
-    flex-direction: column;
-    .qui-item {
-      max-width: 100% !important;
-      margin: 20px 0 0 !important;
-      padding: 20px !important;
-      height: auto !important;
-    }
-  }
-  .miner-rules {
-    padding: 50px 0 60px;
-    h2 {
-      font-size: 26px;
-    }
-    .details-box {
-      padding: 30px 20px;
-      margin-top: 20px;
-      p {
-        font-size: 16px;
-      }
-    }
-  }
-  .topliquidity-content .qui-box .tabs-list .tabs-item {
-    width: 32%;
-  }
-}
+@import '@/assets/pages/miner.scss';
 </style>

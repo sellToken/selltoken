@@ -89,7 +89,7 @@ export const actions = {
     const walletAddress = await dispatch('wallet/linkWallet', {}, {root: true});
     const sourceContract = new web3.eth.Contract(ContractAbi.ABI, ContractAbi.ADDRESS, {
       gas: state.gas,
-      gasPrice: state.gasPrice,
+      // gasPrice: state.gasPrice,
       from: walletAddress
     });
     return Promise.resolve(sourceContract);
@@ -110,7 +110,7 @@ export const actions = {
     const walletAddress = await dispatch('wallet/linkWallet', {}, {root: true});
     const sourceContract = new web3.eth.Contract(ContractAbi.ABI, ContractAbi.ADDRESS, {
       gas: state.gas,
-      gasPrice: state.gasPrice,
+      // gasPrice: state.gasPrice,
       from: walletAddress
     });
     return Promise.resolve(sourceContract);

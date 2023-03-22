@@ -1,5 +1,5 @@
 {
-  "ADDRESS": "0x109F82D6c7574172077D73250d6D74ada9135D87",
+  "ADDRESS": "0x7E1C17D941c3d14f5DD70b1e1E526AcD004660Bf",
   "ABI": [
     {
       "inputs": [],
@@ -64,11 +64,6 @@
           "internalType": "uint256",
           "name": "time",
           "type": "uint256"
-        },
-        {
-          "internalType": "bool",
-          "name": "yes",
-          "type": "bool"
         }
       ],
       "stateMutability": "view",
@@ -154,11 +149,6 @@
           "internalType": "address[]",
           "name": "add",
           "type": "address[]"
-        },
-        {
-          "internalType": "uint256[]",
-          "name": "",
-          "type": "uint256[]"
         },
         {
           "internalType": "uint256[]",
@@ -357,6 +347,19 @@
           "internalType": "bool",
           "name": "",
           "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "mine",
+      "outputs": [
+        {
+          "internalType": "contract miner",
+          "name": "",
+          "type": "address"
         }
       ],
       "stateMutability": "view",

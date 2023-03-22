@@ -1,12 +1,14 @@
 // 订单列表
 .orderinfo-box {
   padding: 90px 30px;
-  height: 550px;
+  min-height: 550px;
   box-sizing: border-box;
   position: relative;
   background: linear-gradient(180deg, rgba(242, 245, 250, 0) 0%, #F2F5FA 100%), linear-gradient(-270deg, #F4E7DE 0%, #E3DCFA 50%, #D0DCF9 100%, #DBE5F9 100%);
   .swiper-orderinfo {
     position: relative;
+    padding-top: 20px;
+    padding-bottom: 20px;
   }
   .swiper-button-prev, 
   .swiper-button-next {
@@ -26,21 +28,41 @@
     text-align: center;
     font-size: 18px;
     background: #fff;
-    border: 1px solid #d8d8d8;
+    border-bottom: 10px solid #dcedea;
     transition-duration: 200ms;
     transition-property: box-shadow;
     transition-timing-function: linear;
-    border-radius: 22px;
-    height: 358px;
+    border-radius: 40px;
+    // height: 358px;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
     padding: 20px;
+    .coin-colors {
+      position: absolute;
+      top: -6px;
+      left: 15%;
+      height: 12px;
+      border-radius: 12px;
+      width: 70%;
+      background-color: #ccc;
+    }
+    .vimg-bg {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      width: 60px;
+      height: auto;
+      z-index: 0;
+    }
     .o-top {
-      @include flexBox(space-between);
+      position: relative;
+      z-index: 2;
+      @include flexBox(flex-start);
       strong {
         color: #1f2226;
         font-size: 18px;
+        margin-left: 16px;
       }
       .ot-logo {
         width: 32px;
@@ -55,12 +77,31 @@
         }
       }
     }
+    .o-types {
+      padding: 16px 0;
+      @include flexBox(flex-start);
+      b {
+        font-size: 16px;
+        color: red;
+        margin-right: 10px;
+      }
+      span {
+        padding-left: 10px;
+        font-size: 16px;
+        color: #333;
+        border-left: 1px solid #eee;
+      }
+    }
+    .o-rate {
+      position: relative;
+      z-index: 2;
+      font-size: 32px;
+      color: #48c774;
+      font-weight: bold;
+    }
     .o-info {
       width: 100%;
-      border: 1px solid #00a2f2;
-      background-color: #F2F5FA;
       border-radius: 30px;
-      padding: 10px;
       margin: 10px auto 0;
       box-sizing: border-box;
       display: flex;
@@ -74,6 +115,8 @@
         margin-top: 6px;
         @include flexBox(flex-start);
         span {
+          padding-left: 10px;
+          border-left: 1px solid #eee;
           font-size: 16px;
           color: #2E343C;
         }
@@ -91,6 +134,47 @@
         font-size: 26px;
         margin-top: 16px;
       }
+      .o-tag {
+        padding: 0 10px;
+        background-color: #1cb294;
+        font-size: 14px;
+        color: #fff;
+        border-radius: 6px;
+        height: 24px;
+        line-height: 24px;
+        margin-right: 10px;
+      }
+      .o-cellitem {
+        padding: 10px 0;
+        position: relative;
+        z-index: 5;
+        @include flexBox(space-between);
+        .oline {
+          width: 1px;
+          height: 20px;
+          background-color: #c1c0c0;
+          position: relative;
+        }
+        span {
+          font-size: 18px;
+          color: #333;
+        }
+        .sico {
+          width: 20px;
+          height: 20px;
+          vertical-align: middle;
+          margin-right: 10px;
+        }
+        strong {
+          font-size: 18px;
+          color: #f3ba2e;
+          vertical-align: middle;
+          width: 138px;
+          white-space: nowrap;
+          text-align: left;
+          @include flexBox(flex-start);
+        }
+      }
       .o-amount {
         p {
           font-size: 18px;
@@ -103,11 +187,47 @@
             margin-right: 10px;
           }
         }
+        strong {
+          font-size: 20px;
+          color: red;
+        }
       }
       .cp-btnbox {
         width: 100%;
-        padding: 20px 0 10px;
+        margin-top: 20px;
         @include flexBox;
+        .inbtntext {
+          min-width: 150px;
+          height: 60px;
+          background: url('~/static/images/btnbg.png') no-repeat center;
+          background-size: 100% 100%;
+          box-sizing: border-box;
+          padding-bottom: 8px;
+          padding-left: 20px;
+          padding-right: 20px;
+          color: #ffffff;
+          cursor: pointer;
+          position: relative;
+          @include flexBox;
+          &:active {
+            top: 2px;
+          }
+          &.disabled {
+            opacity: 0.6;
+            top: 0 !important;
+          }
+        }
+        .inbtntext-int1 {
+          @extend .inbtntext;
+          border: 0;
+          padding: 0 0 6px;
+          height: 40px;
+          min-width: 100px;
+        }
+        .inbtntext-int2 {
+          @extend .inbtntext-int1;
+          background-image: url('~/static/images/btnbg2.png');
+        }
       }
     }
   }

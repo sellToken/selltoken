@@ -147,7 +147,7 @@ export default {
         },
         {
           name: this.$t('PageHeader.CertiK'),
-          path: '/certiK'
+          path: 'https://www.certik.com/projects/selltoken'
         },
         {
           name: this.$t('PageHeader.GitHup'),

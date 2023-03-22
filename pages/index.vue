@@ -143,38 +143,62 @@
       </div>
     </div>
     <!-- 订单 -->
-    <div class="orderinfo-box" v-if="myOrderLists.length">
+    <div class="orderinfo-box">
       <div class="swiper-orderinfo" v-swiper:mySwiper="SwiperOptions">
         <div class="swiper-wrapper">
           <div class="swiper-slide" v-for="(item, index) in myOrderLists" :key="index">
             <div class="orderinfo-item">
+              <img src="~/static/images/vinitembg.png" alt="" class="vimg-bg">
+              <div class="coin-colors"
+                :style="{backgroundColor: item[2]-item[1]>=0 ? '#48c774' : 'red'}"></div>
               <div class="o-top">
-                <strong>SellToken</strong>
                 <div class="ot-logo">
-                  <img src="~/static/images/TRDT-logo.png" alt="">
+                  <img :src="coinbaseIcos[item[3]]||require('~/static/images/defaultico.png')" alt="">
                 </div>
+                <strong>代币做空</strong>
               </div>
               <div class="o-info">
-                <h6>{{ $t('PageHome.text15') }}</h6>
                 <div class="o-addr">
-                  <span>{{ item[0].substr(0, 10) }}...{{ item[0].substr(-10) }}</span>
+                  <div class="o-tag">合约</div>
+                  <span>{{ item[0].substr(0, 4) }}...{{ item[0].substr(-6) }}</span>
                   <img src="~/static/images/copyico.png" alt="" class="copybtn"
                     @click="onCopyText(item[0])">
                 </div>
-                <h5>${{ item[3] }}</h5>
-                <div class="o-amount">
-                  <p>
-                    <img src="~/static/images/defaultico.png" alt="">
-                    {{ item[2] }}
-                  </p>
-                  <p>
-                    <img src="~/static/images/BNB.png" alt="">
+                <div class="o-types">
+                  <b>卖</b>
+                  <span v-if="item[4] != 'No pair'">{{ item[4] }}/{{ item[3] }}</span>
+                  <span v-else>{{ item[4] }}</span>
+                </div>
+                <div class="o-rate">
+                  <span :style="{color: item[2]-item[1]>=0 ? '#48c774' : 'red'}"
+                    v-if="item[2]!=0">
+                    {{ item[2]-item[1]>=0 ? '+' : '' }}
+                    {{ (item[2]/item[1]*100-100).toFixed(2) }}%
+                  </span>
+                  <span v-else>
+                    0.00%
+                  </span>
+                </div>
+                <div class="o-cellitem">
+                  <span>开仓成本</span>
+                  <i class="oline"></i>
+                  <strong>
+                    <img src="~/static/images/BNB.png" class="sico" />
                     {{ item[1] }}
-                  </p>
+                  </strong>
+                </div>
+                <div class="o-cellitem">
+                  <span>最新估值</span>
+                  <i class="oline"></i>
+                  <strong>
+                    <img src="~/static/images/BNB.png" class="sico" />
+                    {{ item[2] }}
+                  </strong>
                 </div>
                 <div class="cp-btnbox">
-                  <el-button class="themebtn"
-                    @click="onClosePostion(item[0])">{{ $t('PageHome.text7') }}</el-button>
+                  <div class="inbtntext" :class="{disabled: item[0]==0}" @click="onClosePostion(item[0])">
+                    <span>{{ $t('PageHome.text7') }}</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -183,6 +207,13 @@
       </div>
       <div class="swiper-button-prev"></div>
       <div class="swiper-button-next"></div>
+    </div>
+    <!-- mind map -->
+    <div class="mindmap-video">
+      <video muted loop width="100%" style="margin:auto;" autoplay playsinline>
+        <source :src="`/lang/videos/${$i18n.locale}.mp4`" type="video/mp4">
+      </video>
+      <img :src="`/lang/images/${$i18n.locale}.png`" alt="" class="flow-img">
     </div>
     <!-- IDO -->
     <div class="ido-content">
@@ -213,13 +244,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <!-- mind map -->
-    <div class="mindmap-video">
-      <video muted loop width="100%" style="margin:auto;" autoplay playsinline>
-        <source :src="`/lang/videos/${$i18n.locale}.mp4`" type="video/mp4">
-      </video>
-      <img :src="`/lang/images/${$i18n.locale}.png`" alt="" class="flow-img">
     </div>
     <!-- dife link -->
     <div class="dife-linkbox">
@@ -348,7 +372,50 @@ export default {
         'USDT': USDT_ADDRESS
       },
       maxAmountShort: '0.00000000',
-      myOrderLists: [],
+      myOrderLists: [
+        {
+          0: '0x0000000000000000000000000000000000000000',
+          1: '0.00000000',
+          2: '0.000',
+          3: '',
+          4: 'No pair'
+        },
+        {
+          0: '0x0000000000000000000000000000000000000000',
+          1: '0.00000000',
+          2: '0.000',
+          3: '',
+          4: 'No pair'
+        },
+        {
+          0: '0x0000000000000000000000000000000000000000',
+          1: '0.00000000',
+          2: '0.000',
+          3: '',
+          4: 'No pair'
+        },
+        {
+          0: '0x0000000000000000000000000000000000000000',
+          1: '0.00000000',
+          2: '0.000',
+          3: '',
+          4: 'No pair'
+        },
+        {
+          0: '0x0000000000000000000000000000000000000000',
+          1: '0.00000000',
+          2: '0.000',
+          3: '',
+          4: 'No pair'
+        },
+        {
+          0: '0x0000000000000000000000000000000000000000',
+          1: '0.00000000',
+          2: '0.000',
+          3: '',
+          4: ''
+        }
+      ],
       queryMaxLoading: false,
       timers: {0:null, 1:null}, // 定时器
     }
@@ -403,6 +470,7 @@ export default {
     },
     async onClosePostion (addr) {
       const { methods } = await this.$store.dispatch('contract/event');
+      if (addr == 0) return false;
       methods.withdraw(addr).send((err, txHash) => {
         if (!err) {
           this.$store.dispatch('contract/cochainHashSuccess', { txHash })
@@ -415,14 +483,24 @@ export default {
       const { methods } = await this.$store.dispatch('contract/event');
       methods.getMyPriceSell(this.walletAddress).call((err, res) => {
         if (!err) {
-          this.myOrderLists = res[0].map((item, index) => {
-            return {
-              0: item,
-              1: (res[1][index]/Math.pow(10,18)).toFixed(8),
-              2: (res[2][index]/Math.pow(10,18)).toFixed(4),
-              3: (res[3][index]/Math.pow(10,18)).toFixed(8),
-            }
-          })
+          if (res[0].length) {
+            this.myOrderLists = res[0].map((addr, index) => {
+              methods.getToke(addr).call((err, res) => {
+                if (!err) {
+                  this.myOrderLists[index][3] = res[0];
+                  this.myOrderLists[index][4] = res[1];
+                }
+              })
+              return {
+                0: addr,
+                1: (res[1][index]/Math.pow(10,18)).toFixed(8),
+                2: (res[2][index]/Math.pow(10,18)).toFixed(8),
+                3: '',
+                4: ''
+              }
+            })
+
+          }
           // 查询
           this.timers[0] = setTimeout(this.queryMyOrderSell, 10 * 1000);
         }
@@ -534,489 +612,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.page-index {
-  position: relative;
-  background: #F2F5FA;
-  .video-bg {
-    position: absolute;
-    top: -80px;
-    left: 0;
-    width: 100%;
-    height: 830px;
-    z-index: 0;
-    object-fit: cover;
-  }
-}
-.page-title {
-  padding: 100px 0;
-  min-height: 400px;
-  h1 {
-    font-size: 40px;
-    line-height: 1.2;
-  }
-  h2 {
-    margin-top: 20px;
-  }
-  span {
-    background: linear-gradient(270.06deg, #FF820E 10%, #7926FF 52.51%, #356DF3 91.97%),
-			#1F2226;
-    font-size: 30px;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    -webkit-box-decoration-break: clone;
-  }
-}
-.operation-pool {
-  width: 395px;
-  height: 468px;
-  padding: 30px 28px;
-  position: absolute;
-  top: 70px;
-  right: 20px;
-  box-sizing: border-box;
-  background: linear-gradient(180deg,hsla(0,0%,100%,.4),hsla(0,0%,100%,.1) 87.46%);
-  box-shadow: 0 20px 80px rgba(0,0,0,.05);
-  border-radius: 24px;
-  border: 1px solid hsla(0,0%,100%,.5);
-  border-bottom: 1px solid hsla(0,0%,100%,.2);
-  display: flex;
-  flex-direction: column;
-  .pair-h3 {
-    margin-top: 20px;
-    text-align: center;
-  }
-  .no-pair {
-    font-size: 12px;
-    color: red;
-    height: 20px;
-    width: 100%;
-    @include flexBox;
-  }
-  .pair-content {
-    background-color: #fff;
-    border-radius: 20px;
-    overflow: hidden;
-    // margin-bottom: 20px;
-    margin-top: 10px;
-    position: relative;
-    @include flexBox;
-    &::after {
-      content: '';
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 1px;
-      height: 20px;
-      background: #eee;
-      margin-top: -10px;
-    }
-    .unitem {
-      cursor: no-drop;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex: 1;
-      height: 40px;
-      margin: 10px 16px;
-      img {
-        width: 24px;
-        height: 24px;
-        object-fit: contain;
-        margin-right: 10px;
-      }
-      span {
-        font-size: 16px;
-        color: #666;
-      }
-      &.active {
-        border-radius: 10px;
-        background: linear-gradient(90deg,#56ffee 25.14%,#82ffca 67.46%,#a7ff62 116.99%,#fcff63 167.07%);
-        span {
-          font-weight: bold;
-          color: #000;
-        }
-      }
-    }
-  }
-  .write-amount {
-    width: 336px;
-    height: 80px;
-    background: #fff;
-    border-radius: 24px;
-    padding: 12px 32px;
-    padding-left: 20px;
-    box-sizing: border-box;
-    margin-bottom: 20px;
-    @include flexBox(space-between, center);
-    .amount-unit {
-      padding-left: 10px;
-      @include flexBox;
-      .unitico {
-        width: 25px;
-        height: 25px;
-        border-radius: 50%;
-        position: relative;
-        top: -1px;
-      }
-      span {
-        font-style: normal;
-        font-size: 14.4px;
-        line-height: 20px;
-        color: #13151a;
-        min-width: 44px;
-        text-align: center;
-      }
-    }
-  }
-  .max-short {
-    text-align: center;
-    p {
-      font-size: 14px;
-      color: #333;
-    }
-  }
-  .shortbtn-cell {
-    margin-top: 20px;
-    @include flexBox(space-between);
-    .el-button {
-      width: 156px;
-      height: 64px;
-      float: left;
-      font-family: Bold;
-      font-style: normal;
-      font-weight: 700;
-      font-size: 16px;
-      line-height: 22px;
-      color: #13151a;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      background: linear-gradient(90deg,#56ffee 25.14%,#82ffca 67.46%,#a7ff62 116.99%,#fcff63 167.07%);
-      border-radius: 100px;
-      transition: box-shadow .35s ease,background .35s ease;
-      border: 0 !important;
-      position: relative;
-      &:active {
-        border: 0;
-        top: 2px;
-      }
-      &.is-disabled {
-        color: #000 !important;
-        background: #999 !important;
-        top: 0;
-      }
-      &.btncolor2 {
-        background: linear-gradient(90deg,#7d2dff 25.14%,#ac6ce6 67.46%,#df2dff 116.99%,#fcff63 167.07%);
-      }
-    }
-  }
-}
-.jackpot-box {
-  padding: 20px 0 60px;
-  position: relative;
-  @include flexBox(space-between);
-  .jack-item {
-    position: relative;
-    padding: 24px 40px 40px;
-    border-radius: 48px;
-    min-height: 260px;
-    background: #fff;
-    display: flex;
-    flex-direction: column;
-    width: 30%;
-    box-sizing: border-box;
-    transition: all 0.3s;
-    &:hover {
-      box-shadow: 0px 5px 25px rgba(31, 34, 38, 0.1), 
-        0px 10px 50px rgba(31, 34, 38, 0.1);
-    }
-    .j-radius {
-      width: 48px;
-      height: 48px;
-      background: #F2F5FA;
-      border-radius: 50%;
-      margin-left: auto;
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      z-index: 0;
-    }
-    .j-title {
-      height: 58px;
-      position: relative;
-      z-index: 2;
-      h6 {
-        font-size: 20px;
-        line-height: 58px;
-        color: #1f2226;
-      }
-    }
-    .j-amount {
-      position: relative;
-      z-index: 2;
-      height: 40px;
-      p {
-        font-size: 16px;
-        padding: 2px 0;
-        color: #666;
-        @include flexBox(flex-start, center);
-      }
-      .size-text {
-        font-size: 14px;
-        margin-top: 6px;
-      }
-      .small {
-        font-size: 14px;
-      }
-    }
-    .j-unit {
-      width: 20px;
-      height: 20px;
-      margin-right: 6px;
-      position: relative;
-    }
-    .j-ico {
-      width: 120px;
-      height: 120px;
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      z-index: 0;
-      opacity: 0.5;
-    }
-    .j-btn {
-      margin-top: 16px;
-    }
-  }
-}
-
-.ido-content {
-  padding: 30px 0 100px;
-  position: relative;
-  h2 {
-    font-size: 52px;
-    text-align: center;
-    font-weight: 600;
-    line-height: 58px;
-    padding-bottom: 48px;
-  }
-  .timecount-statistic {
-    padding: 30px;
-    @include flexBox;
-    span {
-      font-size: 32px;
-    }
-    b {
-      margin: 0px 10px;
-      border: 1px solid #ccc;
-      padding: 3px;
-      font-size: 33px;
-      background: linear-gradient(270.06deg, #FF820E 7.8%, #7926FF 52.51%, #356DF3 91.97%), #1F2226;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      -webkit-box-decoration-break: clone;
-    }
-  }
-  .sline {
-    height: 4px;
-    width: 100%;
-    background: #E1E9FD;
-    position: relative;
-    .slineitem {
-      animation-duration: 6000ms;
-      height: 100%;
-      position: absolute;
-      left: 0;
-      top: 0;
-      animation-name: speedline;
-      background-color: #356DF3;
-      animation-fill-mode: both;
-      animation-iteration-count: infinite;
-      animation-timing-function: linear;
-    }
-    @keyframes speedline {
-      0% {width:0%;}
-      100% {width:100%;}
-    }
-  }
-  .disc-box {
-    position: relative;
-    border-radius: 48px;
-    background-color: #fff;
-    .disc-join {
-      @include flexBox;
-      flex-direction: column;
-      padding: 80px 100px;
-      .el-button {
-        padding: 0 80px;
-        height: 48px;
-        font-size: 16px;
-        min-width: 320px;
-        line-height: 24px;
-        box-sizing: border-box;
-        border-radius: 15px;
-        margin-top: 80px;
-      }
-    }
-  }
-}
-.mindmap-video {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  .video-item {
-    width: 100%;
-    height: 574px;
-  }
-  .flow-img {
-    width: 100%;
-    margin-top: 10px;
-  }
-}
-.dife-linkbox {
-  position: relative;
-  background: #fff;
-  .dife-info {
-    padding: 96px 0 50px;
-    text-align: center;
-    h3 {
-      font-size: 55px;
-      line-height: 52px;
-      margin-bottom: 32px;
-      span {
-        color: #0b48e6;
-        margin-right: 5px;
-      }
-    }
-    p {
-      color: #2E343C;
-      font-size: 24px;
-      line-height: 36px;
-      padding: 0 30px;
-    }
-  }
-  .link-logo {
-    overflow: hidden;
-    width: 100%;
-    .link-line-item {
-      margin: 5px 0;
-      display: flex;
-      padding: 0;
-      transform: translate3d(0px, 0px, 0px);
-      list-style: none;
-      transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1) 0s, opacity 0.8s cubic-bezier(0.77, 0, 0.175, 1) 0s;
-      animation: 35s linear 0s infinite alternate none running speedgroup1;
-      &.linitem2 {
-        animation: 35s linear 0s infinite alternate none running speedgroup2;
-        
-      }
-      @keyframes speedgroup1 {
-        0% { transform: translateX(-50%) translateZ(0px); } 
-        100% { transform: translateX(0) translateZ(0px); } 
-      }
-      @keyframes speedgroup2 {
-        0% { transform: translateX(0) translateZ(0px); } 
-        100% { transform: translateX(-50%) translateZ(0px); } 
-      }
-      li {
-        position: relative;
-        border-radius: 21px;
-        background-color: #fff;
-        transition-duration: 200ms;
-        transition-property: box-shadow;
-        transition-timing-function: linear;
-        color: #1f2226;
-        height: 100px;
-        min-width: 240px;
-        box-sizing: border-box;
-        @include flexBox(flex-start);
-        &:hover {
-          z-index: 1;
-          box-shadow: 0 0 10px rgba(31, 34, 38, 0.1), 0 5px 10px rgba(31, 34, 38, 0.15);
-        }
-        img {
-          width: 88px;
-          height: 40px;
-          object-fit: contain;
-        }
-        span {
-          color: #1f2226;
-          font-size: 18px;
-          font-family: "Inter-Bold", sans-serif;
-        }
-      }
-    }
-  }
-}
-@media screen and (max-width: 750px) {
-  .operation-pool {
-    position: relative;
-    top: auto;
-    left: auto;
-    right: auto;
-    padding: 10px;
-    max-width: 100%;
-    .write-amount {
-      width: 100%;
-    }
-  }
-  .page-title {
-    min-height: auto;
-    padding: 100px 0;
-    h1 {
-      font-size: 30px;
-    }
-    span {
-      font-size: 25px;
-    }
-  }
-  .jackpot-box {
-    flex-direction: column;
-    .jack-item {
-      width: 100%;
-      margin-top: 30px;
-    }
-  }
-  .ido-content {
-    padding: 0;
-    h2 {
-      font-size: 26px;
-      padding-bottom: 20px;
-    }
-    .timecount-statistic {
-      span {
-        font-size: 0;
-        &::after {
-          content: '：';
-          font-size: 14px;
-        }
-        &:first-child, 
-        &:last-child {
-          display: none;
-        }
-      }
-      b {
-        font-size: 20px;
-        margin: 0 6px;
-      }
-    }
-  }
-  .disc-join {
-    padding: 30px 20px !important;
-    .el-button {
-      min-width: 100px !important;
-      max-width: 100% !important;
-      margin-top: 30px !important;
-      padding: 0;
-    }
-  }
-  .dife-linkbox .dife-info h3 {
-    font-size: 24px;
-  }
-  .dife-linkbox .dife-info p {
-    font-size: 14px;
-    padding: 0;
-  }
-}
+@import '@/assets/pages/index.scss';
 </style>
