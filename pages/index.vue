@@ -86,23 +86,14 @@
             <h6>{{ $t('PageHome.text6') }}</h6>
           </div>
           <div class="j-amount">
-            <!-- <p class="small">
-              <img src="~/static/images/defaultico.png" alt="" class="j-unit" style="top:-2px;">
-              <b>{{ shortsInfos[2] || '0.0000' }}</b>
-            </p>
-            <p>
-              ≈
-              <img src="~/static/images/BNB.png" alt="" class="j-unit">
-              <b>{{ shortsInfos[3] || '0.00000000' }}</b>
-            </p> -->
             <p class="size-text">
               {{ $t('PageHome.text8') }}：
-              <img src="~/static/images/defaultico.png" alt="" class="j-unit">
+              <img :src="coinbaseIcos[selectInfo?selectInfo.name:'']||require('~/static/images/defaultico.png')" alt="" class="j-unit">
               <b>{{ shortsInfos[2] || '0.0000' }}</b>
             </p>
             <p class="size-text">
               {{ $t('PageHome.text9') }}：
-              <img src="~/static/images/defaultico.png" alt="" class="j-unit">
+              <img :src="coinbaseIcos[selectInfo?selectInfo.name:'']||require('~/static/images/defaultico.png')" alt="" class="j-unit">
               <b>{{ shortsInfos[3] || '0.0000' }}</b>
             </p>
             <p class="size-text">
@@ -120,7 +111,7 @@
           <div class="j-amount">
             <p class="size-text">
               {{ $t('PageHome.text11') }}：
-              <img src="~/static/images/defaultico.png" alt="" class="j-unit">
+              <img :src="coinbaseIcos[selectInfo?selectInfo.name:'']||require('~/static/images/defaultico.png')" alt="" class="j-unit">
               <b>{{ miningUserInfos[0] || '-' }}</b>
             </p>
             <p class="size-text">
@@ -129,7 +120,7 @@
             </p>
             <p class="size-text">
               {{ $t('PageHome.text13') }}：
-              <img src="~/static/images/defaultico.png" alt="" class="j-unit">
+              <img :src="coinbaseIcos[selectInfo?selectInfo.name:'']||require('~/static/images/defaultico.png')" alt="" class="j-unit">
               <b>{{ miningUserInfos[3] || '-' }}</b>
             </p>
             <div class="j-btn">
@@ -345,8 +336,13 @@ export default {
         loopFillGroupWithBlank: false,
         autoplay: false,
         breakpoints: {
-          750: {
+          1000: {
             slidesPerView: 3,
+            spaceBetween: 30,
+            slidesPerGroup: 1,
+          },
+          750: {
+            slidesPerView: 1,
             spaceBetween: 30,
             slidesPerGroup: 1,
           },
@@ -507,25 +503,17 @@ export default {
       })
     },
     async onOpenShort () {
-      let confirmMaxShort = true;
       // 校验金额是否超过max
       if (this.amountNumber > this.maxAmountShort) {
-        try {
-          confirmMaxShort = await this.$confirm(
-            this.$t('PageHome.text4') + ' ' + this.maxAmountShort + ' BNB', 
-            this.$t('PageHome.text27'), 
+        this.$alert(
+          this.$t('PageHome.text4') + ' ' + this.maxAmountShort + ' BNB', 
+          this.$t('PageHome.text27'), 
           {
-            confirmButtonText: this.$t('PageHome.text28'),
-            cancelButtonText: this.$t('PageHome.text29'),
+            confirmButtonText: this.$t('PageHome.text29'),
             type: 'warning'
-          })
-        } catch (error) {
-          confirmMaxShort = false;
-          console.log('取消操作', error)
-          return false;
-        }
+        })
+        return false;
       }
-      if (!confirmMaxShort) return false;
       // 执行操作
       const { methods } = await this.$store.dispatch('contract/event');
       const amount = web3.utils.toWei(String(this.amountNumber), 'ether');

@@ -175,17 +175,24 @@
 .liquidity-details {
   background: #F2F5FA;
   padding: 100px 30px 60px;
+  .i-coin {
+    width: 20px;
+    height: 20px;
+    margin: 0 10px;
+  }
   h2 {
-    font-size: 40px;
+    font-size: 28px;
     text-align: center;
+    padding-bottom: 20px;
+    padding-top: 20px;
   }
   .details-box {
-    padding: 60px 20%;
+    padding: 20px 50px 30px;
     background-color: #fff;
     border-radius: 20px;
-    margin-top: 50px;
+    min-height: 300px;
     p {
-      font-size: 24px;
+      font-size: 20px;
       border-bottom: 1px dotted #ccc;
       padding: 10px 0;
       b {
@@ -226,5 +233,8 @@
   }
   .topliquidity-content .qui-box .tabs-list .tabs-item {
     width: 32%;
+  }
+  .mintop {
+    margin-top: 50px;
   }
 }

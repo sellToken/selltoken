@@ -69,7 +69,7 @@
           </el-dropdown>
           <!-- wallet -->
           <div class="wallet-address" v-if="walletAddress"
-            @click="showDrawerWallet = true">
+            @click="showWalletAddress = true">
             <img src="~/static/images/walletico.png" alt="" class="walletico" v-if="!chainLoading">
             <i class="el-icon-loading loadingico" v-else></i>
             <span>{{ walletAddress.substr(0,3) }}...{{ walletAddress.substr(-4) }}</span>
@@ -112,6 +112,35 @@
         <el-empty :description="$t('PageHeader.NoTransactions')" v-else></el-empty>
       </div>
     </el-dialog>
+    <!-- 钱包地址 -->
+    <el-dialog
+      :visible.sync="showWalletAddress"
+      width="320px" custom-class="dialog-sucbox">
+      <div class="drawer-title" slot="title">
+        <p @click="onCopyText(walletAddress)">
+          {{  walletAddress.substr(0, 6) + '...' + walletAddress.substr(-6)  }}
+          <img src="~/static/images/copyico.png" class="copyico" />
+        </p>
+      </div>
+      <div class="drawer-content">
+        <el-result title="钱包已连接"
+          v-if="txChainHash || oldChainStatus">
+          <div class="" slot="icon">
+            <img src="~/static/images/success.png" alt="" class="sucico">
+          </div>
+          <div slot="subTitle">
+            <a href="javascript:;" class="ain-view" @click="onLookRecord"
+              >查看上链记录</a>
+          </div>
+          <template slot="extra">
+            <el-button type="primary" class="themebtn" @click="onClearWalletAddress">
+              断开连接
+            </el-button>
+          </template>
+        </el-result>
+        <el-empty :description="$t('PageHeader.NoTransactions')" v-else></el-empty>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -123,7 +152,8 @@ export default {
       showDrawerWallet: false,
       hashTimer: null,
       showMobileNavbar: false,
-      maxWidthNavbar: false
+      maxWidthNavbar: false,
+      showWalletAddress: false
     }
   },
   computed: {
@@ -187,6 +217,14 @@ export default {
     this.maxWidthNavbar = window.innerWidth > 750
   },
   methods: {
+    onClearWalletAddress () {
+      this.$store.commit('wallet/writeWalletAddress', '')
+      this.showWalletAddress = false;
+    },
+    onLookRecord () {
+      this.showWalletAddress = false;
+      this.showDrawerWallet = true;
+    },
     startHash () {
       clearInterval(this.hashTimer);
       this.hashTimer = setInterval(() => {
@@ -199,7 +237,6 @@ export default {
     },
     onCopyText (text) {
       this.$copyText(text).then((e) => {
-        console.log(e)
         this.$message.success('Copy succeeded')
       }, () => {
         this.$message.success('Copy failed')
@@ -449,5 +486,11 @@ export default {
       }
     }
   }
+}
+.copyico {
+  width: 20px; 
+  height: 20px;
+  position: relative;
+  top: -1px;
 }
 </style>

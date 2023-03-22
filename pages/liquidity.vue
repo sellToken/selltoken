@@ -22,7 +22,7 @@
             <div class="write-amount">
               <el-input-number 
                 v-model="amountNumber1" controls-position="right" 
-                :min="0.1" :step="0.1" @change="onChangeNumber(1)">
+                :min="0" :step="0.1" @change="onChangeNumber(1)">
               </el-input-number>
               <div class="amount-unit">
                 <img v-if="selectInfo1" :src="coinbaseIcos[selectInfo1.name]||require('~/static/images/defaultico.png')" alt="" class="unitico">
@@ -30,10 +30,11 @@
               </div>
             </div>
             <div class="inbtn-box">
-              <el-button type="primary" :disabled="!amountNumber1" v-if="!isAuth1"
+              <el-button type="primary" :disabled="!amountNumber1||!selectInfo1" v-if="!isAuth1"
+                :loading="authLoading"
                 @click="onAuthContract(selectInfo1.addr)">{{ $t('authorize') }}</el-button>
               <el-button type="primary" 
-                :disabled="!amountNumber1||!isAuth1||!tabCurrent"
+                :disabled="!amountNumber1||!isAuth1||!tabCurrent" :loading="subLoading1"
                 @click="onSetPool1">{{ $t('PageLiquidity.text1') }}</el-button>
             </div>
             <div class="inpintext">
@@ -58,7 +59,7 @@
             <div class="write-amount">
               <el-input-number 
                 v-model="amountNumber2" controls-position="right" 
-                :min="0.1" :step="0.1" @change="onChangeNumber(2)">
+                :min="0" :step="0.1" @change="onChangeNumber(2)">
               </el-input-number>
               <div class="amount-unit">
                 <img v-if="selectInfo2" :src="coinbaseIcos[selectInfo2.name]||require('~/static/images/defaultico.png')" alt="" class="unitico">
@@ -69,10 +70,11 @@
               <p>{{ $t('PageLiquidity.text8') }}: <b>{{ feeValue }}</b> BNB</p>
             </div>
             <div class="inbtn-box">
-              <el-button type="primary" :disabled="!amountNumber2" v-if="!isAuth2"
+              <el-button type="primary" :disabled="!amountNumber2||!selectInfo2" v-if="!isAuth2"
+                :loading="authLoading"
                 @click="onAuthContract(selectInfo2.addr)">{{ $t('authorize') }}</el-button>
               <el-button type="primary" 
-                :disabled="!amountNumber2||!isAuth2"
+                :disabled="!amountNumber2||!isAuth2" :loading="subLoading2"
                 @click="onSetPool2">{{ $t('PageLiquidity.text1') }}</el-button>
             </div>
             <div class="inpintext">
@@ -83,12 +85,44 @@
       </div>
     </div>
     <div class="liquidity-details">
-      <h2>{{ $t('PageLiquidity.text4') }}</h2>
       <div class="container">
         <div class="details-box">
-          <p>{{ $t('PageLiquidity.text5') }}：<b>{{ shortsInfos[2] || '0.0000' }}</b> {{ selectInfo1 ? selectInfo1.name : '' }}</p>
-          <p>{{ $t('PageLiquidity.text6') }}：<b>{{ shortsInfos[3] || '0.0000' }}</b> {{ selectInfo1 ? selectInfo1.name : '' }}</p>
-          <p>{{ $t('PageLiquidity.text7') }}：<b>{{ ((shortsInfos[3]/shortsInfos[2]*100)||0).toFixed(2) }}%</b> </p>
+          <el-row :gutter="20">
+            <el-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24">
+              <h2>{{ $t('PageLiquidity.text4') }}</h2>
+              <p>
+                {{ $t('PageLiquidity.text5') }}：
+                <b>{{ shortsInfos[2] || '0.0000' }}</b> 
+                {{ selectInfo1 ? selectInfo1.name : '' }}
+              </p>
+              <p>
+                {{ $t('PageLiquidity.text6') }}：
+                <b>{{ shortsInfos[3] || '0.0000' }}</b> 
+                {{ selectInfo1 ? selectInfo1.name : '' }}
+              </p>
+              <p>
+                {{ $t('PageLiquidity.text7') }}：
+                <b>{{ ((shortsInfos[3]/shortsInfos[2]*100)||0).toFixed(2) }}%</b> 
+              </p>
+            </el-col>
+            <el-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24">
+              <h2 class="mintop">{{ $t('PageHome.text25') }}</h2>
+              <p class="size-text">
+                {{ $t('PageHome.text11') }}：
+                <img :src="coinbaseIcos[selectInfo1?selectInfo1.name:'']||require('~/static/images/defaultico.png')" alt="" class="i-coin">
+                <b>{{ miningUserInfos[0] || '-' }}</b>
+              </p>
+              <p class="size-text">
+                {{ $t('PageHome.text12') }}：
+                <b>{{ miningUserInfos[1] || '-' }}</b>
+              </p>
+              <p class="size-text">
+                {{ $t('PageHome.text13') }}：
+                <img :src="coinbaseIcos[selectInfo1?selectInfo1.name:'']||require('~/static/images/defaultico.png')" alt="" class="i-coin">
+                <b>{{ miningUserInfos[3] || '-' }}</b>
+              </p>
+            </el-col>
+          </el-row>
         </div>
       </div>
     </div>
@@ -118,7 +152,11 @@ export default {
       selectPairIndex: -1,
       feeValue: '0.00000000',
       shortsInfos: {},
-      defaultAddress: ''
+      miningUserInfos: {},
+      defaultAddress: '',
+      authLoading: false,
+      subLoading1: false,
+      subLoading2: false
     }
   },
   computed: {
@@ -131,6 +169,17 @@ export default {
     walletAddress () {
       return this.$store.state.wallet.walletAddress;
     },
+    txChainHash () {
+      return this.$store.state.contract.txHash;
+    }
+  },
+  watch: {
+    txChainHash () { // 监听授权状态
+      if (!this.txChainHash) {
+        this.onSelectCoinbase1(this.selectInfo1);
+        this.onSelectCoinbase2(this.selectInfo2);
+      }
+    }
   },
   created () {
     this.defaultAddress = this.$route.query.addr1;
@@ -139,6 +188,22 @@ export default {
   methods: {
     onChangePairIndex (index) {
       this.selectPairIndex = index;
+    },
+    async queryMiningUser () {
+      if (this.selectInfo1 && this.selectInfo1.addr) {
+        const { methods } = await this.$store.dispatch('contract/event', 2);
+        methods.getUser(this.walletAddress, this.selectInfo1.addr).call((err, res) => {
+          console.log(res)
+          if (!err) {
+            this.miningUserInfos = {
+              0: (res[0]/Math.pow(10,18)).toFixed(4),
+              1: res[1] == 0 ? '0' : new Date(Number(res[1]+'000')).toLocaleString(),
+              2: (res[2]/Math.pow(10,18)).toFixed(4),
+              3: (res[3]/Math.pow(10,18)).toFixed(4),
+            }
+          }
+        })
+      }
     },
     async queryShorts () {
       if (this.selectInfo1 && this.selectInfo1.addr) {
@@ -174,11 +239,13 @@ export default {
       })
     },
     async onSetPool1 () {
+      this.subLoading1 = true;
       const { methods } = await this.$store.dispatch('contract/event', 2);
       const coinbaseAddress = await this.getTokenAddress(this.selectInfo1.addr);
       const payAmount = web3.utils.toWei(String(this.amountNumber1), 'ether');
       methods.setPool(this.selectInfo1.addr, coinbaseAddress, payAmount, this.tabCurrent, 0)
       .send((err, txHash) => {
+        this.subLoading1 = false;
         if (!err) {
           this.$store.dispatch('contract/cochainHashSuccess', { txHash })
         } else {
@@ -187,6 +254,7 @@ export default {
       })
     },
     async onSetPool2 () {
+      this.subLoading2 = true;
       const { methods } = await this.$store.dispatch('contract/event', 2);
       const coinbaseAddress = this.addr2Token; // await this.getTokenAddress(this.selectInfo2.addr);
       const payAmount = web3.utils.toWei(String(this.amountNumber2), 'ether');
@@ -195,6 +263,7 @@ export default {
       .send({
         value: valueAmount
       }, (err, txHash) => {
+        this.subLoading2 = false;
         if (!err) {
           this.$store.dispatch('contract/cochainHashSuccess', { txHash })
         } else {
@@ -221,9 +290,11 @@ export default {
       }
     },
     async onAuthContract (address) { // 执行授权
+      this.authLoading = true;
       const { methods } = await this.$store.dispatch('contract/common', { address });
       const authAmount = '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
       methods.approve(ADDRESS, authAmount).send((err, txHash) => {
+        this.authLoading = false;
         if (!err) {
           this.$store.dispatch('contract/cochainHashSuccess', { txHash })
         } else {
@@ -255,6 +326,7 @@ export default {
         this.isAuth1 = this.amountNumber1 <= authAmount;
       })
       this.queryShorts()
+      this.queryMiningUser()
     },
     onSelectCoinbase2 (item) {
       this.selectInfo2 = item;

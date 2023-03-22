@@ -66,8 +66,9 @@
                     @click="onCopyText(selectInfo.addr)">
                 </div>
                 <!-- <h5>-</h5> -->
-                <div class="o-amount">
+                <div class="o-amount" v-if="selectInfo">
                   <div class="mxtext">
+                    <p>代币名称：{{ selectInfo.name }}</p>
                     <p>
                       <b>{{ $t('PageMiner.text2') }}：</b>
                     </p>
@@ -83,10 +84,10 @@
                     {{ $t('PageMiner.text4') }}： {{ item[2] }}
                   </p>
                   <p>
-                    {{ $t('PageMiner.text5') }}： {{ item[3] }} {{  selectInfo ? selectInfo.name : '' }}
+                    {{ $t('PageMiner.text5') }}： {{ item[3] }} {{  selectInfo.name }}
                   </p>
                   <p>
-                    {{ $t('PageMiner.text6') }}： {{ item[4] }} {{  selectInfo ? selectInfo.name : '' }}
+                    {{ $t('PageMiner.text6') }}： {{ item[4] }} {{  selectInfo.name }}
                   </p>
                 </div>
                 <div class="cp-btnbox">
@@ -235,7 +236,7 @@ export default {
           if (!err) {
             for (let i = 0; i < this.myMinerLists.length; i ++) {
               this.myMinerLists[i][3] = (res[i][0]/Math.pow(10, 18)).toFixed(4);
-              this.myMinerLists[i][4] = (res[i][1]/Math.pow(10, 18)).toFixed(4);
+              this.myMinerLists[i][4] = (res[i][1]/Math.pow(10, 18)).toFixed(8);
             }
           }
         })

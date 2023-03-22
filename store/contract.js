@@ -1,11 +1,11 @@
 import Vue from 'vue';
 if (process.browser) {
   const Web3 = require('web3');
-  web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
+  window.web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
 }
 
 export const state = () => ({
-  gas: 500000,
+  gas: 750000,
   gasPrice: '5000000000',
   txHash: '',
   chainLoading: false,
@@ -29,8 +29,7 @@ export const mutations = {
 export const actions = {
   async queryTxHashStatus ({ state, commit }) {
     return new Promise((resolve, reject) => {
-      console.log(111, state.txHash)
-      web3.eth.getTransactionReceipt(state.txHash, (err, res) => {
+      window.web3.eth.getTransactionReceipt(state.txHash, (err, res) => {
         console.log('status---', err, res)
         if (!err) {
           commit('saveOldInfo', res)
