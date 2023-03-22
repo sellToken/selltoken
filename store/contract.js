@@ -5,7 +5,7 @@ if (process.browser) {
 }
 
 export const state = () => ({
-  gas: 750000,
+  gas: 800000,
   gasPrice: '5000000000',
   txHash: '',
   chainLoading: false,
