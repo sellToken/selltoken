@@ -48,10 +48,7 @@ export default {
     '@nuxtjs/style-resources',
     // https://go.nuxtjs.dev/axios
     [
-      '@nuxtjs/axios',
-      {
-        baseURL: ''
-      }
+      '@nuxtjs/axios'
     ],
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
