@@ -184,16 +184,16 @@ export default {
           path: '/'
         },
         {
-          name: this.$t('PageHeader.Whitepaper'),
-          path: 'https://selltoken.org/Whitepaper.pdf'
-        },
-        {
           name: this.$t('PageHeader.Miner'),
           path: '/miner'
         },
         {
           name: this.$t('PageHeader.Liquidity'),
           path: '/liquidity'
+        },
+        {
+          name: this.$t('PageHeader.Whitepaper'),
+          path: 'https://selltoken.org/Whitepaper.pdf'
         },
         {
           name: this.$t('PageHeader.CertiK'),
@@ -247,7 +247,6 @@ export default {
           let items = data.data.splice(0, 4);
           this.assetslists.push(items);
         }
-        console.log(this.assetslists)
       })
     },
     onClearWalletAddress () {
