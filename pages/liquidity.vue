@@ -8,7 +8,7 @@
       <div class="container">
         <div class="qui-box">
           <div class="qui-item">
-            <h2>投资人</h2>
+            <h2>{{ $t('new01.text7') }}</h2>
             <auto-search :defaultAddress="defaultAddress" size="small" @select="onSelectCoinbase1"></auto-search>
             <div class="tabs-list">
               <div class="tabs-item" 
@@ -42,7 +42,7 @@
             </div>
           </div>
           <div class="qui-item">
-            <h2>项目方</h2>
+            <h2>{{ $t('new01.text8') }}</h2>
             <auto-search size="small" @select="onSelectCoinbase2"></auto-search>
             <!-- 选择交易对 -->
             <!-- <h3 class="pair-h3">{{ $t('PageHome.text3') }}</h3> -->

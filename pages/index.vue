@@ -146,32 +146,38 @@
                 <div class="ot-logo">
                   <img :src="coinbaseIcos[item[3]]||require('~/static/images/defaultico.png')" alt="">
                 </div>
-                <strong>代币做空</strong>
+                <strong>{{ $t('new01.text1') }}</strong>
+                <div class="o-types">
+                  <b>{{ $t('new01.text2') }}</b>
+                  <span v-if="item[4] != 'No pair'">{{ item[4] }}/{{ item[3] }}</span>
+                  <span v-else>{{ item[4] }}</span>
+                </div>
               </div>
               <div class="o-info">
                 <div class="o-addr">
-                  <div class="o-tag">合约</div>
+                  <div class="o-tag">{{ $t('new01.text3') }}</div>
                   <span>{{ item[0].substr(0, 4) }}...{{ item[0].substr(-6) }}</span>
                   <img src="~/static/images/copyico.png" alt="" class="copybtn"
                     @click="onCopyText(item[0])">
                 </div>
-                <div class="o-types">
-                  <b>卖</b>
-                  <span v-if="item[4] != 'No pair'">{{ item[4] }}/{{ item[3] }}</span>
-                  <span v-else>{{ item[4] }}</span>
-                </div>
-                <div class="o-rate">
-                  <span :style="{color: item[2]-item[1]>=0 ? '#48c774' : 'red'}"
-                    v-if="item[2]!=0">
-                    {{ item[2]-item[1]>=0 ? '+' : '' }}
-                    {{ (item[2]/item[1]*100-100).toFixed(2) }}%
-                  </span>
-                  <span v-else>
-                    0.00%
-                  </span>
+                <div class="oflex-cell">
+                  <div class="o-price">
+                    $
+                    {{ item[5] }}
+                  </div>
+                  <div class="o-rate">
+                    <span :style="{color: item[2]-item[1]>=0 ? '#48c774' : 'red'}"
+                      v-if="item[2]!=0">
+                      {{ item[2]-item[1]>=0 ? '+' : '' }}
+                      {{ (item[2]/item[1]*100-100).toFixed(2) }}%
+                    </span>
+                    <span v-else>
+                      0.00%
+                    </span>
+                  </div>
                 </div>
                 <div class="o-cellitem">
-                  <span>开仓成本</span>
+                  <span>{{ $t('new01.text4') }}</span>
                   <i class="oline"></i>
                   <strong>
                     <img src="~/static/images/BNB.png" class="sico" />
@@ -179,7 +185,7 @@
                   </strong>
                 </div>
                 <div class="o-cellitem">
-                  <span>最新估值</span>
+                  <span>{{ $t('new01.text5') }}</span>
                   <i class="oline"></i>
                   <strong>
                     <img src="~/static/images/BNB.png" class="sico" />
@@ -329,15 +335,25 @@ export default {
       pairLists: ['BNB', 'USDT'],
       deadline3: Date.now() + 1000 * 1000 * 60 * 30,
       SwiperOptions: {
-        slidesPerView: 3,
+        slidesPerView: 5,
         spaceBetween: 30,
         slidesPerGroup: 1,
         loop: false,
         loopFillGroupWithBlank: false,
         autoplay: false,
         breakpoints: {
-          1000: {
+          1920: {
+            slidesPerView: 4,
+            spaceBetween: 30,
+            slidesPerGroup: 1,
+          },
+          1440: {
             slidesPerView: 3,
+            spaceBetween: 20,
+            slidesPerGroup: 1,
+          },
+          1080: {
+            slidesPerView: 2,
             spaceBetween: 30,
             slidesPerGroup: 1,
           },
@@ -372,42 +388,42 @@ export default {
         {
           0: '0x0000000000000000000000000000000000000000',
           1: '0.00000000',
-          2: '0.000',
+          2: '0.00000000',
           3: '',
           4: 'No pair'
         },
         {
           0: '0x0000000000000000000000000000000000000000',
           1: '0.00000000',
-          2: '0.000',
+          2: '0.00000000',
           3: '',
           4: 'No pair'
         },
         {
           0: '0x0000000000000000000000000000000000000000',
           1: '0.00000000',
-          2: '0.000',
+          2: '0.00000000',
           3: '',
           4: 'No pair'
         },
         {
           0: '0x0000000000000000000000000000000000000000',
           1: '0.00000000',
-          2: '0.000',
+          2: '0.00000000',
           3: '',
           4: 'No pair'
         },
         {
           0: '0x0000000000000000000000000000000000000000',
           1: '0.00000000',
-          2: '0.000',
+          2: '0.00000000',
           3: '',
           4: 'No pair'
         },
         {
           0: '0x0000000000000000000000000000000000000000',
           1: '0.00000000',
-          2: '0.000',
+          2: '0.00000000',
           3: '',
           4: ''
         }
@@ -464,6 +480,17 @@ export default {
         this.queryMaxShorts()
       }, 10 * 1000)
     },
+    async queryCoinbasePrice (index, pairName) {
+      const { methods } = await this.$store.dispatch('contract/event');
+      let addr1 = this.myOrderLists[index][0];
+      let addr2 = this.commonAddrs[pairName];
+      console.log(addr1, addr2)
+      methods.getToken3Price(addr1, addr2).call((err, res) => {
+        if (!err) {
+          this.$set(this.myOrderLists[index], 5, (res/Math.pow(10, 18)).toFixed(8))
+        }
+      })
+    },
     async onClosePostion (addr) {
       const { methods } = await this.$store.dispatch('contract/event');
       if (addr == 0) return false;
@@ -485,6 +512,7 @@ export default {
                 if (!err) {
                   this.myOrderLists[index][3] = res[0];
                   this.myOrderLists[index][4] = res[1];
+                  this.queryCoinbasePrice(index, res[1])
                 }
               })
               return {
@@ -492,10 +520,10 @@ export default {
                 1: (res[1][index]/Math.pow(10,18)).toFixed(8),
                 2: (res[2][index]/Math.pow(10,18)).toFixed(8),
                 3: '',
-                4: ''
+                4: '',
+                5: ''
               }
             })
-
           }
           // 查询
           this.timers[0] = setTimeout(this.queryMyOrderSell, 10 * 1000);

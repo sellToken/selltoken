@@ -123,18 +123,18 @@
         </p>
       </div>
       <div class="drawer-content">
-        <el-result title="钱包已连接"
+        <el-result :title="$t('new01.text9')"
           v-if="txChainHash || oldChainStatus">
           <div class="" slot="icon">
             <img src="~/static/images/success.png" alt="" class="sucico">
           </div>
           <div slot="subTitle">
             <a href="javascript:;" class="ain-view" @click="onLookRecord"
-              >查看上链记录</a>
+              >{{ $t('new01.text10') }}</a>
           </div>
           <template slot="extra">
             <el-button type="primary" class="themebtn" @click="onClearWalletAddress">
-              断开连接
+              {{ $t('new01.text1') }}
             </el-button>
           </template>
         </el-result>

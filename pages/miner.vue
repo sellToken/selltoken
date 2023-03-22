@@ -60,7 +60,7 @@
               <div class="o-info">
                 <!-- <h6>{{ $t('PageHome.text15') }}</h6> -->
                 <div class="o-addr" v-if="selectInfo">
-                  <div class="o-tag">合约</div>
+                  <div class="o-tag">{{ $t('new01.text3') }}</div>
                   <span>{{ selectInfo.addr.substr(0, 4) }}...{{ selectInfo.addr.substr(-6) }}</span>
                   <img src="~/static/images/copyico.png" alt="" class="copybtn"
                     @click="onCopyText(selectInfo.addr)">
@@ -68,7 +68,7 @@
                 <!-- <h5>-</h5> -->
                 <div class="o-amount" v-if="selectInfo">
                   <div class="mxtext">
-                    <p>代币名称：{{ selectInfo.name }}</p>
+                    <p>{{ $t('new01.text6') }}：{{ selectInfo.name }}</p>
                     <p>
                       <b>{{ $t('PageMiner.text2') }}：</b>
                     </p>
