@@ -142,8 +142,7 @@
         </p>
       </div>
       <div class="drawer-content">
-        <el-result :title="$t('new01.text9')"
-          v-if="txChainHash || oldChainStatus">
+        <el-result :title="$t('new01.text9')">
           <div class="" slot="icon">
             <img src="~/static/images/success.png" alt="" class="sucico">
           </div>
@@ -157,7 +156,6 @@
             </el-button>
           </template>
         </el-result>
-        <el-empty :description="$t('PageHeader.NoTransactions')" v-else></el-empty>
       </div>
     </el-dialog>
   </div>
