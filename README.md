@@ -7,7 +7,9 @@
 2. The computer needs a Nodejs environment, installation project dependencies
    npm install.
 3. Replace the file and package it: 
+
   npm run generate
+  
 4. The dist folder will be generated, which contains the compiled files
 
 5. npm run dev
