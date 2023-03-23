@@ -2,7 +2,7 @@
 
 2. Enter the directory for execution
 
- npm i
+   npm i
 
 2. The computer needs a Nodejs environment, installation project dependencies
 
@@ -10,11 +10,13 @@
 
 3. Replace the file and package it: 
 
-  npm run generate
+   npm run generate
   
 4. The dist folder will be generated, which contains the compiled files
 
-5. npm run dev
+5. Launch website
+
+    npm run dev
 
 6.Deployment Complete  http://127.0.0.1:3000
 
