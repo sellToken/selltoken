@@ -11,7 +11,7 @@
                 <span>${{ Number(info.priceUsd).toFixed(4) }}</span>
                 <strong
                   :style="{
-                    color: info.changePercent24Hr>=0 ? '#21f1c7' : 'red'
+                    color: info.changePercent24Hr>=0 ? '#21f1c7' : '#ff5c5c'
                   }"
                   >{{ Number(info.changePercent24Hr).toFixed(2) }}%</strong>
               </div>
@@ -151,7 +151,7 @@
           </div>
           <template slot="extra">
             <el-button type="primary" class="themebtn" @click="onClearWalletAddress">
-              {{ $t('new01.text1') }}
+              {{ $t('new01.text11') }}
             </el-button>
           </template>
         </el-result>
@@ -488,6 +488,7 @@ export default {
       }
       strong {
         margin-left: 6px;
+        text-shadow: 0 0 10px rgba($color: #000000, $alpha: 0.3);
       }
     }
   }

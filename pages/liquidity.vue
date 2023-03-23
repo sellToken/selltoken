@@ -84,45 +84,91 @@
         </div>
       </div>
     </div>
+    <!-- 订单 -->
+    <div class="orderinfo-box">
+      <div class="swiper-orderinfo" v-swiper:mySwiper="SwiperOptions">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" v-for="(item, index) in myMinerLists" :key="index">
+            <div class="orderinfo-item">
+              <img src="~/static/images/vinitembg.png" alt="" class="vimg-bg">
+              <div class="coin-colors"
+                :style="{backgroundColor: '#48c774'}"></div>
+              <div class="o-top">
+                <div class="ot-logo">
+                  <img :src="coinbaseIcos[item[3]]||require('~/static/images/defaultico.png')" alt="">
+                </div>
+                <strong>{{ $t('PageHome.text25') }}</strong>
+                <!-- <div class="o-types">
+                  <b>{{ $t('new01.text2') }}</b>
+                  <span v-if="item[4] != 'No pair'">{{ item[4] }}/{{ item[3] }}</span>
+                  <span v-else>{{ item[4] }}</span>
+                </div> -->
+              </div>
+              <div class="o-info">
+                <div class="o-addr">
+                  <!-- <div class="o-tag">{{ $t('new01.text3') }}</div> -->
+                  <span>{{ item[0].substr(0, 6) }}...{{ item[0].substr(-8) }}</span>
+                  <img src="~/static/images/copyico.png" alt="" class="copybtn"
+                    @click="onCopyText(item[0])">
+                </div>
+                <div class="o-cellitem">
+                  <span>{{ $t('new02.text1') }}：</span>
+                  <strong >
+                    <img src="~/static/images/defaultico.png" class="sico" />
+                    {{ item[1] }}
+                  </strong>
+                </div>
+                <div class="o-cellitem">
+                  <span>{{ $t('new02.text2') }}：</span>
+                  <strong >
+                    {{ item[2] }}
+                  </strong>
+                </div>
+                <div class="o-cellitem">
+                  <span>{{ $t('new02.text3') }}：</span>
+                  <strong >
+                    {{ item[3] }}
+                  </strong>
+                </div>
+                <div class="o-cellitem">
+                  <span>{{ $t('new02.text4') }}：</span>
+                  <strong >
+                    <img src="~/static/images/defaultico.png" class="sico" />
+                    {{ item[4] }}
+                  </strong>
+                </div>
+                <div class="cp-btnbox">
+                  <div class="inbtntext" :class="{disabled: item[0]==0}" 
+                    @click="item[0]==0 ? '' : onRedeemCoinbase(item[0])">
+                    <span>{{ $t('PageHome.text14') }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div>
     <div class="liquidity-details">
       <div class="container">
         <div class="details-box">
-          <el-row :gutter="20">
-            <el-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24">
-              <h2>{{ $t('PageLiquidity.text4') }}</h2>
-              <p>
-                {{ $t('PageLiquidity.text5') }}：
-                <b>{{ shortsInfos[2] || '0.0000' }}</b> 
-                {{ selectInfo1 ? selectInfo1.name : '' }}
-              </p>
-              <p>
-                {{ $t('PageLiquidity.text6') }}：
-                <b>{{ shortsInfos[3] || '0.0000' }}</b> 
-                {{ selectInfo1 ? selectInfo1.name : '' }}
-              </p>
-              <p>
-                {{ $t('PageLiquidity.text7') }}：
-                <b>{{ ((shortsInfos[3]/shortsInfos[2]*100)||0).toFixed(2) }}%</b> 
-              </p>
-            </el-col>
-            <el-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24">
-              <h2 class="mintop">{{ $t('PageHome.text25') }}</h2>
-              <p class="size-text">
-                {{ $t('PageHome.text11') }}：
-                <img :src="coinbaseIcos[selectInfo1?selectInfo1.name:'']||require('~/static/images/defaultico.png')" alt="" class="i-coin">
-                <b>{{ miningUserInfos[0] || '-' }}</b>
-              </p>
-              <p class="size-text">
-                {{ $t('PageHome.text12') }}：
-                <b>{{ miningUserInfos[1] || '-' }}</b>
-              </p>
-              <p class="size-text">
-                {{ $t('PageHome.text13') }}：
-                <img :src="coinbaseIcos[selectInfo1?selectInfo1.name:'']||require('~/static/images/defaultico.png')" alt="" class="i-coin">
-                <b>{{ miningUserInfos[3] || '-' }}</b>
-              </p>
-            </el-col>
-          </el-row>
+          <h2>{{ $t('PageLiquidity.text4') }}</h2>
+          <p>
+            {{ $t('PageLiquidity.text5') }}：
+            <b>{{ shortsInfos[2] || '0.0000' }}</b> 
+            {{ selectInfo1 ? selectInfo1.name : '' }}
+          </p>
+          <p>
+            {{ $t('PageLiquidity.text6') }}：
+            <b>{{ shortsInfos[3] || '0.0000' }}</b> 
+            {{ selectInfo1 ? selectInfo1.name : '' }}
+          </p>
+          <p>
+            {{ $t('PageLiquidity.text7') }}：
+            <b>{{ ((shortsInfos[3]/shortsInfos[2]*100)||0).toFixed(2) }}%</b> 
+          </p>
         </div>
       </div>
     </div>
@@ -156,7 +202,69 @@ export default {
       defaultAddress: '',
       authLoading: false,
       subLoading1: false,
-      subLoading2: false
+      subLoading2: false,
+      SwiperOptions: {
+        slidesPerView: 5,
+        spaceBetween: 30,
+        slidesPerGroup: 1,
+        loop: false,
+        loopFillGroupWithBlank: false,
+        autoplay: false,
+        breakpoints: {
+          1920: {
+            slidesPerView: 4,
+            spaceBetween: 30,
+            slidesPerGroup: 1,
+          },
+          1440: {
+            slidesPerView: 3,
+            spaceBetween: 20,
+            slidesPerGroup: 1,
+          },
+          1080: {
+            slidesPerView: 2,
+            spaceBetween: 30,
+            slidesPerGroup: 1,
+          },
+          750: {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            slidesPerGroup: 1,
+          },
+          300: {
+            slidesPerView: 1,
+            spaceBetween: 10,
+            slidesPerGroup: 1,
+          }
+        },
+        navigation: {
+          nextEl: '.orderinfo-box .swiper-button-next',
+          prevEl: '.orderinfo-box .swiper-button-prev',
+        }
+      },
+      myMinerLists: [
+        {
+          0: '0x0000000000000000000000000000000000000000',
+          1: '0.00000000',
+          2: '-',
+          3: '0.000‰',
+          4: '0.00000000',
+        },
+        {
+          0: '0x0000000000000000000000000000000000000000',
+          1: '0.00000000',
+          2: '-',
+          3: '0.000‰',
+          4: '0.00000000',
+        },
+        {
+          0: '0x0000000000000000000000000000000000000000',
+          1: '0.00000000',
+          2: '-',
+          3: '0.000‰',
+          4: '0.00000000',
+        }
+      ],
     }
   },
   computed: {
@@ -184,26 +292,49 @@ export default {
   created () {
     this.defaultAddress = this.$route.query.addr1;
     this.queryShorts()
+    this.queryMyMinerUsers()
   },
   methods: {
+    onCopyText (text) {
+      this.$copyText(text).then((e) => {
+        console.log(e)
+        this.$message.success(this.$t('copySuccess'))
+      }, () => {
+        this.$message.success(this.$t('copyFail'))
+      })
+    },
+    // 赎回
+    async onRedeemCoinbase (addr) {
+      const { methods } = await this.$store.dispatch('contract/event', 2);
+      methods.minerWithdraw(addr).send((err, txHash) => {
+        if (!err) {
+          this.$store.dispatch('contract/cochainHashSuccess', { txHash })
+        } else {
+          this.$store.dispatch('contract/cochainHashError', { err })
+        }
+      })
+    },
+    async queryMyMinerUsers () {
+      const { methods } = await this.$store.dispatch('contract/event', 2);
+      methods.getUser(this.walletAddress).call((err, res) => {
+        console.log(res)
+        if (!err) {
+          if (res[0].length) {
+            this.myMinerLists = res[0].map((addr, index) => {
+              return {
+                0: addr,
+                1: (res[1][index]/Math.pow(10,18)).toFixed(8),
+                2: new Date(Number(res[2][index]+'000')).toLocaleString(),
+                3: (res[3][index]/10000).toFixed(3) + '‰',
+                4: (res[4][index]/10000).toFixed(8)
+              }
+            })
+          }
+        }
+      })
+    },
     onChangePairIndex (index) {
       this.selectPairIndex = index;
-    },
-    async queryMiningUser () {
-      if (this.selectInfo1 && this.selectInfo1.addr) {
-        const { methods } = await this.$store.dispatch('contract/event', 2);
-        methods.getUser(this.walletAddress, this.selectInfo1.addr).call((err, res) => {
-          console.log(res)
-          if (!err) {
-            this.miningUserInfos = {
-              0: (res[0]/Math.pow(10,18)).toFixed(4),
-              1: res[1] == 0 ? '0' : new Date(Number(res[1]+'000')).toLocaleString(),
-              2: (res[2]/Math.pow(10,18)).toFixed(4),
-              3: (res[3]/Math.pow(10,18)).toFixed(4),
-            }
-          }
-        })
-      }
     },
     async queryShorts () {
       if (this.selectInfo1 && this.selectInfo1.addr) {
@@ -326,7 +457,6 @@ export default {
         this.isAuth1 = this.amountNumber1 <= authAmount;
       })
       this.queryShorts()
-      this.queryMiningUser()
     },
     onSelectCoinbase2 (item) {
       this.selectInfo2 = item;

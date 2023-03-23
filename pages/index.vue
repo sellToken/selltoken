@@ -37,6 +37,10 @@
             <span>{{ $t('PageHome.text26') }}</span>
           </div>
         </div>
+        <div class="slider-linebox">
+          <el-slider v-model="sliderLineValue" :min="25" :step="25" show-stops :marks="sliderMarks"
+            @change="onChangeSlider"></el-slider>
+        </div>
         <div class="max-short">
           <p>
             {{ $t('PageHome.text4') }}:
@@ -69,6 +73,10 @@
               <b>{{ shortsInfos[1] || '0.00000000' }}</b>
             </p>
           </div>
+          <img src="~/static/images/v1.png" alt="" class="j-ico">
+        </div>
+        <div class="jack-item">
+          <div class="j-radius"></div>
           <div class="j-title">
             <h6>{{ $t('PageHome.text5') }}</h6>
           </div>
@@ -78,7 +86,7 @@
               <b>{{ shortsInfos[0] || '0.00000000' }}</b>
             </p>
           </div>
-          <img src="~/static/images/v1.png" alt="" class="j-ico">
+          <img src="~/static/images/v2.png" alt="" class="j-ico">
         </div>
         <div class="jack-item">
           <div class="j-radius"></div>
@@ -100,34 +108,6 @@
               {{ $t('PageHome.text10') }}：
               <b>{{ (((shortsInfos[3]/shortsInfos[2])*100)||0).toFixed(2) }}%</b>
             </p>
-          </div>
-          <img src="~/static/images/v2.png" alt="" class="j-ico">
-        </div>
-        <div class="jack-item">
-          <div class="j-radius"></div>
-          <div class="j-title">
-            <h6>{{ $t('PageHome.text25') }}</h6>
-          </div>
-          <div class="j-amount">
-            <p class="size-text">
-              {{ $t('PageHome.text11') }}：
-              <img :src="coinbaseIcos[selectInfo?selectInfo.name:'']||require('~/static/images/defaultico.png')" alt="" class="j-unit">
-              <b>{{ miningUserInfos[0] || '-' }}</b>
-            </p>
-            <p class="size-text">
-              {{ $t('PageHome.text12') }}：
-              <b>{{ miningUserInfos[1] || '-' }}</b>
-            </p>
-            <p class="size-text">
-              {{ $t('PageHome.text13') }}：
-              <img :src="coinbaseIcos[selectInfo?selectInfo.name:'']||require('~/static/images/defaultico.png')" alt="" class="j-unit">
-              <b>{{ miningUserInfos[3] || '-' }}</b>
-            </p>
-            <div class="j-btn">
-              <el-button class="themebtn" 
-                :disabled="!miningUserInfos[0]||miningUserInfos[0]==0"
-                @click="onRedeemCoinbase">{{ $t('PageHome.text14') }}</el-button>
-            </div>
           </div>
           <img src="~/static/images/v3.png" alt="" class="j-ico">
         </div>
@@ -276,6 +256,14 @@ export default {
   name: 'IndexPage',
   data () {
     return {
+      sliderMarks: {
+        0: '0%',
+        25: '25%',
+        50: '50%',
+        75: '75%',
+       100: '100%',
+      },
+      sliderLineValue: 0,
       aLinkItem1: [
         {
           icon: require('~/static/images/Arbitrum.svg'),
@@ -455,6 +443,11 @@ export default {
   mounted () {
   },
   methods: {
+    onChangeSlider () {
+      let num = Number(this.maxAmountShort)*this.sliderLineValue/100;
+      if (num < 0.0000001) num = 0.1;
+      this.amountNumber = num;
+    },
     onCopyText (text) {
       this.$copyText(text).then((e) => {
         console.log(e)
@@ -473,7 +466,6 @@ export default {
       this.selectValue = item.addr;
       this.selectPairIndex = this.pairLists.indexOf(item.pairs)
       this.queryShorts()
-      this.queryMiningUser()
       this.queryMaxShorts()
       clearInterval(this.timers[1])
       this.timers[1] = setInterval(() => {
@@ -542,6 +534,11 @@ export default {
         })
         return false;
       }
+      // 校验钱包余额不足
+      const walletAmount = await this.$store.dispatch('wallet/queryAmountBNB');
+      if (walletAmount < this.amountNumber) {
+        return this.$message.warning(this.$t('new02.text7'));
+      }
       // 执行操作
       const { methods } = await this.$store.dispatch('contract/event');
       const amount = web3.utils.toWei(String(this.amountNumber), 'ether');
@@ -562,30 +559,6 @@ export default {
         path: this.localePath('/liquidity'),
         query: {
           addr1, addr2
-        }
-      })
-    },
-    // 赎回
-    async onRedeemCoinbase () {
-      const { methods } = await this.$store.dispatch('contract/event', 2);
-      methods.minerWithdraw(this.selectValue).send((err, txHash) => {
-        if (!err) {
-          this.$store.dispatch('contract/cochainHashSuccess', { txHash })
-        } else {
-          this.$store.dispatch('contract/cochainHashError', { err })
-        }
-      })
-    },
-    async queryMiningUser () {
-      const { methods } = await this.$store.dispatch('contract/event', 2);
-      methods.getUser(this.walletAddress, this.selectValue).call((err, res) => {
-        if (!err) {
-          this.miningUserInfos = {
-            0: (res[0]/Math.pow(10,18)).toFixed(4),
-            1: res[1] == 0 ? '0' : new Date(Number(res[1]+'000')).toLocaleString(),
-            2: (res[2]/Math.pow(10,18)).toFixed(4),
-            3: (res[3]/Math.pow(10,18)).toFixed(4),
-          }
         }
       })
     },

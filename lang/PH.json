@@ -1,6 +1,15 @@
 {
+  "new02": {
+    "text1": "质押数量",
+    "text2": "到期时间",
+    "text3": "收 益 率",
+    "text4": "赎回数量",
+    "text5": "钱包余额",
+    "text6": "全部",
+    "text7": "余额不足"
+  },
   "new01": {
-    "text1": "Maikli ang token",
+    "text1": "Maikli",
     "text2": "Ibenta",
     "text3": "kontrata",
     "text4": "gastos",

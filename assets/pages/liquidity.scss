@@ -1,5 +1,26 @@
 .page-liquidity {
   min-height: 600px;
+  .orderinfo-box {
+    .o-cellitem {
+      padding: 6px 0;
+      span {
+        min-width: 80px;
+        font-size: 14px;
+      }
+      strong {
+        font-size: 16px;
+        flex: 1;
+        width: 100%;
+      }
+    }
+    .o-addr {
+      margin-bottom: 20px;
+      span {
+        border-left: 0;
+        padding: 0;
+      }
+    }
+  }
 }
 .linebg {
   top: 0;
@@ -174,25 +195,25 @@
 }
 .liquidity-details {
   background: #F2F5FA;
-  padding: 100px 30px 60px;
+  padding: 30px 30px 60px;
   .i-coin {
     width: 20px;
     height: 20px;
     margin: 0 10px;
   }
   h2 {
-    font-size: 28px;
+    font-size: 32px;
     text-align: center;
     padding-bottom: 20px;
     padding-top: 20px;
   }
   .details-box {
-    padding: 20px 50px 30px;
+    padding: 20px 20% 30px;
     background-color: #fff;
     border-radius: 20px;
     min-height: 300px;
     p {
-      font-size: 20px;
+      font-size: 24px;
       border-bottom: 1px dotted #ccc;
       padding: 10px 0;
       b {
