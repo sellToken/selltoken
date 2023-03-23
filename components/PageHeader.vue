@@ -9,7 +9,7 @@
                 v-for="info in item" :key="info.symbol">
                 <img :src="`https://assets.coincap.io/assets/icons/${info.symbol.toLocaleLowerCase()}@2x.png`" class="cnameico" />
                 <span>{{ info.symbol }}</span>
-                <span>${{ Number(info.priceUsd).toFixed(2) }}</span>
+                <span>${{ Number(info.priceUsd).toFixed(4) }}</span>
                 <strong
                   :style="{
                     color: info.changePercent24Hr>=0 ? '#21f1c7' : '#ff5c5c'
@@ -544,7 +544,7 @@ export default {
   }
 }
 .copyico {
-  width: 20px; 
+  width: 20px;
   height: 20px;
   position: relative;
   top: -1px;

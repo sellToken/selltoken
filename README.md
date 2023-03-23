@@ -1,24 +1,24 @@
 1. Download the source code and create a folder
 
-2. Enter the directory for execution
-
-   npm i
-
 2. The computer needs a Nodejs environment, installation project dependencies
 
    npm install
 
-3. Replace the file and package it: 
+3. Enter the directory for execution
+
+   npm i
+
+4. Replace the file and package it: 
 
    npm run generate
   
-4. The dist folder will be generated, which contains the compiled files
+5. The dist folder will be generated, which contains the compiled files
 
-5. Launch website
+6. Launch website
 
     npm run dev
 
-6.Deployment Complete  http://127.0.0.1:3000
+7.Deployment Complete  http://127.0.0.1:3000
 
 
 Third-party platforms need to contact us to access SellToken smart contracts  info@selltoken.org
