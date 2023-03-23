@@ -235,6 +235,22 @@
   color: #333;
   margin-top: 20px;
 }
+.write-balance {
+  font-size: 14px;
+  color: #333;
+  text-align: left;
+  padding: 0 30px;
+  @include flexBox(space-between);
+  .wbleft {
+    @include flexBox;
+  }
+  .ico {
+    width: 20px;
+    height: 20px;
+    margin-right: 6px;
+    position: relative;
+  }
+}
 @media screen and (max-width: 750px) {
   .topliquidity-content {
     background: #c0c2e9;

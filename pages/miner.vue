@@ -8,7 +8,7 @@
       <div class="container">
         <div class="qui-box">
           <div class="qui-item">
-            <auto-search size="small" @select="onSelectCoinbase"></auto-search>
+            <auto-search size="small" @select="onSelectCoinbase" @clear="onClearSelectInfo"></auto-search>
             <h3 class="pair-h3">{{ $t('PageHome.text3') }}</h3>
             <div class="pair-content">
               <div class="unitem" 
@@ -28,6 +28,13 @@
               <div class="amount-unit">
                 <img src="~/static/images/BNB.png" alt="" class="unitico">
               </div>
+            </div>
+            <div class="write-balance">
+              <div class="wbleft">
+                <img src="~/static/images/BNB.png" class="ico" />
+                <span>钱包余额： {{ amountBNB }}</span>
+              </div>
+              <el-button type="text" @click="onAllValue">全部</el-button>
             </div>
             <div class="inbtn-box">
               <el-button type="primary" 
@@ -169,7 +176,8 @@ export default {
           prevEl: '.orderinfo-box .swiper-button-prev',
         }
       },
-      myMinerLists: []
+      myMinerLists: [],
+      amountBNB: 0
     }
   },
   computed: {
@@ -185,11 +193,18 @@ export default {
   },
   created () {
     this.defaultAddress = this.$route.query.addr1;
+    this.$store.dispatch('wallet/queryAmountBNB')
+    .then((amount) => {
+      this.amountBNB = amount
+    })
   },
   destroyed () {
     clearInterval(this.timer)
   },
   methods: {
+    onAllValue () {
+      this.amountNumber = (this.amountBNB-0.001)
+    },
     async onResupply () {
       const { methods } = await this.$store.dispatch('contract/event', 'Miner');
       methods.Resupply(this.selectInfo.addr).send((err, txHash) => {
@@ -235,7 +250,7 @@ export default {
         methods.getMiner1s(this.selectInfo.addr).call((err, res) => {
           if (!err) {
             for (let i = 0; i < this.myMinerLists.length; i ++) {
-              this.myMinerLists[i][3] = (res[i][0]/Math.pow(10, 18)).toFixed(4);
+              this.myMinerLists[i][3] = (res[i][0]/Math.pow(10, 18)).toFixed(8);
               this.myMinerLists[i][4] = (res[i][1]/Math.pow(10, 18)).toFixed(8);
             }
           }
@@ -265,6 +280,9 @@ export default {
       this.timer = setInterval(() => {
         this.queryMinerOrder()
       }, 10*1000)
+    },
+    onClearSelectInfo () {
+      this.selectInfo = null;
     }
   }
 }

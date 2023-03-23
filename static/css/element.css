@@ -76,6 +76,18 @@
   box-shadow: none;
   border-bottom: 1px solid #eee;
 }
+.slider-linebox .el-slider__runway {
+  background: #acacac;
+}
+.slider-linebox .el-slider__marks-text {
+  color: #333;
+}
+.slider-linebox .el-slider__button {
+  border-color: #cf5800;
+}
+.slider-linebox .el-slider__bar {
+  background-color: #cf5800;
+}
 /* @media screen and (max-width: 750px){
   .disc-join .el-input-number {
 

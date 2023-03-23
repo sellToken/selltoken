@@ -10,6 +10,15 @@ export const mutations = {
 }
 
 export const actions = {
+  queryAmountBNB ({ dispatch }) {
+    return new Promise((resolve) => {
+      dispatch('linkWallet').then((walletAddress) => {
+        web3.eth.getBalance(walletAddress).then((sAmount) => {
+          resolve((sAmount/Math.pow(10, 18)).toFixed(8))
+        })
+      })
+    })
+  },
   linkWallet ({ commit, state }) {
     return new Promise((resolve, reject) => {
       if (state.walletAddress) {
