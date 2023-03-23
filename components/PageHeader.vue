@@ -468,7 +468,7 @@ export default {
   }
 }
 .coinname-assets {
-  background: linear-gradient(to right, #376bf3, #5947fa, #9b3dc1, #fb7f16);
+  background: linear-gradient(to right, #1c1040, #5e4070, #513a7e, #51361e);
   .cinlistbox {
     padding: 0 30px;
     color: #ffffff;
