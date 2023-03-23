@@ -537,7 +537,7 @@ export default {
       // 校验钱包余额不足
       const walletAmount = await this.$store.dispatch('wallet/queryAmountBNB');
       if (walletAmount < this.amountNumber) {
-        return this.$message.warning('Insufficient amount');
+        return this.$message.warning(this.$t('new02.text7'));
       }
       // 执行操作
       const { methods } = await this.$store.dispatch('contract/event');

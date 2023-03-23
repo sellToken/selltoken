@@ -112,26 +112,26 @@
                     @click="onCopyText(item[0])">
                 </div>
                 <div class="o-cellitem">
-                  <span>质押数量：</span>
+                  <span>{{ $t('new02.text1') }}：</span>
                   <strong >
                     <img src="~/static/images/defaultico.png" class="sico" />
                     {{ item[1] }}
                   </strong>
                 </div>
                 <div class="o-cellitem">
-                  <span>到期时间：</span>
+                  <span>{{ $t('new02.text2') }}：</span>
                   <strong >
                     {{ item[2] }}
                   </strong>
                 </div>
                 <div class="o-cellitem">
-                  <span>收&nbsp; 益&nbsp;率：</span>
+                  <span>{{ $t('new02.text3') }}：</span>
                   <strong >
                     {{ item[3] }}
                   </strong>
                 </div>
                 <div class="o-cellitem">
-                  <span>赎回数量：</span>
+                  <span>{{ $t('new02.text4') }}：</span>
                   <strong >
                     <img src="~/static/images/defaultico.png" class="sico" />
                     {{ item[4] }}

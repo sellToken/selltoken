@@ -32,9 +32,9 @@
             <div class="write-balance">
               <div class="wbleft">
                 <img src="~/static/images/BNB.png" class="ico" />
-                <span>钱包余额： {{ amountBNB }}</span>
+                <span>{{ $t('new02.text5') }}： {{ amountBNB }}</span>
               </div>
-              <el-button type="text" @click="onAllValue">全部</el-button>
+              <el-button type="text" @click="onAllValue">{{ $t('new02.text6') }}</el-button>
             </div>
             <div class="inbtn-box">
               <el-button type="primary" 
@@ -176,7 +176,50 @@ export default {
           prevEl: '.orderinfo-box .swiper-button-prev',
         }
       },
-      myMinerLists: [],
+      myMinerLists: [
+        {
+          0: '0.00000000',
+          1: '-',
+          2: '-',
+          3: '0.00000000',
+          4: '0.00000000',
+        },
+        {
+          0: '0.00000000',
+          1: '-',
+          2: '-',
+          3: '0.00000000',
+          4: '0.00000000',
+        },
+        {
+          0: '0.00000000',
+          1: '-',
+          2: '-',
+          3: '0.00000000',
+          4: '0.00000000',
+        },
+        {
+          0: '0.00000000',
+          1: '-',
+          2: '-',
+          3: '0.00000000',
+          4: '0.00000000',
+        },
+        {
+          0: '0.00000000',
+          1: '-',
+          2: '-',
+          3: '0.00000000',
+          4: '0.00000000',
+        },
+        {
+          0: '0.00000000',
+          1: '-',
+          2: '-',
+          3: '0.00000000',
+          4: '0.00000000',
+        }
+      ],
       amountBNB: 0
     }
   },
