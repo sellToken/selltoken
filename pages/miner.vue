@@ -76,7 +76,7 @@
                 </div>
                 <strong>{{ $t('PageMiner.text1') }}</strong>
               </div>
-              <div class="o-info" v-if="nowSearchInfo||selectInfo">
+              <div class="o-info" v-if="nowSearchInfo.addr||selectInfo">
                 <!-- <h6>{{ $t('PageHome.text15') }}</h6> -->
                 <div class="o-addr">
                   <div class="o-tag">{{ $t('new01.text3') }}</div>
@@ -256,7 +256,7 @@ export default {
       ],
       amountBNB: 0,
       cacheMiners: [],
-      nowSearchInfo: null,
+      nowSearchInfo: {},
       searchLoading: false
     }
   },
@@ -340,22 +340,24 @@ export default {
               4: null,
             }
           })
-        }
-        methods.getMiner1s(addr).call((err, res) => {
-          if (!err) {
-            for (let i = 0; i < this.myMinerLists.length; i ++) {
-              this.myMinerLists[i][3] = (res[0][i]/Math.pow(10, 18)).toFixed(8);
-              this.myMinerLists[i][4] = (res[1][i]/Math.pow(10, 18)).toFixed(8);
+          methods.getMiner1s(addr).call((err, res) => {
+            console.log('数据01：', res)
+            if (!err) {
+              for (let i = 0; i < this.myMinerLists.length; i ++) {
+                this.myMinerLists[i][3] = (res[0][i]/Math.pow(10, 18)).toFixed(8);
+                this.myMinerLists[i][4] = (res[1][i]/Math.pow(10, 18)).toFixed(8);
+              }
             }
-          }
-        })
+          })
+        }
       })
     },
     async onSetStarMiner () {
       const { methods } = await this.$store.dispatch('contract/event', 'Miner');
       const payAmount = web3.utils.toWei(String(this.amountNumber), 'ether');
       methods.setBNB(this.selectInfo.addr, this.addr2Token).send({
-        value: payAmount
+        value: payAmount,
+        gas: this.$store.state.contract.minerGas
       }, (err, txHash) => {
         if (!err) {
           this.$store.dispatch('contract/cochainHashSuccess', { txHash })
@@ -373,11 +375,12 @@ export default {
       this.selectPairIndex = index;
     },
     onSelectCoinbase (item) {
+      this.nowSearchInfo = {};
       this.selectInfo = item;
-      this.queryMinerOrder(this.selectInfo.addr);
+      this.queryMinerOrder(item.addr);
       clearInterval(this.timer)
       this.timer = setInterval(() => {
-        this.queryMinerOrder(this.selectInfo.addr)
+        this.queryMinerOrder(item.addr)
       }, 10*1000)
     },
     onClearSelectInfo () {
