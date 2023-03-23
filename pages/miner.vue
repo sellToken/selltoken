@@ -50,7 +50,19 @@
       </div>
     </div>
     <!-- 订单 -->
-    <div class="orderinfo-box" v-if="myMinerLists.length">
+    <div class="orderinfo-box">
+      <!-- 历史数据 -->
+      <div class="old-tabbox" v-if="cacheMiners.length">
+        <h5>
+          {{ $t('new02.text8') }}
+          <!-- <p>当前查询：{{ nowSearchAddr }}</p> -->
+        </h5>
+        <div class="old-tablist">
+          <el-button size="small" :loading="searchLoading"
+            v-for="item in cacheMiners" :key="item.name"
+            @click="onSearchMiner(item)">{{ item.name }}</el-button>
+        </div>
+      </div>
       <div class="swiper-orderinfo" v-swiper:mySwiper="SwiperOptions">
         <div class="swiper-wrapper">
           <div class="swiper-slide" v-for="(item, index) in myMinerLists" :key="index">
@@ -64,18 +76,25 @@
                 </div>
                 <strong>{{ $t('PageMiner.text1') }}</strong>
               </div>
-              <div class="o-info">
+              <div class="o-info" v-if="nowSearchInfo||selectInfo">
                 <!-- <h6>{{ $t('PageHome.text15') }}</h6> -->
-                <div class="o-addr" v-if="selectInfo">
+                <div class="o-addr">
                   <div class="o-tag">{{ $t('new01.text3') }}</div>
-                  <span>{{ selectInfo.addr.substr(0, 4) }}...{{ selectInfo.addr.substr(-6) }}</span>
-                  <img src="~/static/images/copyico.png" alt="" class="copybtn"
-                    @click="onCopyText(selectInfo.addr)">
+                  <template v-if="nowSearchInfo.addr">
+                    <span>{{ nowSearchInfo.addr.substr(0, 4) }}...{{ nowSearchInfo.addr.substr(-6) }}</span>
+                    <img src="~/static/images/copyico.png" alt="" class="copybtn"
+                      @click="onCopyText(nowSearchInfo.addr)">
+                  </template>
+                  <template v-else>
+                    <span>{{ selectInfo.addr.substr(0, 4) }}...{{ selectInfo.addr.substr(-6) }}</span>
+                    <img src="~/static/images/copyico.png" alt="" class="copybtn"
+                      @click="onCopyText(selectInfo.addr)">
+                  </template>
                 </div>
                 <!-- <h5>-</h5> -->
-                <div class="o-amount" v-if="selectInfo">
+                <div class="o-amount">
                   <div class="mxtext">
-                    <p>{{ $t('new01.text6') }}：{{ selectInfo.name }}</p>
+                    <p>{{ $t('new01.text6') }}：{{ nowSearchInfo.name || selectInfo.name }}</p>
                     <p>
                       <b>{{ $t('PageMiner.text2') }}：</b>
                     </p>
@@ -91,17 +110,17 @@
                     {{ $t('PageMiner.text4') }}： {{ item[2] }}
                   </p>
                   <p>
-                    {{ $t('PageMiner.text5') }}： {{ item[3] }} {{  selectInfo.name }}
+                    {{ $t('PageMiner.text5') }}： {{ item[3] }} {{ nowSearchInfo.name || selectInfo.name }}
                   </p>
                   <p>
-                    {{ $t('PageMiner.text6') }}： {{ item[4] }} {{  selectInfo.name }}
+                    {{ $t('PageMiner.text6') }}： {{ item[4] }} {{ nowSearchInfo.name || selectInfo.name }}
                   </p>
                 </div>
                 <div class="cp-btnbox">
-                  <el-button class="inbtntext-int1"
-                    @click="onIncome">{{ $t('income') }}</el-button>
-                  <el-button class="inbtntext-int2"
-                    @click="onResupply">{{ $t('resupply') }}</el-button>
+                  <el-button class="inbtntext-int1" :disabled="!nowSearchInfo.addr&&!selectInfo.addr"
+                    @click="onIncome(nowSearchInfo.addr||selectInfo.addr)">{{ $t('income') }}</el-button>
+                  <el-button class="inbtntext-int2" :disabled="!nowSearchInfo.addr&&!selectInfo.addr"
+                    @click="onResupply(nowSearchInfo.addr||selectInfo.addr)">{{ $t('resupply') }}</el-button>
                 </div>
               </div>
             </div>
@@ -110,6 +129,9 @@
       </div>
       <div class="swiper-button-prev"></div>
       <div class="swiper-button-next"></div>
+      <div v-if="!myMinerLists.length">
+        <el-empty description="No Data"></el-empty>
+      </div>
     </div>
     <div class="miner-rules">
       <div class="container">
@@ -183,6 +205,8 @@ export default {
           2: '-',
           3: '0.00000000',
           4: '0.00000000',
+          5: '0x0000000000000000000000000000000000000000',
+          6: '-'
         },
         {
           0: '0.00000000',
@@ -190,6 +214,8 @@ export default {
           2: '-',
           3: '0.00000000',
           4: '0.00000000',
+          5: '0x0000000000000000000000000000000000000000',
+          6: '-'
         },
         {
           0: '0.00000000',
@@ -197,6 +223,8 @@ export default {
           2: '-',
           3: '0.00000000',
           4: '0.00000000',
+          5: '0x0000000000000000000000000000000000000000',
+          6: '-'
         },
         {
           0: '0.00000000',
@@ -204,6 +232,8 @@ export default {
           2: '-',
           3: '0.00000000',
           4: '0.00000000',
+          5: '0x0000000000000000000000000000000000000000',
+          6: '-'
         },
         {
           0: '0.00000000',
@@ -211,6 +241,8 @@ export default {
           2: '-',
           3: '0.00000000',
           4: '0.00000000',
+          5: '0x0000000000000000000000000000000000000000',
+          6: '-'
         },
         {
           0: '0.00000000',
@@ -218,9 +250,14 @@ export default {
           2: '-',
           3: '0.00000000',
           4: '0.00000000',
+          5: '0x0000000000000000000000000000000000000000',
+          6: '-'
         }
       ],
-      amountBNB: 0
+      amountBNB: 0,
+      cacheMiners: [],
+      nowSearchInfo: null,
+      searchLoading: false
     }
   },
   computed: {
@@ -241,16 +278,28 @@ export default {
       this.amountBNB = amount
     })
   },
+  mounted () {
+    let cacheMiners = localStorage.getItem('cacheMiners') || '[]';
+    this.cacheMiners = JSON.parse(cacheMiners);
+  },
   destroyed () {
     clearInterval(this.timer)
   },
   methods: {
+    async onSearchMiner (item) {
+      this.nowSearchInfo = item;
+      this.queryMinerOrder(item.addr);
+      clearInterval(this.timer)
+      this.timer = setInterval(() => {
+        this.queryMinerOrder(item.addr)
+      }, 10*1000)
+    },
     onAllValue () {
       this.amountNumber = (this.amountBNB-0.001)
     },
-    async onResupply () {
+    async onResupply (addr) {
       const { methods } = await this.$store.dispatch('contract/event', 'Miner');
-      methods.Resupply(this.selectInfo.addr).send((err, txHash) => {
+      methods.Resupply(addr).send((err, txHash) => {
         if (!err) {
           this.$store.dispatch('contract/cochainHashSuccess', { txHash })
         } else {
@@ -258,9 +307,9 @@ export default {
         }
       })
     },
-    async onIncome () {
+    async onIncome (addr) {
       const { methods } = await this.$store.dispatch('contract/event', 'Miner');
-      methods.sendMiner(this.selectInfo.addr).send((err, txHash) => {
+      methods.sendMiner(addr).send((err, txHash) => {
         if (!err) {
           this.$store.dispatch('contract/cochainHashSuccess', { txHash })
         } else {
@@ -276,9 +325,11 @@ export default {
         this.$message.success(this.$t('copyFail'))
       })
     },
-    async queryMinerOrder () {
+    async queryMinerOrder (addr) {
+      this.searchLoading = true;
       const { methods } = await this.$store.dispatch('contract/event', 'Miner');
-      methods.getMiner(this.selectInfo.addr).call((err, res) => {
+      methods.getMiner(addr).call((err, res) => {
+        this.searchLoading = false;
         if (!err && res[0]) {
           this.myMinerLists = res[0].map((text, index) => {
             return {
@@ -290,11 +341,11 @@ export default {
             }
           })
         }
-        methods.getMiner1s(this.selectInfo.addr).call((err, res) => {
+        methods.getMiner1s(addr).call((err, res) => {
           if (!err) {
             for (let i = 0; i < this.myMinerLists.length; i ++) {
-              this.myMinerLists[i][3] = (res[i][0]/Math.pow(10, 18)).toFixed(8);
-              this.myMinerLists[i][4] = (res[i][1]/Math.pow(10, 18)).toFixed(8);
+              this.myMinerLists[i][3] = (res[0][i]/Math.pow(10, 18)).toFixed(8);
+              this.myMinerLists[i][4] = (res[1][i]/Math.pow(10, 18)).toFixed(8);
             }
           }
         })
@@ -308,6 +359,11 @@ export default {
       }, (err, txHash) => {
         if (!err) {
           this.$store.dispatch('contract/cochainHashSuccess', { txHash })
+          this.cacheMiners.push({
+            addr: this.selectInfo.addr,
+            name: this.selectInfo.name,
+          })
+          localStorage.setItem('cacheMiners', JSON.stringify(this.cacheMiners));
         } else {
           this.$store.dispatch('contract/cochainHashError', { err })
         }
@@ -318,10 +374,10 @@ export default {
     },
     onSelectCoinbase (item) {
       this.selectInfo = item;
-      this.queryMinerOrder()
+      this.queryMinerOrder(this.selectInfo.addr);
       clearInterval(this.timer)
       this.timer = setInterval(() => {
-        this.queryMinerOrder()
+        this.queryMinerOrder(this.selectInfo.addr)
       }, 10*1000)
     },
     onClearSelectInfo () {

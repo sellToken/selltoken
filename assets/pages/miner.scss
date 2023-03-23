@@ -198,8 +198,11 @@
     }
   }
 }
-.orderinfo-box .orderinfo-item {
-  height: 370px;
+.orderinfo-box {
+  padding-top: 120px;
+  .orderinfo-item {
+    min-height: 370px;
+  }
 }
 .ominer-item {
   .o-top {
@@ -249,6 +252,31 @@
     height: 20px;
     margin-right: 6px;
     position: relative;
+  }
+}
+.old-tabbox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  text-align: center;
+  @include flexBox;
+  flex-direction: column;
+  h5 {
+    font-size: 20px;
+    padding-bottom: 10px;
+    color: #333;
+  }
+  .old-tablist {
+    z-index: 3;
+    overflow-x: auto;
+    @include flexBox;
+  }
+  p {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #666;
   }
 }
 @media screen and (max-width: 750px) {
