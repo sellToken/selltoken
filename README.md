@@ -5,7 +5,9 @@
  npm i
 
 2. The computer needs a Nodejs environment, installation project dependencies
-   npm install.
+
+   npm install
+
 3. Replace the file and package it: 
 
   npm run generate
