@@ -5,8 +5,7 @@
         <el-carousel height="30px" direction="vertical" :autoplay="false" indicator-position="none">
           <el-carousel-item v-for="(item, index) in assetslists" :key="index">
             <div class="cinlistbox">
-              <div class="medium"
-                v-for="info in item" :key="info.symbol">
+              <div class="medium" v-for="info in item" :key="info.symbol">
                 <img :src="`https://assets.coincap.io/assets/icons/${info.symbol.toLocaleLowerCase()}@2x.png`" class="cnameico" />
                 <span>{{ info.symbol }}</span>
                 <span>${{ Number(info.priceUsd).toFixed(4) }}</span>
@@ -237,14 +236,22 @@ export default {
   },
   methods: {
     getCoinbaseLists () {
+      let tokenList = []
       this.$axios.get('https://api.coincap.io/v2/assets?limit=20')
       .then(({ data }) => {
         this.assetslists = [];
-        let len = Math.ceil(data.data.length/4);
-        for (let i = 0; i < len; i ++) {
-          let items = data.data.splice(0, 4);
-          this.assetslists.push(items);
+        let len = 0;
+        for (let i = 0; i < data.data.length; i ++) {
+          if(len == 7){
+            break ;
+          }
+          let items = data.data[i];
+          if(items.symbol !='USDT' && items.symbol !='USDC' && items.symbol !='BUSD'){
+            len++;
+            tokenList.push(items);
+          }
         }
+        this.assetslists.push(tokenList);
       })
     },
     onClearWalletAddress () {
