@@ -1,20 +1,25 @@
 export const state = () => ({
-  walletAddress: ''
-  
+  walletAddress: '',
+  amountBNB: 0
 })
 
 export const mutations = {
   writeWalletAddress(state, address) {
     state.walletAddress = address;
+  },
+  writeWalletAmountBNB (state, amount) {
+    state.amountBNB = amount;
   }
 }
 
 export const actions = {
-  queryAmountBNB ({ dispatch }) {
+  queryAmountBNB ({ commit, dispatch }) {
     return new Promise((resolve) => {
       dispatch('linkWallet').then((walletAddress) => {
         web3.eth.getBalance(walletAddress).then((sAmount) => {
-          resolve((sAmount/Math.pow(10, 18)).toFixed(8))
+          let amount = (sAmount/Math.pow(10, 18)).toFixed(8);
+          commit('writeWalletAmountBNB', amount)
+          resolve(amount)
         })
       })
     })
