@@ -282,32 +282,33 @@
       <div slot="title" class="charts-modal-title">
         <h2>
           <img src="~/static/images/vnotice1.png" />
-          SellToken平臺幣（SELLC）空投方法
+          {{ $t('new03.text4') }}
         </h2>
       </div>
       <div class="charts-modal-content">
-        <h3>一、交互資格 （空投最多）</h3>
+        <h3>{{ $t('new03.text5') }}</h3>
         <p>
-          資格1、參與開空 金額  0.1B以上 <br>
-          資格2、添加流動性 0.1B以上 <br>
-          資格3、挖礦 0.1B以上 <br>
-          滿足2個資格以上就有空投資格
+          {{ $t('new03.text6') }} <br>
+          {{ $t('new03.text7') }} <br>
+          {{ $t('new03.text8') }} <br>
+          {{ $t('new03.text9') }}
         </p>
-        <h3>二、任務資格  (空投一般多)</h3>
+        <h3>{{ $t('new03.text10') }}</h3>
         <p>
-          1、推特發一條即將上線廣告，用戶 關注 轉推 評論 留下錢包地址。 <br>
-          2、前端網站 Bug  UI 找茬，並在github開源站上 提交 優化意見並留下錢包地址。 <br>
+          1、{{ $t('new03.text11') }} <br>
+          2、{{ $t('new03.text12') }} <br>
         </p>
-        <h3>三、互動資格  (空投少量)</h3>
-        <p>1、進入電報官方群 每天有玩法答疑 搶答環節  取前5名答對用戶。</p>
+        <h3>{{ $t('new03.text13') }}</h3>
+        <p>1、{{ $t('new03.text14') }}</p>
         <div class="charts-foot-address">
-          <span>SELLC合約地址</span>
+          <span>{{ $t('new03.text15') }}</span>
           <b>0xa645995e9801f2ca6e2361edf4c2a138362bade4</b>
-          <img src="~/static/images/copyico.png" @click="onCopyText('0xa645995e9801f2ca6e2361edf4c2a138362bade4')" />
+          <img src="~/static/images/copyico.png" 
+            @click="onCopyText('0xa645995e9801f2ca6e2361edf4c2a138362bade4')" />
         </div>
         <div class="charts-fixed-right">
           <strong>{{ nowSelectChartsInfo.value }}%</strong>
-          <small>空投比例</small>
+          <small>{{ $t('new03.text16') }}</small>
         </div>
       </div>
     </el-dialog>
@@ -517,7 +518,7 @@ export default {
       if (this.initCharts) return false;
       const option = {
         title: {
-          text: 'SELLC空投',
+          text: this.$t('new03.text17'),
           subtext: 'Fake Data',
           left: 'center',
           textStyle: {
@@ -547,7 +548,7 @@ export default {
         },
         series: [
           {
-            name: 'SELLC空投',
+            name: this.$t('new03.text17'),
             type: 'pie',
             radius: '50%',
             label: {
