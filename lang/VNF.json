@@ -109,7 +109,7 @@
     "text4": "thời gian",
     "text5": "Tổng cộng",
     "text6": "khai thác mỏ",
-    "text7": "Nền tảng tổng hợp SellToken hỗ trợ tất cả các mã thông báo ERC20. Bằng cách thanh toán tiền tệ sinh thái chuỗi khối để có được quyền khai thác, tiêu chuẩn vàng thu nhập hàng ngày giải phóng 1% mã thông báo và việc khai thác được hoàn thành trong vòng 365 ngày để ngừng thu nhập. phí khai thác như sau:",
+    "text7": "Nền tảng tổng hợp SellToken cũng hỗ trợ tất cả các mã thông báo ERC20. Có được quyền khai thác bằng cách thanh toán tiền tệ sinh thái chuỗi khối, phát hành 1% mã thông báo theo tiêu chuẩn vàng thu nhập hàng ngày và dừng thu nhập trong vòng 365 ngày sau khi hoàn thành khai thác. Bên dự án thêm nhóm khai thác, vui lòng chuyển mã thông báo đến địa chỉ hợp đồng nhóm khai thác: 0x84Be9475051a08ee5364fBA44De7FE83a5eCC4f1",
     "text8": "BNB được trả tiền để khai thác và BNB được phân phối như sau",
     "text9": "phí nền tảng 3%",
     "text10": "Nhóm 10% token LP được chỉ định",
