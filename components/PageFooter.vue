@@ -66,42 +66,6 @@
             {{ $t('PageFooter.text2') }}
           </p>
           <ul class="vainitemcell">
-            <li class="vw100item">
-              <a class="aintext" tabindex="0" aria-disabled="false" role="link" href="#">
-                <span class="atext">
-                  <div class="gintext">
-                    RPC Service
-                  </div>
-                </span>
-              </a>
-            </li>
-            <li class="vw100item">
-              <a class="aintext" tabindex="0" aria-disabled="false" role="link" href="#">
-                <span class="atext">
-                  <div class="gintext">
-                    Advanced APIs/SDKs
-                  </div>
-                </span>
-              </a>
-            </li>
-            <li class="vw100item">
-              <a class="aintext" tabindex="0" aria-disabled="false" role="link" href="#">
-                <span class="atext">
-                  <div class="gintext">
-                    Gaming SDKs
-                  </div>
-                </span>
-              </a>
-            </li>
-            <li class="vw100item">
-              <a class="aintext" tabindex="0" aria-disabled="false" role="link" href="#">
-                <span class="atext">
-                  <div class="gintext">
-                    AppChains
-                  </div>
-                </span>
-              </a>
-            </li>
       
             <li class="vw100item">
               <a class="aintext" tabindex="0" aria-disabled="false" href="https://github.com/sellToken/SToken" role="link" target="_blank" rel="noreferrer">
@@ -120,28 +84,19 @@
           </p>
           <ul class="vainitemcell">
             <li class="vw100item">
-              <a class="aintext" tabindex="0" aria-disabled="false" role="link" href="https://bscscan.com/">
+              <a class="aintext" tabindex="0" aria-disabled="false" role="link" href="https://www.selltoken.org/Whitepaper.pdf">
                 <span class="atext">
                   <div class="gintext">
-                    BNB Chain
+                    {{ $t('PageFooter.text6') }}
                   </div>
                 </span>
               </a>
             </li>
             <li class="vw100item">
-              <a class="aintext" tabindex="0" aria-disabled="false" role="link" href="#">
+             <a class="aintext" tabindex="0" aria-disabled="false" role="link" href="https://www.selltoken.org/WhitepaperCn.pdf">
                 <span class="atext">
                   <div class="gintext">
-                    sellSwap
-                  </div>
-                </span>
-              </a>
-            </li>
-            <li class="vw100item">
-              <a class="aintext" tabindex="0" aria-disabled="false" role="link" href="#">
-                <span class="atext">
-                  <div class="gintext">
-                    Meta Apes
+                    {{ $t('PageFooter.text7') }}
                   </div>
                 </span>
               </a>
@@ -163,7 +118,7 @@
               </a>
             </li>
             <li class="vw100item">
-              <a class="aintext" tabindex="0" aria-disabled="false" role="link" href="#">
+              <a class="aintext" tabindex="0" aria-disabled="false" role="link" href="https://bscscan.com/address/0xa645995e9801f2ca6e2361edf4c2a138362bade4#code">
                 <span class="atext">
                   <div class="gintext">
                     {{ $t('PageFooter.text5') }}
@@ -172,22 +127,10 @@
               </a>
             </li>
             <li class="vw100item">
-              <a class="aintext" tabindex="0" aria-disabled="false" role="link" href="https://www.selltoken.org/Whitepaper.pdf">
-                <span class="atext">
-                  <div class="gintext">
-                    {{ $t('PageFooter.text6') }}
-                  </div>
-                </span>
-              </a>
+             
             </li>
             <li class="vw100item">
-              <a class="aintext" tabindex="0" aria-disabled="false" role="link" href="https://www.selltoken.org/WhitepaperCn.pdf">
-                <span class="atext">
-                  <div class="gintext">
-                    {{ $t('PageFooter.text7') }}
-                  </div>
-                </span>
-              </a>
+              
             </li>
           </ul>
         </li>
@@ -222,8 +165,8 @@
                 </span>
               </a>
             </li>
-            <!-- <li class="vw100item">
-              <a class="aintext" tabindex="0" aria-disabled="false" href="https://t.me/TrustTheTrident" role="link" target="_blank" rel="noreferrer">
+            <li class="vw100item">
+              <a class="aintext" tabindex="0" aria-disabled="false" href="https://t.me/selltokenGroup" role="link" target="_blank" rel="noreferrer">
                 <span class="atext">
                   <div class="gintext">
                     <svg fill="none" height="13" viewBox="0 0 15 13" width="15" xmlns="http://www.w3.org/2000/svg">
@@ -234,7 +177,7 @@
                   </div>
                 </span>
               </a>
-            </li> -->
+            </li>
           </ul>
         </li>
         <li class="vlistitem">
@@ -263,27 +206,10 @@
         </div>
         <p class="f-text">
           <span>
-            © 2023 SellToken All rights reserved | www.selltoken.org | www.selltoken.net |
-            <a href="mailto:info@selltoken.org" rel="noopener noreferrer">
-              info@selltoken.org
-            </a>
+            © 2023 SellToken All rights reserved | selltoken.org | selltoken.net | info@selltoken.org
           </span>
         </p>
         <ul class="vrbox">
-          <li>
-            <a class="vrt" href="#">
-              <span>
-                {{ $t('PageFooter.text15') }}
-              </span>
-            </a>
-          </li>
-          <li>
-            <a class="vrt" href="#">
-              <span>
-                {{ $t('PageFooter.text16') }}
-              </span>
-            </a>
-          </li>
         </ul>
       </div>
     </div>
