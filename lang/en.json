@@ -1,4 +1,9 @@
 {
+  "new03": {
+     "text1": "Anyone can create a BEP20 token of any name on the BNB Smart Chain, including creating fake versions of existing tokens and tokens that claim to represent projects that don't have tokens. If you short a token, You may not be able to obtain benefits, please check the short-selling liquidity, LP pool, and contract security of this token in detail.",
+     "text2": "Anyone can create BEP20 tokens of any name on the BNB Smart Chain, including creating fake versions of existing tokens and tokens that claim to represent projects without tokens. If you add a liquidity token , you may not be able to obtain benefits, please check the short-selling liquidity, LP pool, and contract security of this token in detail.",
+     "text3": "Anyone can create BEP20 tokens of any name on the BNB Smart Chain, including creating fake versions of existing tokens and tokens that claim to represent projects that do not have tokens. If you mine this token , you may not be able to obtain benefits, please check the mining pool liquidity, LP pool, and contract security of this token in detail."
+   },
   "new02": {
     "text1": "quantity",
     "text2": "Expire date",
