@@ -286,13 +286,15 @@
         </h2>
       </div>
       <div class="charts-modal-content">
-        <h3>{{ $t('new03.text5') }}</h3>
-        <p>
-          {{ $t('new03.text6') }} <br>
-          {{ $t('new03.text7') }} <br>
-          {{ $t('new03.text8') }} <br>
-          {{ $t('new03.text9') }}
-        </p>
+        <div class="prxin">
+          <h3>{{ $t('new03.text5') }}</h3>
+          <p>
+            {{ $t('new03.text6') }} <br>
+            {{ $t('new03.text7') }} <br>
+            {{ $t('new03.text8') }} <br>
+            {{ $t('new03.text9') }}
+          </p>
+        </div>
         <h3>{{ $t('new03.text10') }}</h3>
         <p>
           1、{{ $t('new03.text11') }} <br>
@@ -831,16 +833,16 @@ transform:scale(0,0);
 
 .home-landing-animation-cover {
   position: relative;
-  width: 80px;
-  height: 80px;
+  width: 150px;
+  height: 150px;
   margin-top: 30px;
 }
 #play-landing-animation {
   position: absolute;
-  top: 30px;
-  left: 30px;
-  width: 20px;
-  height: 20px;
+  top: 54px;
+  left: 54px;
+  width: 40px;
+  height: 40px;
   border-radius: 100%;
   color: #F72C5B;
   cursor: pointer;
@@ -855,11 +857,11 @@ transform:scale(0,0);
     box-shadow: 0 0 10px #F72C5B;
     box-sizing: border-box;
     content: "";
-    height: 500%;
-    left: -200%;
+    height: 440%;
+    left: -170%;
     position: absolute;
-    top: -200%;
-    width: 500%;
+    top: -170%;
+    width: 440%;
   }
 }
 @keyframes fx-plyr-play-button {
