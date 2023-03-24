@@ -110,6 +110,23 @@
   background-color: #f1a223;
   border-color: #f1a223;
 }
+.customCharts-dialog {
+  background: none;
+  box-shadow: none;
+}
+.customCharts-dialog .el-dialog__headerbtn .el-dialog__close {
+  color: #ffffff;
+  font-size: 28px;
+  position: relative;
+  top: -2px;
+  z-index: 10;
+}
+.el-dialog {
+  max-width: 100% !important;
+}
+.customCharts-info {
+  border-radius: 20px;
+}
 /* @media screen and (max-width: 750px){
   .disc-join .el-input-number {
 
