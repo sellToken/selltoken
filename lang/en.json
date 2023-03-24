@@ -109,7 +109,7 @@
     "text4": "Profit time",
     "text5": "Cumulative income",
     "text6": "mining",
-    "text7": "The SellToken aggregation platform also supports all ERC20 tokens. Obtain the mining right by paying the blockchain ecological currency, release 1% of the tokens on the daily income gold standard, and stop the income within 365 days after mining is completed. The project party adds the mining pool, please transfer tokens to the mining pool contract address: 0x84Be9475051a08ee5364fBA44De7FE83a5eCC4f1",
+    "text7": "The SellToken aggregation platform also supports all ERC20 tokens. Obtain the mining right by paying the blockchain ecological currency, release 1% of the tokens on the daily income gold standard, and stop the income within 365 days after mining is completed. The project party adds the mining pool, please transfer tokens to the mining pool contract address: {contractAddress}",
     "text8": "BNB is paid for mining, and BNB is distributed as follows",
     "text9": "3% Foundation",
     "text10": "10% designated token LP pool",

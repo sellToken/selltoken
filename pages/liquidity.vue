@@ -326,7 +326,7 @@ export default {
                 0: addr,
                 1: (res[1][index]/Math.pow(10,18)).toFixed(8),
                 2: new Date(Number(res[2][index]+'000')).toLocaleString(),
-                3: (res[3][index]/10000).toFixed(3) + '‰',
+                3: ((res[3][index]/10000-1)*1000).toFixed(3) + '‰',
                 4: (res[4][index]/Math.pow(10,18)).toFixed(8)
               }
             })

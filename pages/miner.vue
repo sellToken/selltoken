@@ -144,7 +144,7 @@
         <div class="details-box">
           <!-- <h2>{{ $t('PageLiquidity.text4') }}</h2> -->
           <p>
-            {{ $t('PageMiner.text7') }}<br>
+            {{ $t('PageMiner.text7', { contractAddress: MinerAddress }) }}<br>
             {{ $t('PageMiner.text8') }}：
           </p>
           <p>
@@ -161,6 +161,7 @@
 
 <script>
 import { BNB_ADDRESS, USDT_ADDRESS } from '@/contract/ABI';
+import { ADDRESS } from '@/contract/Miner';
 export default {
   name: 'MinerPage',
   data () {
@@ -171,6 +172,7 @@ export default {
         'BNB': BNB_ADDRESS,
         'USDT': USDT_ADDRESS
       },
+      MinerAddress: ADDRESS,
       pairLists: ['BNB', 'USDT'],
       selectPairIndex: -1,
       defaultAddress: '',
