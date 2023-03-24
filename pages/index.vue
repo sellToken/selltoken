@@ -248,15 +248,23 @@
         </ul>
       </div>
     </div>
+    <el-dialog
+      title=""
+      :visible.sync="showChartsModal"
+      width="500px">
+      <div id="modalCharts" class="charts-box"></div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { BNB_ADDRESS, USDT_ADDRESS } from '@/contract/ABI';
+import * as echarts from 'echarts';
 export default {
   name: 'IndexPage',
   data () {
     return {
+      showChartsModal: true,
       sliderMarks: {
         0: '0%',
         25: '25%',
@@ -442,8 +450,51 @@ export default {
     }
   },
   mounted () {
+    setTimeout(() => {
+      this.initRenderCharts()
+    }, 100)
   },
   methods: {
+    async initRenderCharts () {
+      const myChart = echarts.init(document.getElementById('modalCharts'));
+      const option = {
+        tooltip: {
+          trigger: 'item'
+        },
+        legend: {
+          bottom: '0',
+          left: 'center'
+        },
+        series: [
+          {
+            name: 'Access From',
+            type: 'pie',
+            radius: ['0%', '70%'],
+            avoidLabelOverlap: false,
+            itemStyle: {
+              borderRadius: 10,
+              borderColor: '#fff',
+              borderWidth: 2
+            },
+            label: {
+              show: false,
+              position: 'center'
+            },
+            labelLine: {
+              show: false
+            },
+            data: [
+              { value: 1048, name: 'Search Engine' },
+              { value: 735, name: 'Direct' },
+              { value: 580, name: 'Email' },
+              { value: 484, name: 'Union Ads' },
+              { value: 300, name: 'Video Ads' }
+            ]
+          }
+        ]
+      };
+      myChart.setOption(option);
+    },
     onChangeSlider () {
       let num = Number(this.maxAmountShort)*this.sliderLineValue/100;
       if (num < 0.0000001) num = 0.1;
