@@ -307,7 +307,7 @@
             @click="onCopyText('0xa645995e9801f2ca6e2361edf4c2a138362bade4')" />
         </div>
         <div class="charts-fixed-right">
-          <strong>{{ nowSelectChartsInfo.value }}%</strong>
+          <strong>5%</strong>
           <small>{{ $t('new03.text16') }}</small>
         </div>
       </div>
@@ -577,7 +577,7 @@ export default {
         myChart.setOption(option);
         myChart.on('click', (params) => {
           this.showChartsModalInfo = true;
-          this.nowSelectChartsInfo = params.data;
+          // this.nowSelectChartsInfo = params.data;
         });
       })
     },
