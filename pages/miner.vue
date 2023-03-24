@@ -8,7 +8,8 @@
       <div class="container">
         <div class="qui-box">
           <div class="qui-item">
-            <auto-search size="small" @select="onSelectCoinbase" @clear="onClearSelectInfo"></auto-search>
+            <auto-search size="small" @select="onSelectCoinbase" @clear="onClearSelectInfo"
+              :content="$t('new03.text3')"></auto-search>
             <h3 class="pair-h3">{{ $t('PageHome.text3') }}</h3>
             <div class="pair-content">
               <div class="unitem" 
@@ -117,11 +118,16 @@
                   </p>
                 </div>
                 <div class="cp-btnbox">
-                  <el-button class="inbtntext-int1" :disabled="!nowSearchInfo.addr&&!selectInfo.addr"
+                  <el-button class="inbtntext-int1" 
+                    :disabled="!nowSearchInfo.addr&&!selectInfo.addr||!item[5]"
                     @click="onIncome(nowSearchInfo.addr||selectInfo.addr)">{{ $t('income') }}</el-button>
-                  <el-button class="inbtntext-int2" :disabled="!nowSearchInfo.addr&&!selectInfo.addr"
+                  <el-button class="inbtntext-int2" 
+                    :disabled="!nowSearchInfo.addr&&!selectInfo.addr||!item[5]"
                     @click="onResupply(nowSearchInfo.addr||selectInfo.addr)">{{ $t('resupply') }}</el-button>
                 </div>
+              </div>
+              <div v-else>
+                <el-empty description="No Data"></el-empty>
               </div>
             </div>
           </div>
@@ -205,7 +211,7 @@ export default {
           2: '-',
           3: '0.00000000',
           4: '0.00000000',
-          5: '0x0000000000000000000000000000000000000000',
+          5: false,
           6: '-'
         },
         {
@@ -214,7 +220,7 @@ export default {
           2: '-',
           3: '0.00000000',
           4: '0.00000000',
-          5: '0x0000000000000000000000000000000000000000',
+          5: false,
           6: '-'
         },
         {
@@ -223,7 +229,7 @@ export default {
           2: '-',
           3: '0.00000000',
           4: '0.00000000',
-          5: '0x0000000000000000000000000000000000000000',
+          5: false,
           6: '-'
         },
         {
@@ -232,7 +238,7 @@ export default {
           2: '-',
           3: '0.00000000',
           4: '0.00000000',
-          5: '0x0000000000000000000000000000000000000000',
+          5: false,
           6: '-'
         },
         {
@@ -241,7 +247,7 @@ export default {
           2: '-',
           3: '0.00000000',
           4: '0.00000000',
-          5: '0x0000000000000000000000000000000000000000',
+          5: false,
           6: '-'
         },
         {
@@ -250,7 +256,7 @@ export default {
           2: '-',
           3: '0.00000000',
           4: '0.00000000',
-          5: '0x0000000000000000000000000000000000000000',
+          5: false,
           6: '-'
         }
       ],
@@ -299,7 +305,9 @@ export default {
     },
     async onResupply (addr) {
       const { methods } = await this.$store.dispatch('contract/event', 'Miner');
-      methods.Resupply(addr).send((err, txHash) => {
+      methods.Resupply(addr).send({
+        gas: this.$store.state.contract.minerGas
+      }, (err, txHash) => {
         if (!err) {
           this.$store.dispatch('contract/cochainHashSuccess', { txHash })
         } else {
@@ -332,12 +340,14 @@ export default {
         this.searchLoading = false;
         if (!err && res[0]) {
           this.myMinerLists = res[0].map((text, index) => {
+            let nowTime = Date.now()/1000;
             return {
               0: (text/Math.pow(10,18)).toFixed(8),
               1: res[1][index],
               2: res[2][index] == 0 ? '0' : new Date(Number(res[2][index]+'000')).toLocaleString(),
               3: null,
               4: null,
+              5: nowTime > (res[2][index]+86400)
             }
           })
           methods.getMiner1s(addr).call((err, res) => {

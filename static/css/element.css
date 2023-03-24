@@ -88,6 +88,28 @@
 .slider-linebox .el-slider__bar {
   background-color: #cf5800;
 }
+.tipsdialog {
+  border-radius: 10px;
+}
+.tipsdialog .el-dialog__headerbtn .el-dialog__close {
+  color: red;
+}
+.tipsdialog .el-dialog__header {
+  border-bottom: 1px solid #eee;
+}
+.tipsdialog .el-alert--warning.is-light {
+  border: 1px solid #E6A23C;
+}
+.contract-unbtn .el-checkbox__inner {
+  border-color: #f1a223;
+}
+.contract-unbtn .el-checkbox__input.is-checked+.el-checkbox__label {
+  color: #f1a223;
+}
+.contract-unbtn .el-checkbox__input.is-checked .el-checkbox__inner {
+  background-color: #f1a223;
+  border-color: #f1a223;
+}
 /* @media screen and (max-width: 750px){
   .disc-join .el-input-number {
 

@@ -37,7 +37,8 @@
             :visible.sync="showMobileNavbar"
             direction="ttb"
             size="118px"
-            custom-class="noneshadow">
+            custom-class="noneshadow"
+            :modal="false">
           </el-drawer>
         </div>
         <div class="right-wallet">
@@ -90,7 +91,7 @@
             @click="showWalletAddress = true">
             <img src="~/static/images/walletico.png" alt="" class="walletico" v-if="!chainLoading">
             <i class="el-icon-loading loadingico" v-else></i>
-            <span>{{ walletAddress.substr(0,3) }}...{{ walletAddress.substr(-4) }}</span>
+            <span>{{ walletAddress.substr(0,2) }}...{{ walletAddress.substr(-4) }}</span>
             <img src="~/static/images/arrow-down-white.png" alt="" class="arrowico">
           </div>
           <div class="wallet-address" v-else @click="onConnectWallet">
@@ -232,7 +233,7 @@ export default {
     this.getCoinbaseLists()
   },
   mounted () {
-    this.maxWidthNavbar = window.innerWidth > 750
+    this.maxWidthNavbar = window.innerWidth > 1150
   },
   methods: {
     getCoinbaseLists () {
@@ -300,7 +301,7 @@ export default {
   position: fixed;
   left: 0;
   top: 0;
-  z-index: 100;
+  z-index: 1200;
   .container {
     padding: 18px 20px;
     @include flexBox(space-between);
@@ -493,15 +494,49 @@ export default {
     }
   }
 }
-@media screen and (max-width: 750px) {
+.copyico {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  top: -1px;
+}
+@media screen and (max-width: 1150px) {
   .fixed-header {
-    z-index: 3000;
     .menubtn {
       display: block !important;
     }
+    .right-wallet .chain-link span {
+      display: none;
+    }
+    .navbar-list {
+      position: fixed;
+      left: 0;
+      top: 68px;
+      width: 100%;
+      background: #fff;
+      z-index: 10000 !important;
+      border-top: 1px solid #eee;
+      flex-direction: column;
+      box-sizing: border-box;
+      padding: 20px;
+      opacity: 1;
+      transition: opacity 1s linear 0s;
+      li {
+        width: 100%;
+        a {
+          width: 100%;
+          display: block;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 750px) {
+  .fixed-header {
+    z-index: 100;
     .container {
       padding: 0 10px;
-      height: 100%;
+      height: calc(100% - 30px);
     }
     .right-wallet {
       flex-direction: column;
@@ -528,32 +563,6 @@ export default {
         }
       }
     }
-    .navbar-list {
-      position: fixed;
-      left: 0;
-      top: 118px;
-      width: 100%;
-      background: #fff;
-      z-index: 10000 !important;
-      flex-direction: column;
-      box-sizing: border-box;
-      padding: 20px;
-      opacity: 1;
-      transition: opacity 1s linear 0s;
-      li {
-        width: 100%;
-        a {
-          width: 100%;
-          display: block;
-        }
-      }
-    }
   }
-}
-.copyico {
-  width: 20px;
-  height: 20px;
-  position: relative;
-  top: -1px;
 }
 </style>

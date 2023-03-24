@@ -13,7 +13,8 @@
       </div>
       <!-- 操作池 -->
       <div class="operation-pool">
-        <auto-search @select="onSelectCoinbase" @clear="onClearSelectInfo"></auto-search>
+        <auto-search @select="onSelectCoinbase" @clear="onClearSelectInfo"
+          :content="$t('new03.text1')"></auto-search>
         <h3 class="pair-h3">{{ $t('PageHome.text3') }}</h3>
         <div class="pair-content">
           <div class="unitem" 

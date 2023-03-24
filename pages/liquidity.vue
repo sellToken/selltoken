@@ -9,7 +9,8 @@
         <div class="qui-box">
           <div class="qui-item">
             <h2>{{ $t('new01.text7') }}</h2>
-            <auto-search :defaultAddress="defaultAddress" size="small" @select="onSelectCoinbase1"></auto-search>
+            <auto-search :defaultAddress="defaultAddress" size="small" @select="onSelectCoinbase1"
+              :content="$t('new03.text2')"></auto-search>
             <div class="tabs-list">
               <div class="tabs-item" 
                 :class="{active: tabCurrent == item}"

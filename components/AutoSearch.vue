@@ -19,8 +19,8 @@
             </div>
             <div class="raddbox">
               <span class="balance-text">{{ item.balance }}</span>
-              <div v-if="item.name !== 'TRDT'" @click.stop="onAddCoinbase(item)">
-                <img src="~/static/images/add2.png" alt="" class="addico" v-if="item.isAdd">
+              <div v-if="item.name !== 'TRDT'">
+                <img src="~/static/images/add2.png" alt="" class="addico" v-if="item.isAdd" @click.stop="onAddCoinbase(item)">
                 <img src="~/static/images/add.png" alt="" class="addico" v-else>
               </div>
             </div>
@@ -37,6 +37,38 @@
       <i class="el-icon-arrow-down"></i>
       <span class="si-balance">Balance: {{ selectInfo.balance }}</span>
     </div>
+    <!-- 导入提示 -->
+    <el-dialog
+      title="Import Tokens"
+      :visible.sync="showImportTips"
+      width="320px"
+      custom-class="tipsdialog"
+      :close-on-click-modal="false">
+      <div>
+        <el-alert
+          :title="content"
+          type="warning"
+          :closable="false">
+        </el-alert>
+        <div class="contract-address" v-if="waitImportInfo.name">
+          <h5>
+            <img :src="coinbaseIcos[waitImportInfo.name]||require('~/static/images/defaultico.png')" />
+            {{ waitImportInfo.name }}
+          </h5>
+          <p>{{ waitImportInfo.addr.substr(0, 4) }}...{{ waitImportInfo.addr.substr(-4) }}</p>
+          <a class="aintext" 
+            :href="`https://bscscan.com/address/${waitImportInfo.addr}`" 
+            target="_blank">(View on BscScan)</a>
+        </div>
+        <div class="contract-unbtn">
+          <el-checkbox size="medium" v-model="isUnderstand">I understand</el-checkbox>
+        </div>
+      </div>
+      <div slot="footer" class="dialog-footer-tips">
+        <el-button type="primary" class="themebtn" :disabled="!isUnderstand"
+          @click="confirmImportCoinbase">Import</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -51,10 +83,15 @@ export default {
     size: {
       type: String,
       default: ''
+    },
+    content: {
+      type: String,
+      default: ''
     }
   },
   data () {
     return {
+      showImportTips: false,
       selectInfo: null,
       selectValue: '',
       contractLists: [
@@ -66,6 +103,8 @@ export default {
           "isAdd": true
         }
       ],
+      waitImportInfo: {},
+      isUnderstand: false
     }
   },
   computed: {
@@ -125,15 +164,33 @@ export default {
       })
     },
     handleSelectCoinbase (item) {
-      this.selectInfo = item;
-      this.selectValue = item.addr;
-      this.$emit('select', item)
+      this.waitImportInfo = item;
+      if (item.isAdd) {
+        this.confirmImportCoinbase()
+      } else {
+        this.showImportTips = true;
+      }
+    },
+    confirmImportCoinbase () {
+      this.selectInfo = this.waitImportInfo;
+      this.selectValue = this.waitImportInfo.addr;
+      this.$emit('select', this.waitImportInfo);
+      this.showImportTips = false;
+      this.isUnderstand = false;
+      if (!this.selectInfo.isAdd) {
+        this.onAddCoinbase(this.waitImportInfo)
+      }
+      this.waitImportInfo = {};
     },
     async querySearch (queryAddress, cb) {
       if (queryAddress && queryAddress.length === 42) {
         try {
           let now = this.contractLists.filter(item => {
-            return item.addr.toUpperCase() == queryAddress.toUpperCase();
+            if (item.addr) {
+              return item.addr.toUpperCase() == queryAddress.toUpperCase();
+            } else {
+              return false;
+            }
           })
           if (now.length) {
             cb(now)
@@ -250,5 +307,36 @@ export default {
 }
 .not-have {
   text-align: center;
+}
+.dialog-footer-tips {
+  position: relative;
+  .themebtn {
+    width: 100%;
+  }
+}
+.contract-address {
+  position: relative;
+  padding: 20px 6px 10px;
+  h5 {
+    font-size: 16px;
+    @include flexBox(flex-start);
+  }
+  p {
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  img {
+    width: 24px;
+    height: 24px;
+    margin-right: 6px;
+  }
+  .aintext {
+    text-decoration: underline;
+    color: #f1a223;
+  }
+}
+.contract-unbtn {
+  padding: 0 6px;
+  margin-top: 10px;
 }
 </style>
