@@ -4,7 +4,7 @@
       <div class="coinname-assets">
         <el-carousel 
           height="30px" direction="vertical" autoplay 
-          indicator-position="none" loop :interval="10000">
+          indicator-position="none" loop :interval="5000">
           <el-carousel-item v-for="(item, index) in assetslists" :key="index">
             <div class="cinlistbox">
               <div class="medium" v-for="info in item" :key="info.symbol">
@@ -263,7 +263,7 @@ export default {
         // 刷新价格
         setTimeout(() => {
           this.getCoinbaseLists()
-        }, 10*1000)
+        }, 5*1000)
       })
     },
     onClearWalletAddress () {
