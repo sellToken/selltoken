@@ -203,7 +203,7 @@ export default {
         },
         {
           name: this.$t('PageHeader.GitHup'),
-          path: 'https://github.com/sellToken'
+          path: 'https://github.com/sellToken?tab=repositories'
         }
       ]
     },
@@ -257,6 +257,10 @@ export default {
           }
         }
         this.assetslists.push(tokenList);
+        // 刷新价格
+        setTimeout(() => {
+          this.getCoinbaseLists()
+        }, 10*1000)
       })
     },
     onClearWalletAddress () {

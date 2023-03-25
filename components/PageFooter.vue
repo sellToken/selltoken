@@ -68,7 +68,7 @@
           <ul class="vainitemcell">
       
             <li class="vw100item">
-              <a class="aintext" tabindex="0" aria-disabled="false" href="https://github.com/sellToken/SToken" role="link" target="_blank" rel="noreferrer">
+              <a class="aintext" tabindex="0" aria-disabled="false" href="https://github.com/sellToken?tab=repositories" role="link" target="_blank" rel="noreferrer">
                 <span class="atext">
                   <div class="gintext">
                     Github
