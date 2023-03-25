@@ -2,7 +2,9 @@
   <div class="page-header">
     <div class="fixed-header">
       <div class="coinname-assets">
-        <el-carousel height="30px" direction="vertical" :autoplay="false" indicator-position="none">
+        <el-carousel 
+          height="30px" direction="vertical" autoplay 
+          indicator-position="none" loop :interval="10000">
           <el-carousel-item v-for="(item, index) in assetslists" :key="index">
             <div class="cinlistbox">
               <div class="medium" v-for="info in item" :key="info.symbol">
@@ -256,6 +258,7 @@ export default {
             tokenList.push(items);
           }
         }
+        this.assetslists.push(tokenList);
         this.assetslists.push(tokenList);
         // 刷新价格
         setTimeout(() => {
