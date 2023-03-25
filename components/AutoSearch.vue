@@ -43,7 +43,8 @@
       :visible.sync="showImportTips"
       width="320px"
       custom-class="tipsdialog"
-      :close-on-click-modal="false">
+      :close-on-click-modal="false"
+      append-to-body>
       <div>
         <el-alert
           :title="content"

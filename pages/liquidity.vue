@@ -44,7 +44,8 @@
           </div>
           <div class="qui-item">
             <h2>{{ $t('new01.text8') }}</h2>
-            <auto-search size="small" @select="onSelectCoinbase2"></auto-search>
+            <auto-search size="small" @select="onSelectCoinbase2"
+              :content="$t('new03.text2')"></auto-search>
             <!-- 选择交易对 -->
             <!-- <h3 class="pair-h3">{{ $t('PageHome.text3') }}</h3> -->
             <div class="pair-content">
