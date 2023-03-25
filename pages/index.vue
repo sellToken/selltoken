@@ -31,8 +31,10 @@
       </div>
       <!-- 操作池 -->
       <div class="operation-pool">
-        <div>
-          <el-button></el-button>
+        <div class="pool-aintext">
+          <el-button type="text" @click="toRoute('https://app.selltoken.org/#/swap')">Swap</el-button>
+          <el-button type="text" @click="toRoute('/miner')">Miner</el-button>
+          <el-button type="text" @click="toRoute('/liquidity')">Liquidity</el-button>
         </div>
         <auto-search @select="onSelectCoinbase" @clear="onClearSelectInfo"
           :content="$t('new03.text1')"></auto-search>
@@ -518,6 +520,13 @@ export default {
   mounted () {
   },
   methods: {
+    toRoute (url) {
+      if (url.startsWith('http')) {
+        window.open(url)
+      } else {
+        this.$router.push(this.localePath(url))
+      }
+    },
     async initRenderCharts () {
       this.showChartsModal = true
       if (this.initCharts) return false;

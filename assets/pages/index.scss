@@ -36,7 +36,7 @@
   min-height: 468px;
   padding: 30px 28px;
   position: absolute;
-  top: 70px;
+  top: 30px;
   right: 20px;
   box-sizing: border-box;
   background: linear-gradient(180deg,hsla(0,0%,100%,.4),hsla(0,0%,100%,.1) 87.46%);
@@ -516,6 +516,11 @@
 }
 .prxin {
   padding-right: 60px;
+}
+.pool-aintext {
+  @include flexBox(space-evenly);
+  margin-top: -20px;
+  padding-bottom: 10px;
 }
 @media screen and (max-width: 750px) {
   .prxin {
