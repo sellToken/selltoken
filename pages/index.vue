@@ -31,6 +31,9 @@
       </div>
       <!-- 操作池 -->
       <div class="operation-pool">
+        <div>
+          <el-button></el-button>
+        </div>
         <auto-search @select="onSelectCoinbase" @clear="onClearSelectInfo"
           :content="$t('new03.text1')"></auto-search>
         <h3 class="pair-h3">{{ $t('PageHome.text3') }}</h3>

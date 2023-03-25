@@ -30,13 +30,16 @@
                 <!-- <span>{{ selectInfo1 ? selectInfo1.name : 'Select' }}</span> -->
               </div>
             </div>
-            <div class="inbtn-box">
+            <div class="inbtn-box" v-if="!isHaveOwn">
               <el-button type="primary" :disabled="!amountNumber1||!selectInfo1" v-if="!isAuth1"
                 :loading="authLoading"
                 @click="onAuthContract(selectInfo1.addr)">{{ $t('authorize') }}</el-button>
               <el-button type="primary" 
                 :disabled="!amountNumber1||!isAuth1||!tabCurrent" :loading="subLoading1"
                 @click="onSetPool1">{{ $t('PageLiquidity.text1') }}</el-button>
+            </div>
+            <div class="inbtn-box" v-else>
+              <el-button type="primary" disabled>{{ $t('new04.text1') }}</el-button>
             </div>
             <div class="inpintext">
               <p>{{ $t('PageLiquidity.text2') }}</p>
@@ -267,6 +270,7 @@ export default {
           4: '0.00000000',
         }
       ],
+      isHaveOwn: false
     }
   },
   computed: {
@@ -452,6 +456,14 @@ export default {
       this.tabCurrent = item
     },
     onSelectCoinbase1 (item) {
+      this.isHaveOwn = false;
+      for (let i = 0; i < this.myMinerLists.length; i ++) {
+        let n = this.myMinerLists[i];
+        if (n[0].toLocaleUpperCase() == item.addr.toLocaleUpperCase() && Number(n[1])>0) {
+          this.isHaveOwn = true;
+          break;
+        }
+      }
       this.selectInfo1 = item;
       this.isAuth1 = false;
       this.queryAllowance(item.addr)
