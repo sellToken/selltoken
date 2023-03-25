@@ -32,9 +32,9 @@
       <!-- 操作池 -->
       <div class="operation-pool">
         <div class="pool-aintext">
-          <el-button type="text" @click="toRoute('https://app.selltoken.org/#/swap')">Swap</el-button>
-          <el-button type="text" @click="toRoute('/miner')">Miner</el-button>
-          <el-button type="text" @click="toRoute('/liquidity')">Liquidity</el-button>
+          <el-button type="text" @click="toRoute('https://app.selltoken.org/#/swap')">{{ $t('PageHeader.Swap') }}</el-button>
+          <el-button type="text" @click="toRoute('/miner')">{{ $t('PageHeader.Miner') }}</el-button>
+          <el-button type="text" @click="toRoute('/liquidity')">{{ $t('PageHeader.Liquidity') }}</el-button>
         </div>
         <auto-search @select="onSelectCoinbase" @clear="onClearSelectInfo"
           :content="$t('new03.text1')"></auto-search>

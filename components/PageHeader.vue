@@ -182,7 +182,7 @@ export default {
           path: '/'
         },
         {
-          name: 'Swap',
+          name: this.$t('PageHeader.Swap'),
           path: 'https://app.selltoken.org/#/swap'
         },
         {
