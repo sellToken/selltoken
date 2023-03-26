@@ -65,7 +65,7 @@
         </div>
         <div class="contract-balance">
           <h6>
-            矿池余额：
+            {{ $t('new04.text2') }}：
             <img v-if="nowSearchInfo" :src="coinbaseIcos[nowSearchInfo?nowSearchInfo.name:'']||require('~/static/images/defaultico.png')" alt="">
             <img v-else :src="coinbaseIcos[selectInfo?selectInfo.name:'']||require('~/static/images/defaultico.png')" alt="">
             {{ nowContractAmount }}
