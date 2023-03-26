@@ -279,6 +279,29 @@
     color: #666;
   }
 }
+.contract-balance {
+  position: relative;
+  border-radius: 10px;
+  background-color: #fff;
+  padding: 0 10px;
+  margin-top: 10px;
+  margin-bottom: -10px;
+  height: 36px;
+  @include flexBox;
+  h6 {
+    @include flexBox;
+    font-size: 16px;
+    font-weight: normal;
+  }
+  img {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    position: relative;
+    margin-right: 10px;
+    top: -1px;
+  }
+}
 @media screen and (max-width: 750px) {
   .topliquidity-content {
     background: #c0c2e9;

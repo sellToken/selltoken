@@ -622,6 +622,7 @@ export default {
       clearInterval(this.timers[1])
       this.timers[1] = setInterval(() => {
         this.queryMaxShorts()
+        this.queryShorts()
       }, 10 * 1000)
     },
     async queryCoinbasePrice (index, pairName) {

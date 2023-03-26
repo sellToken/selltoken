@@ -53,15 +53,23 @@
     <!-- 订单 -->
     <div class="orderinfo-box">
       <!-- 历史数据 -->
-      <div class="old-tabbox" v-if="cacheMiners.length">
-        <h5>
+      <div class="old-tabbox">
+        <h5 v-if="cacheMiners.length">
           {{ $t('new02.text8') }}
           <!-- <p>当前查询：{{ nowSearchAddr }}</p> -->
         </h5>
-        <div class="old-tablist">
+        <div class="old-tablist" v-if="cacheMiners.length">
           <el-button size="small" :loading="searchLoading"
             v-for="item in cacheMiners" :key="item.name"
             @click="onSearchMiner(item)">{{ item.name }}</el-button>
+        </div>
+        <div class="contract-balance">
+          <h6>
+            矿池余额：
+            <img v-if="nowSearchInfo" :src="coinbaseIcos[nowSearchInfo?nowSearchInfo.name:'']||require('~/static/images/defaultico.png')" alt="">
+            <img v-else :src="coinbaseIcos[selectInfo?selectInfo.name:'']||require('~/static/images/defaultico.png')" alt="">
+            {{ nowContractAmount }}
+          </h6>
         </div>
       </div>
       <div class="swiper-orderinfo" v-swiper:mySwiper="SwiperOptions">
@@ -73,7 +81,8 @@
                 :style="{backgroundColor: '#7cbbf1'}"></div>
               <div class="o-top">
                 <div class="ot-logo">
-                  <img :src="coinbaseIcos[selectInfo?selectInfo.name:'']||require('~/static/images/defaultico.png')" alt="">
+                  <img v-if="nowSearchInfo" :src="coinbaseIcos[nowSearchInfo?nowSearchInfo.name:'']||require('~/static/images/defaultico.png')" alt="">
+                  <img v-else :src="coinbaseIcos[selectInfo?selectInfo.name:'']||require('~/static/images/defaultico.png')" alt="">
                 </div>
                 <strong>{{ $t('PageMiner.text1') }}</strong>
               </div>
@@ -265,7 +274,8 @@ export default {
       amountBNB: 0,
       cacheMiners: [],
       nowSearchInfo: {},
-      searchLoading: false
+      searchLoading: false,
+      nowContractAmount: 0
     }
   },
   computed: {
@@ -294,9 +304,18 @@ export default {
     clearInterval(this.timer)
   },
   methods: {
+    async queryCoinbaseBalance (coinbaseAddress) {
+      const { methods } = await this.$store.dispatch('contract/common', {address: coinbaseAddress});
+      methods.balanceOf(ADDRESS).call((err, res) => {
+        if (!err) {
+          this.nowContractAmount = (res/Math.pow(10, 18)).toFixed(8)
+        }
+      })
+    },
     async onSearchMiner (item) {
       this.nowSearchInfo = item;
       this.queryMinerOrder(item.addr);
+      this.queryCoinbaseBalance(item.addr)
       clearInterval(this.timer)
       this.timer = setInterval(() => {
         this.queryMinerOrder(item.addr)
@@ -390,6 +409,7 @@ export default {
       this.nowSearchInfo = {};
       this.selectInfo = item;
       this.queryMinerOrder(item.addr);
+      this.queryCoinbaseBalance(item.addr);
       clearInterval(this.timer)
       this.timer = setInterval(() => {
         this.queryMinerOrder(item.addr)
