@@ -233,7 +233,8 @@
           &:active {
             top: 2px;
           }
-          &.disabled {
+          &.disabled,
+          &.is-disabled {
             opacity: 0.6;
             top: 0 !important;
           }

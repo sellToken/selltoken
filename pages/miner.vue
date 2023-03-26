@@ -24,7 +24,7 @@
             <div class="write-amount">
               <el-input-number 
                 v-model="amountNumber" controls-position="right" 
-                :min="0" :step="0.1">
+                :min="0.000001" :step="0.1">
               </el-input-number>
               <div class="amount-unit">
                 <img src="~/static/images/BNB.png" alt="" class="unitico">
@@ -368,7 +368,7 @@ export default {
               2: res[2][index] == 0 ? '0' : new Date(Number(res[2][index]+'000')).toLocaleString(),
               3: null,
               4: null,
-              5: nowTime > (res[2][index]+86400)
+              5: nowTime > (Number(res[2][index])+86400)
             }
           })
           methods.getMiner1s(addr).call((err, res) => {
