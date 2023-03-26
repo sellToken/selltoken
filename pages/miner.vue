@@ -128,10 +128,10 @@
                 </div>
                 <div class="cp-btnbox">
                   <el-button class="inbtntext-int1" 
-                    :disabled="!nowSearchInfo.addr&&!selectInfo.addr||!item[5]"
+                    :disabled="(!nowSearchInfo.addr&&!selectInfo.addr)||!item[5]"
                     @click="onIncome(nowSearchInfo.addr||selectInfo.addr)">{{ $t('income') }}</el-button>
                   <el-button class="inbtntext-int2" 
-                    :disabled="!nowSearchInfo.addr&&!selectInfo.addr||!item[5]"
+                    :disabled="(!nowSearchInfo.addr&&!selectInfo.addr)||!item[5]"
                     @click="onResupply(nowSearchInfo.addr||selectInfo.addr)">{{ $t('resupply') }}</el-button>
                 </div>
               </div>
