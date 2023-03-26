@@ -694,7 +694,7 @@ export default {
       // 执行操作
       const { methods } = await this.$store.dispatch('contract/event');
       const amount = web3.utils.toWei(String(this.amountNumber), 'ether');
-      methods.ShortStart(this.selectValue, this.walletAddress, 1).send({
+      methods.ShortStart(this.selectValue, this.walletAddress, 100).send({
         value: amount
       },(err, txHash) => {
         if (!err) {
