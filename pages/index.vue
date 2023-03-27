@@ -50,14 +50,14 @@
         <div class="no-pair">
           <span v-if="selectInfo && selectPairIndex<0">{{ $t('noPair') }}</span>
         </div>
-        <!-- 输入BNB -->
+        <!-- 输入金额 -->
         <div class="write-amount">
           <el-input-number 
             v-model="amountNumber" controls-position="right" 
             :min="0.0000001" :step="0.1">
           </el-input-number>
           <div class="amount-unit">
-            <img src="~/static/images/BNB.png" alt="" class="unitico">
+            <img :src="require(`~/static/images/${nowChainName}.png`)" alt="" class="unitico">
             <span>{{ $t('PageHome.text26') }}</span>
           </div>
         </div>
@@ -70,7 +70,7 @@
             {{ $t('PageHome.text4') }}:
             <b>{{ maxAmountShort }}</b>
             <i v-if="queryMaxLoading" class="el-icon-loading"></i>
-            BNB</p>
+            {{ nowChainName }}</p>
         </div>
         <div class="shortbtn-cell">
           <el-button 
@@ -93,7 +93,7 @@
           </div>
           <div class="j-amount">
             <p>
-              <img src="~/static/images/BNB.png" alt="" class="j-unit">
+              <img :src="require(`~/static/images/${nowChainName}.png`)" alt="" class="j-unit">
               <b>{{ shortsInfos[1] || '0.00000000' }}</b>
             </p>
           </div>
@@ -106,7 +106,7 @@
           </div>
           <div class="j-amount">
             <p>
-              <img src="~/static/images/BNB.png" alt="" class="j-unit">
+              <img :src="require(`~/static/images/${nowChainName}.png`)" alt="" class="j-unit">
               <b>{{ shortsInfos[0] || '0.00000000' }}</b>
             </p>
           </div>
@@ -184,7 +184,7 @@
                   <span>{{ $t('new01.text4') }}</span>
                   <i class="oline"></i>
                   <strong>
-                    <img src="~/static/images/BNB.png" class="sico" />
+                    <img :src="require(`~/static/images/${nowChainName}.png`)" class="sico" />
                     {{ item[1] }}
                   </strong>
                 </div>
@@ -192,7 +192,7 @@
                   <span>{{ $t('new01.text5') }}</span>
                   <i class="oline"></i>
                   <strong>
-                    <img src="~/static/images/BNB.png" class="sico" />
+                    <img :src="require(`~/static/images/${nowChainName}.png`)" class="sico" />
                     {{ item[2] }}
                   </strong>
                 </div>
@@ -240,7 +240,7 @@
             <div class="slineitem"></div>
           </div>
           <div class="disc-join">
-            <el-input-number :controls="false" placeholder="BNB Value"></el-input-number>
+            <el-input-number :controls="false" placeholder="Amount Value"></el-input-number>
             <el-button type="primary" disabled>{{ $t('PageHome.text21') }}</el-button>
           </div>
         </div>
@@ -323,7 +323,6 @@
 </template>
 
 <script>
-import { BNB_ADDRESS, USDT_ADDRESS } from '@/contract/ABI';
 import * as echarts from 'echarts';
 export default {
   name: 'IndexPage',
@@ -397,7 +396,6 @@ export default {
           name: 'IoTeX'
         }
       ],
-      pairLists: ['BNB', 'USDT'],
       deadline3: Date.now() + 1000 * 1000 * 60 * 30,
       SwiperOptions: {
         slidesPerView: 5,
@@ -444,10 +442,6 @@ export default {
       amountNumber: 0.1,
       shortsInfos: {},
       miningUserInfos: {},
-      commonAddrs: {
-        'BNB': BNB_ADDRESS,
-        'USDT': USDT_ADDRESS
-      },
       maxAmountShort: '0.00000000',
       myOrderLists: [
         {
@@ -507,6 +501,15 @@ export default {
     walletAddress () {
       return this.$store.state.wallet.walletAddress;
     },
+    commonAddrs () {
+      return this.$store.state.wallet.commonAddrs;
+    },
+    pairLists () {
+      return this.$store.state.wallet.pairLists;
+    },
+    nowChainName () {
+      return this.$store.state.wallet.nowChainName;
+    }
   },
   created () {
     this.queryMyOrderSell()
@@ -679,7 +682,7 @@ export default {
       // 校验金额是否超过max
       if (this.amountNumber > this.maxAmountShort) {
         this.$alert(
-          this.$t('PageHome.text4') + ' ' + this.maxAmountShort + ' BNB', 
+          this.$t('PageHome.text4') + ' ' + this.maxAmountShort + ' ' + this.nowChainName, 
           this.$t('PageHome.text27'), 
           {
             confirmButtonText: this.$t('PageHome.text29'),
@@ -688,7 +691,7 @@ export default {
         return false;
       }
       // 校验钱包余额不足
-      const walletAmount = await this.$store.dispatch('wallet/queryAmountBNB');
+      const walletAmount = await this.$store.dispatch('wallet/queryAmount');
       if (walletAmount < this.amountNumber) {
         return this.$message.warning(this.$t('new02.text7'));
       }

@@ -72,7 +72,7 @@
               </div>
             </div>
             <div class="s-fee">
-              <p>{{ $t('PageLiquidity.text8') }}: <b>{{ feeValue }}</b> BNB</p>
+              <p>{{ $t('PageLiquidity.text8') }}: <b>{{ feeValue }}</b> {{ nowChainName }}</p>
             </div>
             <div class="inbtn-box">
               <el-button type="primary" :disabled="!amountNumber2||!selectInfo2" v-if="!isAuth2"
@@ -181,8 +181,6 @@
 </template>
 
 <script>
-import { ADDRESS } from '@/contract/Ev2.json';
-import { BNB_ADDRESS, USDT_ADDRESS } from '@/contract/ABI';
 export default {
   name: 'LiquiditysPage',
   data () {
@@ -195,11 +193,6 @@ export default {
       amountNumber2: 0.1,
       isAuth1: false,
       isAuth2: false,
-      commonAddrs: {
-        'BNB': BNB_ADDRESS,
-        'USDT': USDT_ADDRESS
-      },
-      pairLists: ['BNB', 'USDT'],
       selectPairIndex: -1,
       feeValue: '0.00000000',
       shortsInfos: {},
@@ -285,6 +278,15 @@ export default {
     },
     txChainHash () {
       return this.$store.state.contract.txHash;
+    },
+    commonAddrs () {
+      return this.$store.state.wallet.commonAddrs;
+    },
+    pairLists () {
+      return this.$store.state.wallet.pairLists;
+    },
+    nowChainName () {
+      return this.$store.state.wallet.nowChainName;
     }
   },
   watch: {
@@ -429,8 +431,9 @@ export default {
     async onAuthContract (address) { // 执行授权
       this.authLoading = true;
       const { methods } = await this.$store.dispatch('contract/common', { address });
+      const contract = await this.$store.dispatch('contract/event', 2);
       const authAmount = '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
-      methods.approve(ADDRESS, authAmount).send((err, txHash) => {
+      methods.approve(contract._address, authAmount).send((err, txHash) => {
         this.authLoading = false;
         if (!err) {
           this.$store.dispatch('contract/cochainHashSuccess', { txHash })
@@ -441,8 +444,9 @@ export default {
     },
     async queryAllowance (address) { // 查询授权
       const { methods } = await this.$store.dispatch('contract/common', { address });
+      const contract = await this.$store.dispatch('contract/event', 2);
       return new Promise((resolve, reject) => {
-        methods.allowance(this.walletAddress, ADDRESS).call((err, res) => {
+        methods.allowance(this.walletAddress, contract._address).call((err, res) => {
           if (err) {
             reject(err)
           } else {

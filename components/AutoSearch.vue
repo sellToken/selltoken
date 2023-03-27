@@ -16,6 +16,7 @@
             <div>
               <img :src="coinbaseIcos[item.name]||require('~/static/images/defaultico.png')" alt="" class="coinico">
               <span class="name">{{ item.name }}</span>
+              <small class="chain-name">{{ item.chainName || 'BNB' }} chain</small>
             </div>
             <div class="raddbox">
               <span class="balance-text">{{ item.balance }}</span>
@@ -101,7 +102,8 @@ export default {
           "pairs": "",
           "name": "TRDT",
           "balance": "0.00",
-          "isAdd": true
+          "isAdd": true,
+          "chainName": "BNB"
         }
       ],
       waitImportInfo: {},
@@ -112,19 +114,28 @@ export default {
     coinbaseIcos () {
       return this.$store.state.coinbaseIcos;
     },
+    nowChainName () {
+      return this.$store.state.wallet.nowChainName;
+    }
   },
   mounted () {
     this.selectValue = this.defaultAddress;
     let cacheList = localStorage.getItem('contractLists');
     this.contractLists = cacheList ? JSON.parse(cacheList) : this.contractLists;
-    this.allCacheInitBalance()
+    this.$nextTick(() => {
+      setTimeout(() => {
+        this.allCacheInitBalance()
+      }, 10)
+    })
   },
   methods: {
     allCacheInitBalance () { // 初始化请求余额
       this.contractLists.forEach(async (item) => {
-        const addrInfo = await this.queryAllCoinbase(item.addr);
-        item.pairs = addrInfo[1];
-        item.balance = (addrInfo[2]/Math.pow(10, 18)).toFixed(4);
+        if ((item.chainName||'BNB') == this.nowChainName) {
+          const addrInfo = await this.queryAllCoinbase(item.addr);
+          item.pairs = addrInfo[1];
+          item.balance = (addrInfo[2]/Math.pow(10, 18)).toFixed(4);
+        }
       })
     },
     async queryAllCoinbase (addr) {
@@ -187,7 +198,7 @@ export default {
       if (queryAddress && queryAddress.length === 42) {
         try {
           let now = this.contractLists.filter(item => {
-            if (item.addr) {
+            if (item.addr && (item.chainName||'BNB') == this.nowChainName) {
               return item.addr.toUpperCase() == queryAddress.toUpperCase();
             } else {
               return false;
@@ -203,7 +214,8 @@ export default {
                 "name": addrInfo[0],
                 "pairs": addrInfo[1],
                 "balance": (addrInfo[2]/Math.pow(10,18)).toFixed(4),
-                "isAdd": false
+                "isAdd": false,
+                "chainName": this.nowChainName || 'BNB'
               }
             ];
             console.log(222, results)
@@ -214,7 +226,7 @@ export default {
           cb([{}]);
         }
       } else {
-        cb(this.contractLists);
+        cb(this.contractLists.filter(m => (m.chainName||'BNB') == this.nowChainName));
       }
     },
   }
@@ -290,6 +302,9 @@ export default {
     .name {
       color: #333;
       line-height: 1;
+    }
+    .chain-name {
+      color: #999;
     }
     .raddbox {
       @include flexBox;

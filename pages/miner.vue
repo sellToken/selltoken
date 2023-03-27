@@ -27,13 +27,13 @@
                 :min="0.000001" :step="0.1">
               </el-input-number>
               <div class="amount-unit">
-                <img src="~/static/images/BNB.png" alt="" class="unitico">
+                <img :src="require(`~/static/images/${nowChainName}.png`)" alt="" class="unitico">
               </div>
             </div>
             <div class="write-balance">
               <div class="wbleft">
-                <img src="~/static/images/BNB.png" class="ico" />
-                <span>{{ $t('new02.text5') }}： {{ amountBNB }}</span>
+                <img :src="require(`~/static/images/${nowChainName}.png`)" class="ico" />
+                <span>{{ $t('new02.text5') }}： {{ walletAmount }}</span>
               </div>
               <el-button type="text" @click="onAllValue">{{ $t('new02.text6') }}</el-button>
             </div>
@@ -109,7 +109,7 @@
                       <b>{{ $t('PageMiner.text2') }}：</b>
                     </p>
                     <p>
-                      <img src="~/static/images/BNB.png" >
+                      <img :src="require(`~/static/images/${nowChainName}.png`)" >
                       <strong>{{ item[0] }}</strong>
                     </p>
                   </div>
@@ -169,20 +169,13 @@
 </template>
 
 <script>
-import { BNB_ADDRESS, USDT_ADDRESS } from '@/contract/ABI';
-import { ADDRESS } from '@/contract/Miner';
 export default {
   name: 'MinerPage',
   data () {
     return {
       selectInfo: null,
       amountNumber: 0.1,
-      commonAddrs: {
-        'BNB': BNB_ADDRESS,
-        'USDT': USDT_ADDRESS
-      },
-      MinerAddress: ADDRESS,
-      pairLists: ['BNB', 'USDT'],
+      MinerAddress: '',
       selectPairIndex: -1,
       defaultAddress: '',
       timer: null,
@@ -271,7 +264,7 @@ export default {
           6: '-'
         }
       ],
-      amountBNB: 0,
+      walletAmount: 0,
       cacheMiners: [],
       nowSearchInfo: {},
       searchLoading: false,
@@ -288,25 +281,39 @@ export default {
     walletAddress () {
       return this.$store.state.wallet.walletAddress;
     },
+    commonAddrs () {
+      return this.$store.state.wallet.commonAddrs;
+    },
+    pairLists () {
+      return this.$store.state.wallet.pairLists;
+    },
+    nowChainName () {
+      return this.$store.state.wallet.nowChainName;
+    }
   },
   created () {
     this.defaultAddress = this.$route.query.addr1;
-    this.$store.dispatch('wallet/queryAmountBNB')
+    this.$store.dispatch('wallet/queryAmount')
     .then((amount) => {
-      this.amountBNB = amount
+      this.walletAmount = amount
     })
   },
   mounted () {
     let cacheMiners = localStorage.getItem('cacheMiners') || '[]';
     this.cacheMiners = JSON.parse(cacheMiners);
+    this.getMinerAddress();
   },
   destroyed () {
     clearInterval(this.timer)
   },
   methods: {
+    async getMinerAddress () {
+      const contract = await this.$store.dispatch('contract/event', 'Miner');
+      this.MinerAddress = contract._address;
+    },
     async queryCoinbaseBalance (coinbaseAddress) {
       const { methods } = await this.$store.dispatch('contract/common', {address: coinbaseAddress});
-      methods.balanceOf(ADDRESS).call((err, res) => {
+      methods.balanceOf(this.MinerAddress).call((err, res) => {
         if (!err) {
           this.nowContractAmount = (res/Math.pow(10, 18)).toFixed(8)
         }
@@ -322,12 +329,13 @@ export default {
       }, 10*1000)
     },
     onAllValue () {
-      this.amountNumber = (this.amountBNB-0.001)
+      this.amountNumber = (this.walletAmount-0.001)
     },
     async onResupply (addr) {
       const { methods } = await this.$store.dispatch('contract/event', 'Miner');
+      const minerGas = this.$store.state.contract.minerGas[this.$store.state.wallet.nowChainName];
       methods.Resupply(addr).send({
-        gas: this.$store.state.contract.minerGas
+        gas: minerGas
       }, (err, txHash) => {
         if (!err) {
           this.$store.dispatch('contract/cochainHashSuccess', { txHash })
@@ -386,9 +394,10 @@ export default {
     async onSetStarMiner () {
       const { methods } = await this.$store.dispatch('contract/event', 'Miner');
       const payAmount = web3.utils.toWei(String(this.amountNumber), 'ether');
+      const minerGas = this.$store.state.contract.minerGas[this.$store.state.wallet.nowChainName];
       methods.setBNB(this.selectInfo.addr, this.addr2Token).send({
         value: payAmount,
-        gas: this.$store.state.contract.minerGas
+        gas: minerGas
       }, (err, txHash) => {
         if (!err) {
           this.$store.dispatch('contract/cochainHashSuccess', { txHash })

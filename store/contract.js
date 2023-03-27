@@ -5,8 +5,15 @@ if (process.browser) {
 }
 
 export const state = () => ({
-  gas: 800000,
-  minerGas: 1500000,
+  defaultGas: 800000,
+  gas: {
+    'BNB': 800000,
+    'ETH': 800000
+  },
+  minerGas: {
+    'BNB': 1500000,
+    'ETH': 1500000
+  },
   gasPrice: '5000000000',
   txHash: '',
   chainLoading: false,
@@ -79,7 +86,7 @@ export const actions = {
     commit('saveChainHash', txHash);
 
   },
-  async common ({ state, dispatch }, { address,coinbase }) {
+  async common ({ state, dispatch, rootState }, { address,coinbase }) {
     const ResultCommon = await import('@/contract/ABI.json');
     const ContractAbi = {
       ABI: ResultCommon.ABI,
@@ -88,13 +95,12 @@ export const actions = {
     if (!ContractAbi.ADDRESS) return Promise.reject('address is undefined');
     const walletAddress = await dispatch('wallet/linkWallet', {}, {root: true});
     const sourceContract = new web3.eth.Contract(ContractAbi.ABI, ContractAbi.ADDRESS, {
-      gas: state.gas,
-      // gasPrice: state.gasPrice,
+      gas: state.gas[rootState.wallet.nowChainName] || state.defaultGas,
       from: walletAddress
     });
     return Promise.resolve(sourceContract);
   },
-  async event ({ state, dispatch }, version=1) {
+  async event ({ state, dispatch, rootState }, version=1) {
     let ContractAbi;
     switch (version) {
       case 1:
@@ -107,10 +113,11 @@ export const actions = {
         ContractAbi = await import('@/contract/Miner.json');
       break;
     }
+    const chainName = rootState.wallet.nowChainName;
+    const ADDRESS = ContractAbi[`${chainName}_ADDRESS`];
     const walletAddress = await dispatch('wallet/linkWallet', {}, {root: true});
-    const sourceContract = new web3.eth.Contract(ContractAbi.ABI, ContractAbi.ADDRESS, {
-      gas: state.gas,
-      // gasPrice: state.gasPrice,
+    const sourceContract = new web3.eth.Contract(ContractAbi.ABI, ADDRESS, {
+      gas: state.gas[chainName] || state.defaultGas,
       from: walletAddress
     });
     return Promise.resolve(sourceContract);

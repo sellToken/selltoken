@@ -67,25 +67,33 @@
             </el-dropdown-menu>
           </el-dropdown>
           <!-- chain link -->
-          <el-dropdown trigger="click" placement="bottom-start">
+          <el-dropdown trigger="click" placement="bottom-start"
+            @command="onChangeChainLink">
             <div class="chain-link">
-              <img src="~/static/images/bnb_link.png" alt="" class="chainlinkico">
-              <span>BNB Chain</span>
+              <img 
+                :src="require(`~/static/images/${nowChainName.toLocaleLowerCase()}_link.png`)" 
+                alt="" class="chainlinkico">
+              <span>{{ chainIds[nowChainName].text }}</span>
               <img src="~/static/images/arrow-down.png" alt="" class="arrowico">
             </div>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="BNB">
+              <el-dropdown-item 
+                v-for="(item, tokenName) in chainIds" :key="tokenName"
+                :command="tokenName" :disabled="nowChainName === tokenName"
+                :divided="tokenName !== 'BNB'">
                 <div class="chainlink-cell">
-                  <img src="~/static/images/bnb_link.png" alt="" class="linkico">
-                  <span>BNB Smart Chain</span>
+                  <img 
+                    :src="require(`~/static/images/${tokenName.toLocaleLowerCase()}_link.png`)" 
+                    alt="" class="linkico">
+                  <span>{{ item.text }}</span>
                 </div>
               </el-dropdown-item>
-              <el-dropdown-item command="ETH" disabled divided>
+              <!-- <el-dropdown-item command="ETH" divided :disabled="nowChainName === 'ETH'">
                 <div class="chainlink-cell">
                   <img src="~/static/images/eth_link.png" alt="" class="linkico">
-                  <span>Ethereum (Not open)</span>
+                  <span>Ethereum </span>
                 </div>
-              </el-dropdown-item>
+              </el-dropdown-item> -->
             </el-dropdown-menu>
           </el-dropdown>
           <!-- wallet -->
@@ -173,7 +181,8 @@ export default {
       showMobileNavbar: false,
       maxWidthNavbar: false,
       showWalletAddress: false,
-      assetslists: []
+      assetslists: [],
+      pageLoading: null
     }
   },
   computed: {
@@ -220,6 +229,12 @@ export default {
     },
     walletAddress () {
       return this.$store.state.wallet.walletAddress;
+    },
+    chainIds () {
+      return this.$store.state.wallet.chainIds;
+    },
+    nowChainName () {
+      return this.$store.state.wallet.nowChainName;
     }
   },
   watch: {
@@ -235,13 +250,76 @@ export default {
     }
   },
   created () {
+    this.pageLoading = this.$loading({
+      lock: true,
+      text: 'Loading',
+      spinner: 'el-icon-loading',
+      background: 'rgba(0, 0, 0, 0.7)'
+    });
     this.onConnectWallet()
     this.getCoinbaseLists()
   },
   mounted () {
-    this.maxWidthNavbar = window.innerWidth > 1150
+    this.maxWidthNavbar = window.innerWidth > 1150;
+    this.$nextTick(() => {
+      setTimeout(() => {
+        this.initChainLink()
+      }, 10)
+    })
   },
   methods: {
+    initChainLink () { // 初始化判断网络
+      let nowId = Number(web3.currentProvider.chainId);
+      console.log('当前网络ID', nowId)
+      if (!nowId) {
+        setTimeout(() => {
+          this.initChainLink()
+        }, 100)
+        return false;
+      }
+      for (let k in this.chainIds) {
+        let item = this.chainIds[k];
+        if (item.id == nowId) {
+          this.$store.commit('wallet/changeChain', k);
+          break;
+        }
+      }
+      setTimeout(() => {
+        this.pageLoading.close();
+      }, 100)
+      // 监听账号切换
+      ethereum.on('accountsChanged', () => {
+        this.$message.success('Account switched');
+        setTimeout(() => {
+          location.reload();
+        }, 100)
+      });
+      // 监听网络切换
+      ethereum.on('chainChanged', () => {
+        this.$message.success('Network switched');
+        setTimeout(() => {
+          location.reload();
+        }, 100)
+      });
+    },
+    onChangeChainLink (chainName) {
+      ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{
+          chainId: web3.utils.numberToHex(this.chainIds[chainName].id)
+        }]
+      }).then(() => {
+        this.pageLoading = this.$loading({
+          lock: true,
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
+        this.$store.commit('wallet/changeChain', chainName);
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
     getCoinbaseLists () {
       let tokenList = []
       this.$axios.get('https://api.coincap.io/v2/assets?limit=20')
