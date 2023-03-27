@@ -692,18 +692,26 @@ export default {
       if (walletAmount < this.amountNumber) {
         return this.$message.warning(this.$t('new02.text7'));
       }
-      // 执行操作
-      const { methods } = await this.$store.dispatch('contract/event');
-      const amount = web3.utils.toWei(String(this.amountNumber), 'ether');
-      methods.ShortStart(this.selectValue, this.walletAddress, 100).send({
-        value: amount
-      },(err, txHash) => {
-        if (!err) {
-          this.$store.dispatch('contract/cochainHashSuccess', { txHash })
-        } else {
-          this.$store.dispatch('contract/cochainHashError', { err })
-        }
-      })
+      this.$confirm(this.$t('new04.text6', {
+        tokenName: this.pairLists[this.selectPairIndex]
+      }), this.$t('new04.text3'), {
+        confirmButtonText: this.$t('new04.text4'),
+        cancelButtonText: this.$t('new04.text5'),
+        type: 'warning'
+      }).then(async () => {
+        // 执行操作
+        const { methods } = await this.$store.dispatch('contract/event');
+        const amount = web3.utils.toWei(String(this.amountNumber), 'ether');
+        methods.ShortStart(this.selectValue, this.walletAddress, 100).send({
+          value: amount
+        },(err, txHash) => {
+          if (!err) {
+            this.$store.dispatch('contract/cochainHashSuccess', { txHash })
+          } else {
+            this.$store.dispatch('contract/cochainHashError', { err })
+          }
+        })
+      }).catch(() => {})
     },
     toLiquidity () {
       const addr1 = this.selectValue;
@@ -738,7 +746,7 @@ export default {
         methods.getShortsMoV(this.selectValue, this.addr2Token).call((err, res) => {
           this.queryMaxLoading = false
           if (!err) {
-            this.maxAmountShort = (res/Math.pow(10, 18)).toFixed(8);
+            this.maxAmountShort = (res/Math.pow(10, 18)/2).toFixed(8);
             console.log('最大做空:', this.maxAmountShort)
           } else {
             this.maxAmountShort = '0.00000000';

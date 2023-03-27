@@ -1,7 +1,11 @@
 {
   "new04": {
     "text1": "paki-redeem",
-    "text2": "Balance ng pool ng minahan"
+    "text2": "Balance ng pool ng minahan",
+    "text3": "Mga Tips",
+    "text4": "determine",
+    "text5": "kanselahin",
+    "text6": "Sigurado ka bang ang LP pool ng mga tokens ay {tokenName}?"
   },
   "new03": {
      "text1": "Sinuman ay maaaring lumikha ng isang BEP20 token ng anumang pangalan sa BNB Smart Chain, kabilang ang paggawa ng mga pekeng bersyon ng mga umiiral na token at token na nagsasabing kumakatawan sa mga proyektong walang mga token. Kung maikli mo ang isang token, maaaring hindi ka upang makakuha ng mga benepisyo, pakisuri nang detalyado ang short-selling liquidity, LP pool, at contract security ng token na ito.",

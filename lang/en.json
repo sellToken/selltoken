@@ -1,7 +1,11 @@
 {
   "new04": {
     "text1": "Please redeem tokens",
-    "text2": "Mine pool balance"
+    "text2": "Mine pool balance",
+    "text3": "Point out",
+    "text4": "Define",
+    "text5": "Cancel",
+    "text6": "Are you sure the LP pool of tokens is {tokenName}?"
   },
   "new03": {
      "text1": "Anyone can create a BEP20 token of any name on the BNB Smart Chain, including creating fake versions of existing tokens and tokens that claim to represent projects that don't have tokens. If you short a token, You may not be able to obtain benefits, please check the short-selling liquidity, LP pool, and contract security of this token in detail.",
