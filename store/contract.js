@@ -8,11 +8,11 @@ export const state = () => ({
   defaultGas: 800000,
   gas: {
     'BNB': 800000,
-    'ETH': 40000
+    'ETH': 150000
   },
   minerGas: {
     'BNB': 1500000,
-    'ETH': 80000
+    'ETH': 200000
   },
   gasPrice: '5000000000',
   txHash: '',
