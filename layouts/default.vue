@@ -70,18 +70,4 @@ export default {
 
 <style lang="scss">
 @import '~assets/common.scss';
-.box-loading {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 999999;
-  @include flexBox;
-  background: rgba(#000000, 0.8);
-  i {
-    font-size: 24px;
-    color: #ffffff;
-  }
-}
 </style>
