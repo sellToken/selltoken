@@ -1,7 +1,15 @@
 import Vue from 'vue';
 if (process.browser) {
   const Web3 = require('web3');
-  window.web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
+  if (!!window.imToken) {
+    if (window.ethereum) {
+      window.web3 = new Web3(ethereum);
+    } else {
+      window.web3 = new Web3(web3.currentProvider);
+    }
+  } else {
+    window.web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
+  }
 }
 
 export const state = () => ({
