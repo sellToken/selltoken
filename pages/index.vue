@@ -695,26 +695,18 @@ export default {
       if (walletAmount < this.amountNumber) {
         return this.$message.warning(this.$t('new02.text7'));
       }
-      this.$confirm(this.$t('new04.text6', {
-        tokenName: this.pairLists[this.selectPairIndex]
-      }), this.$t('new04.text3'), {
-        confirmButtonText: this.$t('new04.text4'),
-        cancelButtonText: this.$t('new04.text5'),
-        type: 'warning'
-      }).then(async () => {
-        // 执行操作
-        const { methods } = await this.$store.dispatch('contract/event');
-        const amount = web3.utils.toWei(String(this.amountNumber), 'ether');
-        methods.ShortStart(this.selectValue, this.walletAddress, 100).send({
-          value: amount
-        },(err, txHash) => {
-          if (!err) {
-            this.$store.dispatch('contract/cochainHashSuccess', { txHash })
-          } else {
-            this.$store.dispatch('contract/cochainHashError', { err })
-          }
-        })
-      }).catch(() => {})
+      // 执行操作
+      const { methods } = await this.$store.dispatch('contract/event');
+      const amount = web3.utils.toWei(String(this.amountNumber), 'ether');
+      methods.ShortStart(this.selectValue, this.walletAddress, 100).send({
+        value: amount
+      },(err, txHash) => {
+        if (!err) {
+          this.$store.dispatch('contract/cochainHashSuccess', { txHash })
+        } else {
+          this.$store.dispatch('contract/cochainHashError', { err })
+        }
+      })
     },
     toLiquidity () {
       const addr1 = this.selectValue;

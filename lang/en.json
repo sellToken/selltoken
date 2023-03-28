@@ -5,7 +5,7 @@
     "text3": "Point out",
     "text4": "Define",
     "text5": "Cancel",
-    "text6": "Are you sure the LP pool of tokens is {tokenName}?"
+    "text6": "The transaction pair you selected is <b style='color:red'>{coinbaseName}/{tokenName}</b>. Please check whether the token LP pool is correct, otherwise you will be responsible for any losses."
   },
   "new03": {
      "text1": "Anyone can create a BEP20 token of any name on the BNB Smart Chain, including creating fake versions of existing tokens and tokens that claim to represent projects that don't have tokens. If you short a token, You may not be able to obtain benefits, please check the short-selling liquidity, LP pool, and contract security of this token in detail.",

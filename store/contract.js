@@ -8,11 +8,11 @@ export const state = () => ({
   defaultGas: 800000,
   gas: {
     'BNB': 800000,
-    'ETH': 800000
+    'ETH': 40000
   },
   minerGas: {
     'BNB': 1500000,
-    'ETH': 1500000
+    'ETH': 80000
   },
   gasPrice: '5000000000',
   txHash: '',
@@ -35,6 +35,18 @@ export const mutations = {
 }
 
 export const actions = {
+  async queyrSymbol ({ dispatch }, address) {
+    const { methods } = await dispatch('common', {address});
+    return new Promise((resolve, reject) => {
+      methods.decimals().call((err, res) => {
+        if (!err) {
+          resolve(Number(res))
+        } else {
+          reject(err)
+        }
+      })
+    })
+  },
   async queryTxHashStatus ({ state, commit }) {
     return new Promise((resolve, reject) => {
       window.web3.eth.getTransactionReceipt(state.txHash, (err, res) => {
@@ -116,6 +128,7 @@ export const actions = {
     const chainName = rootState.wallet.nowChainName;
     const ADDRESS = ContractAbi[`${chainName}_ADDRESS`];
     const walletAddress = await dispatch('wallet/linkWallet', {}, {root: true});
+    
     const sourceContract = new web3.eth.Contract(ContractAbi.ABI, ADDRESS, {
       gas: state.gas[chainName] || state.defaultGas,
       from: walletAddress

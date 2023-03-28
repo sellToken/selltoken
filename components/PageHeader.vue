@@ -269,7 +269,7 @@ export default {
   },
   methods: {
     initChainLink () { // 初始化判断网络
-      let nowId = Number(web3.currentProvider.chainId);
+      let nowId = 56 // Number(web3.currentProvider.chainId);
       console.log('当前网络ID', nowId)
       if (!nowId) {
         setTimeout(() => {

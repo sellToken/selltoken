@@ -9,7 +9,7 @@
         <div class="qui-box">
           <div class="qui-item">
             <h2>{{ $t('new01.text7') }}</h2>
-            <auto-search :defaultAddress="defaultAddress" size="small" @select="onSelectCoinbase1"
+            <auto-search :defaultAddress="defaultAddress" size="small" @select="onSelectCoinbase1" @clear="onClearInfo(1)"
               :content="$t('new03.text2')"></auto-search>
             <div class="tabs-list">
               <div class="tabs-item" 
@@ -47,7 +47,7 @@
           </div>
           <div class="qui-item">
             <h2>{{ $t('new01.text8') }}</h2>
-            <auto-search size="small" @select="onSelectCoinbase2"
+            <auto-search size="small" @select="onSelectCoinbase2" @clear="onClearInfo(2)"
               :content="$t('new03.text2')"></auto-search>
             <!-- 选择交易对 -->
             <!-- <h3 class="pair-h3">{{ $t('PageHome.text3') }}</h3> -->
@@ -342,7 +342,18 @@ export default {
       })
     },
     onChangePairIndex (index) {
-      this.selectPairIndex = index;
+      const cName = this.selectInfo2 ? this.selectInfo2.name : '';
+      this.$alert(this.$t('new04.text6', {
+        tokenName: this.pairLists[index],
+        coinbaseName: cName
+      }), this.$t('new04.text3'), {
+        confirmButtonText: this.$t('new04.text4'),
+        cancelButtonText: this.$t('new04.text5'),
+        type: 'warning',
+        dangerouslyUseHTMLString: true
+      }).then(async () => {
+        this.selectPairIndex = index;
+      }).catch(() => {})
     },
     async queryShorts () {
       if (this.selectInfo1 && this.selectInfo1.addr) {
@@ -381,7 +392,8 @@ export default {
       this.subLoading1 = true;
       const { methods } = await this.$store.dispatch('contract/event', 2);
       const coinbaseAddress = await this.getTokenAddress(this.selectInfo1.addr);
-      const payAmount = web3.utils.toWei(String(this.amountNumber1), 'ether');
+      const decnum = await this.$store.dispatch('contract/queyrSymbol', this.selectInfo1.addr);
+      const payAmount = web3.utils.toWei(String(this.amountNumber1), Math.pow(10,decnum));
       methods.setPool(this.selectInfo1.addr, coinbaseAddress, payAmount, this.tabCurrent, 0)
       .send((err, txHash) => {
         this.subLoading1 = false;
@@ -396,7 +408,8 @@ export default {
       this.subLoading2 = true;
       const { methods } = await this.$store.dispatch('contract/event', 2);
       const coinbaseAddress = this.addr2Token; // await this.getTokenAddress(this.selectInfo2.addr);
-      const payAmount = web3.utils.toWei(String(this.amountNumber2), 'ether');
+      const decnum = await this.$store.dispatch('contract/queyrSymbol', this.selectInfo2.addr);
+      const payAmount = web3.utils.toWei(String(this.amountNumber2), Math.pow(10,decnum));
       const valueAmount = await this.queryFee();
       methods.setPool(this.selectInfo2.addr, coinbaseAddress, payAmount, 0, 1)
       .send({
@@ -484,6 +497,13 @@ export default {
         this.isAuth2 = this.amountNumber2 <= authAmount;
       })
       this.queryFee()
+    },
+    onClearInfo (type) {
+      if (type == 1) {
+        this.selectInfo1 = null
+      } else {
+        this.selectInfo2 = null
+      }
     }
   }
 }

@@ -24,7 +24,7 @@
             <div class="write-amount">
               <el-input-number 
                 v-model="amountNumber" controls-position="right" 
-                :min="0.000001" :step="0.1">
+                :min="0.000001" :step="0.1" :max="2">
               </el-input-number>
               <div class="amount-unit">
                 <img :src="require(`~/static/images/${nowChainName}.png`)" alt="" class="unitico">
@@ -412,7 +412,18 @@ export default {
       })
     },
     onChangePairIndex (index) {
-      this.selectPairIndex = index;
+      const cName = this.selectInfo ? this.selectInfo.name : '';
+      this.$alert(this.$t('new04.text6', {
+        tokenName: this.pairLists[index],
+        coinbaseName: cName
+      }), this.$t('new04.text3'), {
+        confirmButtonText: this.$t('new04.text4'),
+        cancelButtonText: this.$t('new04.text5'),
+        type: 'warning',
+        dangerouslyUseHTMLString: true
+      }).then(async () => {
+        this.selectPairIndex = index;
+      }).catch(() => {})
     },
     onSelectCoinbase (item) {
       this.nowSearchInfo = {};
