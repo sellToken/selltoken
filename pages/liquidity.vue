@@ -79,7 +79,7 @@
                 :loading="authLoading"
                 @click="onAuthContract(selectInfo2.addr)">{{ $t('authorize') }}</el-button>
               <el-button type="primary" 
-                :disabled="!amountNumber2||!isAuth2" :loading="subLoading2"
+                :disabled="!amountNumber2||!isAuth2||!addr2Token" :loading="subLoading2"
                 @click="onSetPool2">{{ $t('PageLiquidity.text1') }}</el-button>
             </div>
             <div class="inpintext">
@@ -393,7 +393,7 @@ export default {
       const { methods } = await this.$store.dispatch('contract/event', 2);
       const coinbaseAddress = await this.getTokenAddress(this.selectInfo1.addr);
       const decnum = await this.$store.dispatch('contract/queyrSymbol', this.selectInfo1.addr);
-      const payAmount = web3.utils.toWei(String(this.amountNumber1), Math.pow(10,decnum));
+      const payAmount = web3.utils.toWei(String(this.amountNumber1*Math.pow(10,decnum)), 'wei');
       methods.setPool(this.selectInfo1.addr, coinbaseAddress, payAmount, this.tabCurrent, 0)
       .send((err, txHash) => {
         this.subLoading1 = false;
@@ -409,7 +409,7 @@ export default {
       const { methods } = await this.$store.dispatch('contract/event', 2);
       const coinbaseAddress = this.addr2Token; // await this.getTokenAddress(this.selectInfo2.addr);
       const decnum = await this.$store.dispatch('contract/queyrSymbol', this.selectInfo2.addr);
-      const payAmount = web3.utils.toWei(String(this.amountNumber2), Math.pow(10,decnum));
+      const payAmount = web3.utils.toWei(String(this.amountNumber2*Math.pow(10,decnum)), 'wei');
       const valueAmount = await this.queryFee();
       methods.setPool(this.selectInfo2.addr, coinbaseAddress, payAmount, 0, 1)
       .send({

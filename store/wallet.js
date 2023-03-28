@@ -8,7 +8,7 @@ export const state = () => ({
   amountBNB: 0,
   chainIds: {
     'BNB': {
-      text: 'BNB Smart Chain',
+      text: 'BNB Chain',
       id: 56
     },
     'ETH': {
