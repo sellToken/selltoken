@@ -57,26 +57,25 @@ export const actions = {
             commit('changeLoading', true);
             resolve(res);
           } else {
-            let msg = '';
+            let message = '';
             if (rootState.wallet.nowChainName == 'BNB') {
-              msg = `
+              message = `
                 <a href="https://bscscan.com/tx/${state.txHash}" 
                   style="color:#32aa77; text-decoration: underline" 
-                  target="_blank">${this.$t('PageHeader.ViewOnBscScan')}</a>
+                  target="_blank">View on BscScan</a>
                 <br>
               `;
             } else {
-              msg = `
-                <a href="https://etherscan.com/address/${state.txHash}" 
+              message = `
+                <a href="https://etherscan.com/tx/${state.txHash}" 
                   style="color:#32aa77; text-decoration: underline" 
-                  target="_blank">${this.$t('PageHeader.ViewOnEthScan')}</a>
+                  target="_blank">View on EthScan</a>
                 <br>
               `;
             }
             Vue.prototype.$notify({
               title: res.status ? 'Successfully' : 'Uplink failed',
-              message: `
-              `,
+              message: message,
               type: res.status ? 'success' : 'error',
               offset: 100,
               duration: 20*1000,

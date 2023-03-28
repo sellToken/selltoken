@@ -252,58 +252,13 @@ export default {
     }
   },
   created () {
-    this.pageLoading = this.$loading({
-      lock: true,
-      text: 'Loading',
-      spinner: 'el-icon-loading',
-      background: 'rgba(0, 0, 0, 0.7)'
-    });
     this.onConnectWallet()
     this.getCoinbaseLists()
   },
   mounted () {
     this.maxWidthNavbar = window.innerWidth > 1150;
-    this.$nextTick(() => {
-      setTimeout(() => {
-        this.initChainLink()
-      }, 10)
-    })
   },
   methods: {
-    initChainLink () { // 初始化判断网络
-      let nowId = Number(web3.currentProvider.chainId);
-      console.log('当前网络ID', nowId)
-      if (!nowId) {
-        setTimeout(() => {
-          this.initChainLink()
-        }, 100)
-        return false;
-      }
-      for (let k in this.chainIds) {
-        let item = this.chainIds[k];
-        if (item.id == nowId) {
-          this.$store.commit('wallet/changeChain', k);
-          break;
-        }
-      }
-      setTimeout(() => {
-        this.pageLoading.close();
-      }, 100)
-      // 监听账号切换
-      ethereum.on('accountsChanged', () => {
-        this.$message.success('Account switched');
-        setTimeout(() => {
-          location.reload();
-        }, 100)
-      });
-      // 监听网络切换
-      ethereum.on('chainChanged', () => {
-        this.$message.success('Network switched');
-        setTimeout(() => {
-          location.reload();
-        }, 100)
-      });
-    },
     onChangeChainLink (chainName) {
       ethereum.request({
         method: 'wallet_switchEthereumChain',
@@ -311,7 +266,7 @@ export default {
           chainId: web3.utils.numberToHex(this.chainIds[chainName].id)
         }]
       }).then(() => {
-        this.pageLoading = this.$loading({
+        this.$loading({
           lock: true,
           text: 'Loading',
           spinner: 'el-icon-loading',

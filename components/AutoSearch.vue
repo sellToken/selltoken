@@ -13,10 +13,11 @@
         <img src="~/static/images/searchico.png" alt="" slot="prefix" class="prefico" />
         <template slot-scope="{ item }">
           <div class="coinlist-cell" v-if="item.name">
-            <div>
+            <div class="left-coin">
               <img :src="coinbaseIcos[item.name]||require('~/static/images/defaultico.png')" alt="" class="coinico">
-              <span class="name">{{ item.name }}</span>
-              <small class="chain-name">{{ item.chainName || 'BNB' }} chain</small>
+              <span class="name">{{ item.name }}
+                <small class="chain-name">{{ item.chainName || 'BNB' }} chain</small>
+              </span>
             </div>
             <div class="raddbox">
               <span class="balance-text">{{ item.balance }}</span>
@@ -274,6 +275,7 @@ export default {
       margin-left: auto;
       color: #666;
       font-size: 13px;
+      text-align: right;
     }
     &.select-info-small {
       height: 66px;
@@ -297,8 +299,13 @@ export default {
 }
 .coinlist-box {
   .coinlist-cell {
+    padding: 4px 0;
     width: 100%;
     @include flexBox(space-between, center);
+    .left-coin {
+      flex: 1;
+      @include flexBox(flex-start);
+    }
     .coinico {
       width: 24px;
       height: 24px;
@@ -309,6 +316,9 @@ export default {
     .name {
       color: #333;
       line-height: 1;
+      display: flex;
+      flex-direction: column;
+      padding-left: 10px;
     }
     .chain-name {
       color: #999;
@@ -324,7 +334,7 @@ export default {
       position: relative;
       width: 20px;
       height: 20px;
-      margin-left: 20px;
+      margin-left: 10px;
     }
   }
 }

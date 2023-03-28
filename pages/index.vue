@@ -58,7 +58,7 @@
           </el-input-number>
           <div class="amount-unit">
             <img :src="require(`~/static/images/${nowChainName}.png`)" alt="" class="unitico">
-            <span>{{ $t('PageHome.text26') }}</span>
+            <span>{{ nowChainName }}</span>
           </div>
         </div>
         <div class="slider-linebox">
@@ -862,7 +862,7 @@ transform:scale(0,0);
   border-radius: 100%;
   color: #F72C5B;
   cursor: pointer;
-  z-index: 100;
+  z-index: 10;
   transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1) -webkit-transform;
   transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1) transform;
   transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1) transform, 0.5s cubic-bezier(0.075, 0.82, 0.165, 1) -webkit-transform;

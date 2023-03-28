@@ -292,8 +292,8 @@ export default {
   watch: {
     txChainHash () { // 监听授权状态
       if (!this.txChainHash) {
-        this.onSelectCoinbase1(this.selectInfo1);
-        this.onSelectCoinbase2(this.selectInfo2);
+        if (this.selectInfo1) this.onSelectCoinbase1(this.selectInfo1);
+        if (this.selectInfo2) this.onSelectCoinbase2(this.selectInfo2);
       }
     }
   },
@@ -476,7 +476,7 @@ export default {
       this.isHaveOwn = false;
       for (let i = 0; i < this.myMinerLists.length; i ++) {
         let n = this.myMinerLists[i];
-        if (n[0].toLocaleUpperCase() == item.addr.toLocaleUpperCase() && Number(n[1])>0) {
+        if (Number(n[1])>0 && n[0].toLocaleUpperCase() == item.addr.toLocaleUpperCase()) {
           this.isHaveOwn = true;
           break;
         }

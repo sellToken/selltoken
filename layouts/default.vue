@@ -2,6 +2,9 @@
   <div class="main-content">
     <header><page-header /></header>
     <main>
+      <div class="box-loading" v-if="loading">
+        <i class="el-icon-loading"></i>
+      </div>
       <nuxt />
     </main>
     <footer><page-footer /></footer>
@@ -13,10 +16,16 @@ export default {
   name: 'defaultLayout',
   data () {
     return {
-      
+      loading: true
+    }
+  },
+  computed: {
+    chainIds () {
+      return this.$store.state.wallet.chainIds;
     }
   },
   mounted () {
+    this.initChainLink();
     const txHash = localStorage.getItem('txHash');
     const oldInfo = localStorage.getItem('oldInfo');
     if (txHash) {
@@ -28,10 +37,51 @@ export default {
     } catch (error) {
       
     }
+  },
+  methods: {
+    async initChainLink () { // 初始化判断网络
+      const nowId = await web3.eth.getChainId();
+      for (let k in this.chainIds) {
+        let item = this.chainIds[k];
+        if (item.id == nowId) {
+          this.$store.commit('wallet/changeChain', k);
+          break;
+        }
+      }
+      this.loading = false;
+      // 监听账号切换
+      ethereum.on('accountsChanged', () => {
+        this.$message.success('Account switched');
+        setTimeout(() => {
+          location.reload();
+        }, 100)
+      });
+      // 监听网络切换
+      ethereum.on('chainChanged', () => {
+        this.$message.success('Network switched');
+        setTimeout(() => {
+          location.reload();
+        }, 100)
+      });
+    }
   }
 }
 </script>
 
 <style lang="scss">
 @import '~assets/common.scss';
+.box-loading {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999999;
+  @include flexBox;
+  background: rgba(#000000, 0.8);
+  i {
+    font-size: 24px;
+    color: #ffffff;
+  }
+}
 </style>
