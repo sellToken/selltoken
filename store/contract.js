@@ -47,7 +47,7 @@ export const actions = {
       })
     })
   },
-  async queryTxHashStatus ({ state, commit }) {
+  async queryTxHashStatus ({ state, commit, rootState }) {
     return new Promise((resolve, reject) => {
       window.web3.eth.getTransactionReceipt(state.txHash, (err, res) => {
         console.log('status---', err, res)
@@ -57,13 +57,25 @@ export const actions = {
             commit('changeLoading', true);
             resolve(res);
           } else {
+            let msg = '';
+            if (rootState.wallet.nowChainName == 'BNB') {
+              msg = `
+                <a href="https://bscscan.com/tx/${state.txHash}" 
+                  style="color:#32aa77; text-decoration: underline" 
+                  target="_blank">${this.$t('PageHeader.ViewOnBscScan')}</a>
+                <br>
+              `;
+            } else {
+              msg = `
+                <a href="https://etherscan.com/address/${state.txHash}" 
+                  style="color:#32aa77; text-decoration: underline" 
+                  target="_blank">${this.$t('PageHeader.ViewOnEthScan')}</a>
+                <br>
+              `;
+            }
             Vue.prototype.$notify({
               title: res.status ? 'Successfully' : 'Uplink failed',
               message: `
-                <a href="https://bscscan.com/tx/${state.txHash}" 
-                  style="color:#32aa77; text-decoration: underline" 
-                  target="_blank">View on BscScan</a>
-                <br>
               `,
               type: res.status ? 'success' : 'error',
               offset: 100,

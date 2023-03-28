@@ -10,7 +10,7 @@
           <div class="qui-item">
             <h2>{{ $t('new01.text7') }}</h2>
             <auto-search :defaultAddress="defaultAddress" size="small" @select="onSelectCoinbase1" @clear="onClearInfo(1)"
-              :content="$t('new03.text2')"></auto-search>
+              :content="$t(`new03.text2_${nowChainName}`)"></auto-search>
             <div class="tabs-list">
               <div class="tabs-item" 
                 :class="{active: tabCurrent == item}"
@@ -48,7 +48,7 @@
           <div class="qui-item">
             <h2>{{ $t('new01.text8') }}</h2>
             <auto-search size="small" @select="onSelectCoinbase2" @clear="onClearInfo(2)"
-              :content="$t('new03.text2')"></auto-search>
+              :content="$t(`new03.text2_${nowChainName}`)"></auto-search>
             <!-- 选择交易对 -->
             <!-- <h3 class="pair-h3">{{ $t('PageHome.text3') }}</h3> -->
             <div class="pair-content">

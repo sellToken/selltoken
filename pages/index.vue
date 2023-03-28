@@ -37,7 +37,7 @@
           <el-button type="text" @click="toRoute('/liquidity')">{{ $t('PageHeader.Liquidity') }}</el-button>
         </div>
         <auto-search @select="onSelectCoinbase" @clear="onClearSelectInfo"
-          :content="$t('new03.text1')"></auto-search>
+          :content="$t(`new03.text1_${nowChainName}`)"></auto-search>
         <h3 class="pair-h3">{{ $t('PageHome.text3') }}</h3>
         <div class="pair-content">
           <div class="unitem" 

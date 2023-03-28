@@ -9,7 +9,7 @@
         <div class="qui-box">
           <div class="qui-item">
             <auto-search size="small" @select="onSelectCoinbase" @clear="onClearSelectInfo"
-              :content="$t('new03.text3')"></auto-search>
+              :content="$t(`new03.text3_${nowChainName}`)"></auto-search>
             <h3 class="pair-h3">{{ $t('PageHome.text3') }}</h3>
             <div class="pair-content">
               <div class="unitem" 

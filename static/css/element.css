@@ -127,6 +127,9 @@
 .customCharts-info {
   border-radius: 20px;
 }
+.el-message-box {
+  max-width: 100%;
+}
 /* @media screen and (max-width: 750px){
   .disc-join .el-input-number {
 

@@ -59,8 +59,13 @@
           </h5>
           <p>{{ waitImportInfo.addr.substr(0, 4) }}...{{ waitImportInfo.addr.substr(-4) }}</p>
           <a class="aintext" 
+            v-if="nowChainName == 'BNB'"
             :href="`https://bscscan.com/address/${waitImportInfo.addr}`" 
-            target="_blank">(View on BscScan)</a>
+            target="_blank">({{ $t('PageHeader.ViewOnBscScan') }})</a>
+          <a class="aintext" 
+            v-else
+            :href="`https://etherscan.com/address/${waitImportInfo.addr}`" 
+            target="_blank">({{ $t('PageHeader.ViewOnEthScan') }})</a>
         </div>
         <div class="contract-unbtn">
           <el-checkbox size="medium" v-model="isUnderstand">I understand</el-checkbox>

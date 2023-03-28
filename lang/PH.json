@@ -8,9 +8,12 @@
     "text6": "Ang pares ng transaksyon na pinili mo ay <b style='color: red'>{coinbaseName}/{tokenName}</b>. Pakiusap suriin kung ang token LP pool ay tama, kung hindi ikaw ay responsable sa anumang pagkawala."
   },
   "new03": {
-     "text1": "Sinuman ay maaaring lumikha ng isang BEP20 token ng anumang pangalan sa BNB Smart Chain, kabilang ang paggawa ng mga pekeng bersyon ng mga umiiral na token at token na nagsasabing kumakatawan sa mga proyektong walang mga token. Kung maikli mo ang isang token, maaaring hindi ka upang makakuha ng mga benepisyo, pakisuri nang detalyado ang short-selling liquidity, LP pool, at contract security ng token na ito.",
-     "text2": "Sinuman ay maaaring lumikha ng BEP20 token ng anumang pangalan sa BNB Smart Chain, kabilang ang paggawa ng mga pekeng bersyon ng mga umiiral na token at token na nagsasabing kumakatawan sa mga proyektong walang mga token. Kung magdaragdag ka ng liquidity token , maaaring hindi mo makuha mga benepisyo, pakisuri nang detalyado ang short-selling liquidity, LP pool, at contract security ng token na ito.",
-     "text3": "Sinuman ay maaaring lumikha ng mga BEP20 na token ng anumang pangalan sa BNB Smart Chain, kabilang ang paglikha ng mga pekeng bersyon ng mga umiiral na token at token na nagsasabing kumakatawan sa mga proyektong walang mga token. Kung minahan ka ng token na ito, maaaring hindi mo magawa para makakuha ng mga benepisyo, pakisuri ang liquidity ng mining pool, LP pool, at contract security ng token na ito nang detalyado.",
+     "text1_BNB": "Sinuman ay maaaring lumikha ng isang BEP20 token ng anumang pangalan sa BNB Smart Chain, kabilang ang paggawa ng mga pekeng bersyon ng mga umiiral na token at token na nagsasabing kumakatawan sa mga proyektong walang mga token. Kung maikli mo ang isang token, maaaring hindi ka upang makakuha ng mga benepisyo, pakisuri nang detalyado ang short-selling liquidity, LP pool, at contract security ng token na ito.",
+     "text2_BNB": "Sinuman ay maaaring lumikha ng BEP20 token ng anumang pangalan sa BNB Smart Chain, kabilang ang paggawa ng mga pekeng bersyon ng mga umiiral na token at token na nagsasabing kumakatawan sa mga proyektong walang mga token. Kung magdaragdag ka ng liquidity token , maaaring hindi mo makuha mga benepisyo, pakisuri nang detalyado ang short-selling liquidity, LP pool, at contract security ng token na ito.",
+     "text3_BNB": "Sinuman ay maaaring lumikha ng mga BEP20 na token ng anumang pangalan sa BNB Smart Chain, kabilang ang paglikha ng mga pekeng bersyon ng mga umiiral na token at token na nagsasabing kumakatawan sa mga proyektong walang mga token. Kung minahan ka ng token na ito, maaaring hindi mo magawa para makakuha ng mga benepisyo, pakisuri ang liquidity ng mining pool, LP pool, at contract security ng token na ito nang detalyado.",
+     "text1_ETH": "Sinuman ay maaaring lumikha ng isang ERC20 token ng anumang pangalan sa Ethereum, kabilang ang paggawa ng mga pekeng bersyon ng mga umiiral na token at token na nagsasabing kumakatawan sa mga proyektong walang mga token. Kung maikli mo ang isang token, maaaring hindi ka upang makakuha ng mga benepisyo, pakisuri nang detalyado ang short-selling liquidity, LP pool, at contract security ng token na ito.",
+     "text2_ETH": "Sinuman ay maaaring lumikha ng ERC20 token ng anumang pangalan sa Ethereum, kabilang ang paggawa ng mga pekeng bersyon ng mga umiiral na token at token na nagsasabing kumakatawan sa mga proyektong walang mga token. Kung magdaragdag ka ng liquidity token , maaaring hindi mo makuha mga benepisyo, pakisuri nang detalyado ang short-selling liquidity, LP pool, at contract security ng token na ito.",
+     "text3_ETH": "Sinuman ay maaaring lumikha ng mga ERC20 na token ng anumang pangalan sa Ethereum, kabilang ang paglikha ng mga pekeng bersyon ng mga umiiral na token at token na nagsasabing kumakatawan sa mga proyektong walang mga token. Kung minahan ka ng token na ito, maaaring hindi mo magawa para makakuha ng mga benepisyo, pakisuri ang liquidity ng mining pool, LP pool, at contract security ng token na ito nang detalyado.",
     "text4": "Paraan ng airdrop ng SellToken platform currency (SELLC)",
       "text5": "1. Kwalipikasyon sa pakikipag-ugnayan (karamihan sa mga airdrop)",
       "text6": "Kwalipikasyon 1, Makilahok sa maikling pagbubukas na may halagang higit sa 0.1B",
@@ -64,6 +67,7 @@
     "Confirm": "Kumpirmahin",
     "NoTransactions": "Walang transaksyon",
     "ViewOnBscScan": "Tingnan sa BscScan",
+    "ViewOnEthScan": "Tingnan sa EthScan",
     "connect": "kumonekta",
     "Close": "Isara",
     "CertiK":"CertiK Audit",

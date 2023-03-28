@@ -129,8 +129,10 @@
               v-else>
           </div>
           <div slot="subTitle">
-            <a :href="`https://bscscan.com/tx/${txChainHash||oldChainStatus.transactionHash}`" target="_blank" class="ain-view"
+            <a v-if="nowChainName == 'BNB'" :href="`https://bscscan.com/tx/${txChainHash||oldChainStatus.transactionHash}`" target="_blank" class="ain-view"
               >{{ $t('PageHeader.ViewOnBscScan') }}</a>
+            <a v-else :href="`https://etherscan.com/tx/${txChainHash||oldChainStatus.transactionHash}`" target="_blank" class="ain-view"
+              >{{ $t('PageHeader.ViewOnEthScan') }}</a>
           </div>
           <template slot="extra">
             <el-button type="primary" class="themebtn" @click="showDrawerWallet = false">
@@ -269,7 +271,7 @@ export default {
   },
   methods: {
     initChainLink () { // 初始化判断网络
-      let nowId = 56 // Number(web3.currentProvider.chainId);
+      let nowId = Number(web3.currentProvider.chainId);
       console.log('当前网络ID', nowId)
       if (!nowId) {
         setTimeout(() => {

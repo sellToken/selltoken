@@ -8,9 +8,12 @@
     "text6": "The transaction pair you selected is <b style='color:red'>{coinbaseName}/{tokenName}</b>. Please check whether the token LP pool is correct, otherwise you will be responsible for any losses."
   },
   "new03": {
-     "text1": "Anyone can create a BEP20 token of any name on the BNB Smart Chain, including creating fake versions of existing tokens and tokens that claim to represent projects that don't have tokens. If you short a token, You may not be able to obtain benefits, please check the short-selling liquidity, LP pool, and contract security of this token in detail.",
-     "text2": "Anyone can create BEP20 tokens of any name on the BNB Smart Chain, including creating fake versions of existing tokens and tokens that claim to represent projects without tokens. If you add a liquidity token , you may not be able to obtain benefits, please check the short-selling liquidity, LP pool, and contract security of this token in detail.",
-     "text3": "Anyone can create BEP20 tokens of any name on the BNB Smart Chain, including creating fake versions of existing tokens and tokens that claim to represent projects that do not have tokens. If you mine this token , you may not be able to obtain benefits, please check the mining pool liquidity, LP pool, and contract security of this token in detail.",
+     "text1_BNB": "Anyone can create a BEP20 tokens of any name on the BNB Smart Chain, including creating fake versions of existing tokens and tokens that claim to represent projects that don't have tokens. If you short a token, You may not be able to obtain benefits, please check the short-selling liquidity, LP pool, and contract security of this token in detail.",
+     "text2_BNB": "Anyone can create BEP20 tokens of any name on the BNB Smart Chain, including creating fake versions of existing tokens and tokens that claim to represent projects without tokens. If you add a liquidity token , you may not be able to obtain benefits, please check the short-selling liquidity, LP pool, and contract security of this token in detail.",
+     "text3_BNB": "Anyone can create BEP20 tokens of any name on the BNB Smart Chain, including creating fake versions of existing tokens and tokens that claim to represent projects that do not have tokens. If you mine this token , you may not be able to obtain benefits, please check the mining pool liquidity, LP pool, and contract security of this token in detail.",
+     "text1_ETH": "Anyone can create a ERC20 tokens of any name on the Ethereum, including creating fake versions of existing tokens and tokens that claim to represent projects that don't have tokens. If you short a token, You may not be able to obtain benefits, please check the short-selling liquidity, LP pool, and contract security of this token in detail.",
+     "text2_ETH": "Anyone can create ERC20 tokens of any name on the Ethereum, including creating fake versions of existing tokens and tokens that claim to represent projects without tokens. If you add a liquidity token , you may not be able to obtain benefits, please check the short-selling liquidity, LP pool, and contract security of this token in detail.",
+     "text3_ETH": "Anyone can create ERC20 tokens of any name on the Ethereum, including creating fake versions of existing tokens and tokens that claim to represent projects that do not have tokens. If you mine this token , you may not be able to obtain benefits, please check the mining pool liquidity, LP pool, and contract security of this token in detail.",
      "text4": "SellToken platform currency (SELLC) airdrop method",
      "text5": "1. Interaction qualification (most airdropped)",
      "text6": "Qualification 1, Participate in short opening with an amount above 0.1B",
@@ -64,6 +67,7 @@
     "Confirm": "Confirm",
     "NoTransactions": "No transactions",
     "ViewOnBscScan": "View on BscScan",
+    "ViewOnEthScan": "View on EthScan",
     "connect": "connect",
     "Close": "Close",
     "CertiK":"CertiK Audit",
