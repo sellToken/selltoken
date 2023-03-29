@@ -1,17 +1,20 @@
 import Vue from 'vue';
 if (process.browser) {
   const Web3 = require('web3');
-  if (!!window.imToken) {
-    if (window.ethereum) {
-      window.web3 = new Web3(ethereum);
-    } else {
-      window.web3 = new Web3(web3.currentProvider);
-    }
+  if (window.ethereum) {
+    window.web3 = new Web3(ethereum);
   } else {
     window.web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
   }
+  if (!window.web3 || !window.web3.currentProvider.chainId) {
+    setTimeout(() => {
+      console.log('loading web3')
+      if (window.ethereum) {
+        window.web3 = new Web3(ethereum);
+      }
+    }, 2000);
+  }
 }
-
 export const state = () => ({
   defaultGas: 800000,
   gas: {
@@ -46,9 +49,17 @@ export const actions = {
   async queyrSymbol ({ dispatch }, address) {
     const { methods } = await dispatch('common', {address});
     return new Promise((resolve, reject) => {
-      methods.decimals().call((err, res) => {
+      methods.decimals().call((err, decnum) => {
         if (!err) {
-          resolve(Number(res))
+          let unit = '';
+          for (let k in web3.utils.unitMap) {
+            let n = web3.utils.unitMap[k];
+            if (n.length == (Number(decnum)+1)) {
+              unit = k;
+              break;
+            }
+          }
+          resolve(unit)
         } else {
           reject(err)
         }

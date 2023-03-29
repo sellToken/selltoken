@@ -50,6 +50,7 @@
       border: 1px solid hsla(0,0%,100%,.5);
       border-bottom: 1px solid hsla(0,0%,100%,.2);
       margin: 0 30px;
+      position: relative;
       h2 {
         font-size: 24px;
         text-align: center;
@@ -58,7 +59,14 @@
     }
     .tabs-list {
       padding: 0 2px;
+      position: relative;
       @include flexBox(space-between, center);
+      .no-pair {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 2;
+      }
       .tabs-item {
         width: 102px;
         height: 40px;

@@ -12,6 +12,9 @@
             <auto-search :defaultAddress="defaultAddress" size="small" @select="onSelectCoinbase1" @clear="onClearInfo(1)"
               :content="$t(`new03.text2_${nowChainName}`)"></auto-search>
             <div class="tabs-list">
+              <div class="no-pair" v-if="isNoPair">
+                <span>{{ $t('noPair') }}</span>
+              </div>
               <div class="tabs-item" 
                 :class="{active: tabCurrent == item}"
                 v-for="(item, index) in tabList" :key="index"
@@ -23,7 +26,7 @@
             <div class="write-amount">
               <el-input-number 
                 v-model="amountNumber1" controls-position="right" 
-                :min="0" :step="0.1" @change="onChangeNumber(1)">
+                :min="0" :step="0.1" :max="9999999999" @change="onChangeNumber(1)">
               </el-input-number>
               <div class="amount-unit">
                 <img v-if="selectInfo1" :src="coinbaseIcos[selectInfo1.name]||require('~/static/images/defaultico.png')" alt="" class="unitico">
@@ -35,8 +38,8 @@
                 :loading="authLoading"
                 @click="onAuthContract(selectInfo1.addr)">{{ $t('authorize') }}</el-button>
               <el-button type="primary" 
-                :disabled="!amountNumber1||!isAuth1||!tabCurrent" :loading="subLoading1"
-                @click="onSetPool1">{{ $t('PageLiquidity.text1') }}</el-button>
+                :disabled="!amountNumber1||!isAuth1||!tabCurrent||isNoPair" :loading="subLoading1"
+                @click="onSetPool1">{{ isNoPair ? $t('noPair') : $t('PageLiquidity.text1') }}</el-button>
             </div>
             <div class="inbtn-box" v-else>
               <el-button type="primary" disabled>{{ $t('new04.text1') }}</el-button>
@@ -64,7 +67,7 @@
             <div class="write-amount">
               <el-input-number 
                 v-model="amountNumber2" controls-position="right" 
-                :min="0" :step="0.1" @change="onChangeNumber(2)">
+                :min="0" :step="0.1" :max="9999999999" @change="onChangeNumber(2)">
               </el-input-number>
               <div class="amount-unit">
                 <img v-if="selectInfo2" :src="coinbaseIcos[selectInfo2.name]||require('~/static/images/defaultico.png')" alt="" class="unitico">
@@ -263,7 +266,9 @@ export default {
           4: '0.00000000',
         }
       ],
-      isHaveOwn: false
+      isHaveOwn: false,
+      isNoPair: false,
+      addrPool1: null
     }
   },
   computed: {
@@ -380,6 +385,7 @@ export default {
             if (commonAddr) {
               resolve(commonAddr)
             } else {
+              console.log('no pair');
               reject('not address')
             }
           } else {
@@ -391,9 +397,10 @@ export default {
     async onSetPool1 () {
       this.subLoading1 = true;
       const { methods } = await this.$store.dispatch('contract/event', 2);
-      const coinbaseAddress = await this.getTokenAddress(this.selectInfo1.addr);
-      const decnum = await this.$store.dispatch('contract/queyrSymbol', this.selectInfo1.addr);
-      const payAmount = web3.utils.toWei(String(this.amountNumber1*Math.pow(10,decnum)), 'wei');
+      const coinbaseAddress = this.addrPool1 || await this.getTokenAddress(this.selectInfo1.addr);
+      const decUnit = await this.$store.dispatch('contract/queyrSymbol', this.selectInfo1.addr);
+      const payAmount = web3.utils.toWei(String(this.amountNumber1), decUnit);
+      console.log(payAmount)
       methods.setPool(this.selectInfo1.addr, coinbaseAddress, payAmount, this.tabCurrent, 0)
       .send((err, txHash) => {
         this.subLoading1 = false;
@@ -407,9 +414,9 @@ export default {
     async onSetPool2 () {
       this.subLoading2 = true;
       const { methods } = await this.$store.dispatch('contract/event', 2);
-      const coinbaseAddress = this.addr2Token; // await this.getTokenAddress(this.selectInfo2.addr);
-      const decnum = await this.$store.dispatch('contract/queyrSymbol', this.selectInfo2.addr);
-      const payAmount = web3.utils.toWei(String(this.amountNumber2*Math.pow(10,decnum)), 'wei');
+      const coinbaseAddress = this.addr2Token;
+      const decUnit = await this.$store.dispatch('contract/queyrSymbol', this.selectInfo2.addr);
+      const payAmount = web3.utils.toWei(String(this.amountNumber2), decUnit);
       const valueAmount = await this.queryFee();
       methods.setPool(this.selectInfo2.addr, coinbaseAddress, payAmount, 0, 1)
       .send({
@@ -488,6 +495,13 @@ export default {
         this.isAuth1 = this.amountNumber1 <= authAmount;
       })
       this.queryShorts()
+      this.getTokenAddress(this.selectInfo1.addr)
+      .then((addr) => {
+        this.addrPool1 = addr;
+      })
+      .catch(() => {
+        this.isNoPair = true;
+      })
     },
     onSelectCoinbase2 (item) {
       this.selectInfo2 = item;
@@ -500,10 +514,11 @@ export default {
     },
     onClearInfo (type) {
       if (type == 1) {
-        this.selectInfo1 = null
+        this.selectInfo1 = null;
       } else {
-        this.selectInfo2 = null
+        this.selectInfo2 = null;
       }
+      this.isNoPair = false;
     }
   }
 }
