@@ -401,11 +401,21 @@ export default {
       }, (err, txHash) => {
         if (!err) {
           this.$store.dispatch('contract/cochainHashSuccess', { txHash })
-          this.cacheMiners.push({
-            addr: this.selectInfo.addr,
-            name: this.selectInfo.name,
-          })
-          localStorage.setItem('cacheMiners', JSON.stringify(this.cacheMiners));
+          let isHave = false;
+          for (let i = 0; i < this.cacheMiners.length; i ++) {
+            let nowItem = this.cacheMiners[i];
+            if (nowItem.addr == this.selectInfo.addr) {
+              isHave = true;
+              break;
+            }
+          }
+          if (!isHave) {
+            this.cacheMiners.push({
+              addr: this.selectInfo.addr,
+              name: this.selectInfo.name,
+            })
+            localStorage.setItem('cacheMiners', JSON.stringify(this.cacheMiners));
+          }
         } else {
           this.$store.dispatch('contract/cochainHashError', { err })
         }
