@@ -139,9 +139,9 @@ export default {
       this.contractLists.forEach(async (item) => {
         if ((item.chainName||'BNB') == this.nowChainName) {
           const addrInfo = await this.queryAllCoinbase(item.addr);
-          const decnum = await this.$store.dispatch('contract/queyrSymbol', item.addr);
+          const { decNum } = await this.$store.dispatch('contract/queyrSymbol', item.addr);
           item.pairs = addrInfo[1];
-          item.balance = (addrInfo[2]/Math.pow(10, decnum)).toFixed(4);
+          item.balance = (addrInfo[2]/Math.pow(10, decNum)).toFixed(4);
         }
       })
     },
@@ -215,13 +215,13 @@ export default {
             cb(now)
           } else {
             const addrInfo = await this.queryAllCoinbase(queryAddress);
-            const decnum = await this.$store.dispatch('contract/queyrSymbol', queryAddress);
+            const { decNum } = await this.$store.dispatch('contract/queyrSymbol', queryAddress);
             const results = [
               {
                 "addr": queryAddress, 
                 "name": addrInfo[0],
                 "pairs": addrInfo[1],
-                "balance": (addrInfo[2]/Math.pow(10,decnum)).toFixed(4),
+                "balance": (addrInfo[2]/Math.pow(10,decNum)).toFixed(4),
                 "isAdd": false,
                 "chainName": this.nowChainName || 'BNB'
               }

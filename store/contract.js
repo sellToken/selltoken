@@ -2,15 +2,15 @@ import Vue from 'vue';
 if (process.browser) {
   const Web3 = require('web3');
   if (window.ethereum) {
-    window.web3 = new Web3(ethereum);
+    window.web3 = new Web3(window.ethereum);
   } else {
     window.web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
   }
   if (!window.web3 || !window.web3.currentProvider.chainId) {
     setTimeout(() => {
-      console.log('loading web3')
+      console.log('loading web3', window.ethereum)
       if (window.ethereum) {
-        window.web3 = new Web3(ethereum);
+        window.web3 = new Web3(window.ethereum);
       }
     }, 2000);
   }
@@ -49,17 +49,19 @@ export const actions = {
   async queyrSymbol ({ dispatch }, address) {
     const { methods } = await dispatch('common', {address});
     return new Promise((resolve, reject) => {
-      methods.decimals().call((err, decnum) => {
+      methods.decimals().call((err, decNum) => {
         if (!err) {
-          let unit = '';
-          for (let k in web3.utils.unitMap) {
-            let n = web3.utils.unitMap[k];
-            if (n.length == (Number(decnum)+1)) {
-              unit = k;
+          let decUnit = '';
+          for (let k in window.web3.utils.unitMap) {
+            let n = window.web3.utils.unitMap[k];
+            if (n.length == (Number(decNum)+1)) {
+              decUnit = k;
               break;
             }
           }
-          resolve(unit)
+          resolve({
+            decUnit, decNum
+          })
         } else {
           reject(err)
         }
@@ -136,7 +138,7 @@ export const actions = {
     };
     if (!ContractAbi.ADDRESS) return Promise.reject('address is undefined');
     const walletAddress = await dispatch('wallet/linkWallet', {}, {root: true});
-    const sourceContract = new web3.eth.Contract(ContractAbi.ABI, ContractAbi.ADDRESS, {
+    const sourceContract = new window.web3.eth.Contract(ContractAbi.ABI, ContractAbi.ADDRESS, {
       gas: state.gas[rootState.wallet.nowChainName] || state.defaultGas,
       from: walletAddress
     });
@@ -159,7 +161,7 @@ export const actions = {
     const ADDRESS = ContractAbi[`${chainName}_ADDRESS`];
     const walletAddress = await dispatch('wallet/linkWallet', {}, {root: true});
     
-    const sourceContract = new web3.eth.Contract(ContractAbi.ABI, ADDRESS, {
+    const sourceContract = new window.web3.eth.Contract(ContractAbi.ABI, ADDRESS, {
       gas: state.gas[chainName] || state.defaultGas,
       from: walletAddress
     });

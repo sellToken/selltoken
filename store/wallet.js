@@ -3,6 +3,10 @@ const pairs = {
   'BNB': ['BNB', 'USDT'],
   'ETH': ['ETH', 'USDC']
 };
+let Web3;
+if (process.browser) {
+  Web3 = require('web3');
+}
 export const state = () => ({
   walletAddress: '',
   amountBNB: 0,
@@ -43,7 +47,7 @@ export const actions = {
   queryAmount ({ commit, dispatch }) {
     return new Promise((resolve) => {
       dispatch('linkWallet').then((walletAddress) => {
-        web3.eth.getBalance(walletAddress).then((sAmount) => {
+        window.web3.eth.getBalance(walletAddress).then((sAmount) => {
           let amount = (sAmount/Math.pow(10, 18)).toFixed(8);
           commit('writeWalletAmount', amount)
           resolve(amount)
@@ -57,6 +61,9 @@ export const actions = {
         resolve(state.walletAddress)
       } else {
         try {
+          if (!window.web3.currentProvider || !window.web3.currentProvider.chainId) {
+            window.web3 = new Web3(window.ethereum);
+          }
           window.ethereum.enable()
           .then((wallets) => {
             commit('writeWalletAddress', wallets[0])

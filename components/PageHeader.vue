@@ -273,6 +273,9 @@ export default {
           background: 'rgba(0, 0, 0, 0.7)'
         });
         this.$store.commit('wallet/changeChain', chainName);
+        setTimeout(() => {
+          location.reload()
+        }, 10*1000)
       }).catch((err) => {
         console.log(err)
       })

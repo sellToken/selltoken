@@ -398,7 +398,7 @@ export default {
       this.subLoading1 = true;
       const { methods } = await this.$store.dispatch('contract/event', 2);
       const coinbaseAddress = this.addrPool1 || await this.getTokenAddress(this.selectInfo1.addr);
-      const decUnit = await this.$store.dispatch('contract/queyrSymbol', this.selectInfo1.addr);
+      const { decUnit } = await this.$store.dispatch('contract/queyrSymbol', this.selectInfo1.addr);
       const payAmount = web3.utils.toWei(String(this.amountNumber1), decUnit);
       console.log(payAmount)
       methods.setPool(this.selectInfo1.addr, coinbaseAddress, payAmount, this.tabCurrent, 0)
@@ -415,7 +415,7 @@ export default {
       this.subLoading2 = true;
       const { methods } = await this.$store.dispatch('contract/event', 2);
       const coinbaseAddress = this.addr2Token;
-      const decUnit = await this.$store.dispatch('contract/queyrSymbol', this.selectInfo2.addr);
+      const { decUnit } = await this.$store.dispatch('contract/queyrSymbol', this.selectInfo2.addr);
       const payAmount = web3.utils.toWei(String(this.amountNumber2), decUnit);
       const valueAmount = await this.queryFee();
       methods.setPool(this.selectInfo2.addr, coinbaseAddress, payAmount, 0, 1)
