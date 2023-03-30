@@ -41,7 +41,7 @@ export default {
   methods: {
     async initChainLink () { // 初始化判断网络
       try {
-        const nowId = await web3.eth.getChainId();
+        const nowId = 56 // await web3.eth.getChainId();
         console.log('当前网络ID', nowId)
         for (let k in this.chainIds) {
           let item = this.chainIds[k];

@@ -331,7 +331,7 @@
       fullscreen
       center>
       <div class="closeloading-box">
-        <h5 class="count-text">{{ count }}</h5>
+        <h5 class="count-text">{{ 30 - count }}</h5>
         <!-- <p class="wait-text">请稍等...</p> -->
         <!-- <iframe 
           width="350px" height="350px" frameborder="0"
@@ -511,7 +511,7 @@ export default {
       ],
       queryMaxLoading: false,
       countLoading: false,
-      count: 30,
+      count: 0,
       timers: {0:null, 1:null,2:null}, // 定时器
     }
   },
@@ -609,9 +609,9 @@ export default {
               fontSize: 16,
               offsetCenter: [0, '30%'],
               valueAnimation: true,
-              color: '#ff5c5c',
+              color: '#ffffff',
               formatter: (value) => {
-                return this.count > 0 ? this.$t('new05.text1') : this.$t('new05.text2');
+                return this.count < 30 ? this.$t('new05.text1') : this.$t('new05.text2');
               }
             },
             data: [
@@ -638,8 +638,8 @@ export default {
           const myChart = echarts.init(document.getElementById('loadingGauge'));
           myChart.setOption(option);
           this.timers[2] = setInterval(() => {
-            if (this.count > 0) {
-              option.series[0].data[0].value = this.count--;
+            if (this.count < 30) {
+              option.series[0].data[0].value = this.count++;
               myChart.setOption(option);
             } else {
               clearInterval(this.timers[2]);
@@ -809,10 +809,10 @@ export default {
       clearInterval(this.timers[2])
       return new Promise((resolve) => {
         this.timers[2] = setInterval(() => {
-          if (this.count > 0) {
-            this.count --
+          if (this.count < 30) {
+            this.count ++
           } else {
-            this.count = 30
+            this.count = 0
             this.countLoading = false;
             clearInterval(this.timers[2])
             resolve(true)
@@ -850,7 +850,7 @@ export default {
             this.initRenderGauge()
             .then((myChart) => {
               this.onOpenShort().then(() => {
-                this.count = 30;
+                this.count = 0;
                 this.countLoading = false;
                 myChart.dispose();
               });

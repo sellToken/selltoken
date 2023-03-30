@@ -41,7 +41,8 @@ export const mutations = {
     localStorage.setItem('oldInfo', JSON.stringify(state.oldChainStatus));
   },
   saveChainHash (state, hash) {
-    state.txHash = hash;
+    if (hash == 'undefined' || hash == 'null') hash = '';
+    state.txHash = hash || '';
     localStorage.setItem('txHash', state.txHash)
   },
   changeLoading (state, status) {

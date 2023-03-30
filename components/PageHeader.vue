@@ -215,8 +215,8 @@ export default {
           path: 'https://www.certik.com/projects/selltoken'
         },
         {
-          name: this.$t('PageHeader.GitHup'),
-          path: 'https://github.com/sellToken?tab=repositories'
+          name: 'Testnet',
+          path: 'https://test.selltoken.org'
         }
       ]
     },

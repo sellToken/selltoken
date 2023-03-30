@@ -379,7 +379,7 @@ export default {
     async getTokenAddress (addr) {
       const { methods } = await this.$store.dispatch('contract/event');
       return new Promise((resolve, reject) => {
-        methods.getToke(addr).call((err, res) => {
+        methods.getTokenName(addr).call((err, res) => {
           if (!err) {
             let commonAddr = this.commonAddrs[res[1]];
             if (commonAddr) {
