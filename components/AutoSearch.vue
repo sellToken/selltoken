@@ -148,7 +148,7 @@ export default {
     async queryAllCoinbase (addr) {
       const { methods } = await this.$store.dispatch('contract/event');
       return new Promise((resolve, reject) => {
-        methods.getToke(addr).call((err, res) => {
+        methods.getTokenName(addr).call((err, res) => {
           if (!err) {
             resolve(res)
           } else {

@@ -1,5 +1,5 @@
 {
-  "BNB_ADDRESS": "0x91dE1072AC81DAf5865cf93499784cc572De7eF8",
+  "BNB_ADDRESS": "0xE8f396855C2bFC0C2aD8F81D36Ce3A625F69A916",
   "ETH_ADDRESS": "0x5c7b01632d77B096cDDb01A270697572E496585f",
   "ABI": [
     {
@@ -29,42 +29,11 @@
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "a",
-          "type": "uint256"
-        }
-      ],
-      "name": "getBNB",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
           "name": "_fee",
           "type": "uint256"
         }
       ],
       "name": "getfee",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "token",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "_pair",
-          "type": "address"
-        }
-      ],
-      "name": "getpair",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -83,29 +52,8 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_token",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "bnborUsdt",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "tokenAmount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "address",
-          "name": "to",
-          "type": "address"
-        }
-      ],
-      "name": "sell",
+      "inputs": [],
+      "name": "renounceOwnership",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -114,11 +62,16 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "newOwner",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_pair",
           "type": "address"
         }
       ],
-      "name": "transferOwnership",
+      "name": "setPair",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -159,8 +112,29 @@
       "type": "event"
     },
     {
-      "inputs": [],
-      "name": "renounceOwnership",
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_token",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "bnborUsdt",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "tokenAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        }
+      ],
+      "name": "sell",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -225,16 +199,11 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "token",
+          "name": "newOwner",
           "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_token",
-          "type": "uint256"
         }
       ],
-      "name": "setToken",
+      "name": "transferOwnership",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -311,45 +280,6 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "addr",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "token",
-          "type": "address"
-        }
-      ],
-      "name": "getAllToken",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
           "name": "token",
           "type": "address"
         }
@@ -371,71 +301,33 @@
           "internalType": "address",
           "name": "addr",
           "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
         }
       ],
       "name": "getUser",
       "outputs": [
         {
-          "internalType": "address[]",
+          "internalType": "uint256",
           "name": "",
-          "type": "address[]"
+          "type": "uint256"
         },
-        {
-          "internalType": "uint256[]",
-          "name": "",
-          "type": "uint256[]"
-        },
-        {
-          "internalType": "uint256[]",
-          "name": "",
-          "type": "uint256[]"
-        },
-        {
-          "internalType": "uint256[]",
-          "name": "",
-          "type": "uint256[]"
-        },
-        {
-          "internalType": "uint256[]",
-          "name": "",
-          "type": "uint256[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "name": "isAdd",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "name": "mySells",
-      "outputs": [
         {
           "internalType": "uint256",
-          "name": "mnu",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
           "type": "uint256"
         }
       ],

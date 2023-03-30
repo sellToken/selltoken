@@ -75,7 +75,7 @@
         <div class="shortbtn-cell">
           <el-button 
             :disabled="!addr2Token||!selectInfo||selectInfo.pairs=='No pair'"
-            @click="onOpenShort">
+            @click="onSetShort">
             {{ $t('PageHome.text5') }}
           </el-button>
           <el-button class="btncolor2" @click="toLiquidity"
@@ -319,6 +319,28 @@
         </div>
       </div>
     </el-dialog>
+    <!-- loading -->
+    <el-dialog
+      :visible.sync="countLoading"
+      width="500px"
+      custom-class="customCharts-dialog"
+      :show-close="false"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      append-to-body
+      fullscreen
+      center>
+      <div class="closeloading-box">
+        <h5 class="count-text">{{ count }}</h5>
+        <!-- <p class="wait-text">请稍等...</p> -->
+        <!-- <iframe 
+          width="350px" height="350px" frameborder="0"
+          src="/loading.html?q=%E9%98%B2%E6%AD%A2%E9%97%AA%E7%94%B5%E8%B4%B7%E6%94%BB%E5%87%BB">
+        </iframe> -->
+        <div id="loadingGauge" style="width: 100%; height: 500px;"></div>
+        <div class="gapico"></div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -488,7 +510,9 @@ export default {
         }
       ],
       queryMaxLoading: false,
-      timers: {0:null, 1:null}, // 定时器
+      countLoading: false,
+      count: 30,
+      timers: {0:null, 1:null,2:null}, // 定时器
     }
   },
   computed: {
@@ -523,6 +547,109 @@ export default {
   mounted () {
   },
   methods: {
+    async initRenderGauge () {
+      const color = new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+        {
+          offset: 0,
+          color: '#ee6d21',
+        },
+        {
+          offset: 1,
+          color: '#21ee41',
+        },
+      ]);
+      const option = {
+        series: [
+          {
+            type: 'gauge',
+            startAngle: 190,
+            endAngle: -10,
+            min: 0,
+            max: 30,
+            splitNumber: 12,
+            progress: {
+              show: true,
+              width: 18,
+              itemStyle: {
+                color:  color,
+                shadowColor: 'rgba(0, 0, 0, 0.3)',
+                shadowBlur: 5,
+                shadowOffsetY: 2,
+                borderWidth: 1
+              }
+            },
+            pointer: {
+              icon: 'path://M2090.36389,615.30999 L2090.36389,615.30999 C2091.48372,615.30999 2092.40383,616.194028 2092.44859,617.312956 L2096.90698,728.755929 C2097.05155,732.369577 2094.2393,735.416212 2090.62566,735.56078 C2090.53845,735.564269 2090.45117,735.566014 2090.36389,735.566014 L2090.36389,735.566014 C2086.74736,735.566014 2083.81557,732.63423 2083.81557,729.017692 C2083.81557,728.930412 2083.81732,728.84314 2083.82081,728.755929 L2088.2792,617.312956 C2088.32396,616.194028 2089.24407,615.30999 2090.36389,615.30999 Z',
+              length: '80%',
+              width: 16,
+              offsetCenter: [0, '5%']
+            },
+            axisLine: {
+              lineStyle: {
+                width: 18
+              }
+            },
+            axisTick: {
+              show: false
+            },
+            splitLine: {
+              show: false
+            },
+            axisLabel: {
+              show: false
+            },
+            title: {
+              show: false
+            },
+            detail: {
+              width: '60%',
+              lineHeight: 40,
+              height: 40,
+              borderRadius: 8,
+              fontSize: 16,
+              offsetCenter: [0, '30%'],
+              valueAnimation: true,
+              color: '#ff5c5c',
+              formatter: (value) => {
+                return this.count > 0 ? this.$t('new05.text1') : this.$t('new05.text2');
+              }
+            },
+            data: [
+              {
+                value: this.count,
+                itemStyle: {
+                  color: 'rgba(255,255,255,0.5)'
+                }
+              },
+              {
+                value: 30,
+                itemStyle: {
+                  color: 'rgba(0,0,0,0)'
+                }
+              }
+            ]
+          }
+        ]
+      };
+      clearInterval(this.timers[2]);
+      return new Promise((resolve) => {
+        this.$nextTick(() => {
+          // this.initCharts = true
+          const myChart = echarts.init(document.getElementById('loadingGauge'));
+          myChart.setOption(option);
+          this.timers[2] = setInterval(() => {
+            if (this.count > 0) {
+              option.series[0].data[0].value = this.count--;
+              myChart.setOption(option);
+            } else {
+              clearInterval(this.timers[2]);
+              myChart.setOption(option);
+              resolve(myChart);
+            }
+          }, 1000)
+        })
+      })
+    },
     toRoute (url) {
       if (url.startsWith('http')) {
         window.open(url)
@@ -652,11 +779,11 @@ export default {
     },
     async queryMyOrderSell () {
       const { methods } = await this.$store.dispatch('contract/event');
-      methods.getMyPriceSell(this.walletAddress).call((err, res) => {
+      methods.getMyPriceSell().call((err, res) => {
         if (!err) {
           if (res[0].length) {
             this.myOrderLists = res[0].map((addr, index) => {
-              methods.getToke(addr).call((err, res) => {
+              methods.getTokenName(addr).call((err, res) => {
                 if (!err) {
                   this.myOrderLists[index][3] = res[0];
                   this.myOrderLists[index][4] = res[1];
@@ -678,7 +805,22 @@ export default {
         }
       })
     },
-    async onOpenShort () {
+    startCount () {
+      clearInterval(this.timers[2])
+      return new Promise((resolve) => {
+        this.timers[2] = setInterval(() => {
+          if (this.count > 0) {
+            this.count --
+          } else {
+            this.count = 30
+            this.countLoading = false;
+            clearInterval(this.timers[2])
+            resolve(true)
+          }
+        }, 1000)
+      })
+    },
+    async onSetShort () {
       // 校验金额是否超过max
       if (this.amountNumber > this.maxAmountShort) {
         this.$alert(
@@ -697,15 +839,45 @@ export default {
       }
       // 执行操作
       const { methods } = await this.$store.dispatch('contract/event');
-      const amount = web3.utils.toWei(String(this.amountNumber), 'ether');
-      methods.ShortStart(this.selectValue, this.walletAddress, 100).send({
-        value: amount
-      },(err, txHash) => {
+      const setGas = this.$store.state.contract.setGas[this.nowChainName];
+      methods.setTokenPrice(this.selectValue).send({
+        gas: setGas
+      }, (err, txHash) => {
         if (!err) {
           this.$store.dispatch('contract/cochainHashSuccess', { txHash })
+          this.countLoading = true;
+          setTimeout(() => {
+            this.initRenderGauge()
+            .then((myChart) => {
+              this.onOpenShort().then(() => {
+                this.count = 30;
+                this.countLoading = false;
+                myChart.dispose();
+              });
+            })
+          }, 0)
+          history.pushState(null, null, document.URL);
+          window.onbeforeunload = () => '';
         } else {
           this.$store.dispatch('contract/cochainHashError', { err })
         }
+      })
+    },
+    async onOpenShort () {
+      // 执行操作
+      const { methods } = await this.$store.dispatch('contract/event');
+      const amount = web3.utils.toWei(String(this.amountNumber), 'ether');
+      return new Promise((resolve) => {
+        methods.ShortStart(this.selectValue, this.walletAddress, 100).send({
+          value: amount
+        },(err, txHash) => {
+          if (!err) {
+            this.$store.dispatch('contract/cochainHashSuccess', { txHash })
+          } else {
+            this.$store.dispatch('contract/cochainHashError', { err })
+          }
+          resolve(true)
+        })
       })
     },
     toLiquidity () {

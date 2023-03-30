@@ -333,7 +333,7 @@ export default {
     },
     async onResupply (addr) {
       const { methods } = await this.$store.dispatch('contract/event', 'Miner');
-      const minerGas = this.$store.state.contract.minerGas[this.$store.state.wallet.nowChainName];
+      const minerGas = this.$store.state.contract.minerGas[this.nowChainName];
       methods.Resupply(addr).send({
         gas: minerGas
       }, (err, txHash) => {
@@ -394,7 +394,7 @@ export default {
     async onSetStarMiner () {
       const { methods } = await this.$store.dispatch('contract/event', 'Miner');
       const payAmount = web3.utils.toWei(String(this.amountNumber), 'ether');
-      const minerGas = this.$store.state.contract.minerGas[this.$store.state.wallet.nowChainName];
+      const minerGas = this.$store.state.contract.minerGas[this.nowChainName];
       methods.setBNB(this.selectInfo.addr, this.addr2Token).send({
         value: payAmount,
         gas: minerGas
