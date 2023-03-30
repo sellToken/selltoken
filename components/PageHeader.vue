@@ -79,7 +79,7 @@
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item 
                 v-for="(item, tokenName) in chainIds" :key="tokenName"
-                :command="tokenName" :disabled="nowChainName === tokenName"
+                :command="tokenName" :disabled="nowChainName === tokenName || tokenName == 'ETH'"
                 :divided="tokenName !== 'BNB'">
                 <div class="chainlink-cell">
                   <img 
