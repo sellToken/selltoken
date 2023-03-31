@@ -128,10 +128,10 @@
                 </div>
                 <div class="cp-btnbox">
                   <el-button class="inbtntext-int1" 
-                    :disabled="(!nowSearchInfo.addr&&!selectInfo.addr)||!item[5]"
+                    :disabled="(!nowSearchInfo.addr&&!selectInfo.addr)||!item[5]" :loading="inLoading"
                     @click="onIncome(nowSearchInfo.addr||selectInfo.addr)">{{ $t('income') }}</el-button>
                   <el-button class="inbtntext-int2" 
-                    :disabled="(!nowSearchInfo.addr&&!selectInfo.addr)||!item[5]"
+                    :disabled="(!nowSearchInfo.addr&&!selectInfo.addr)||!item[5]" :loading="inLoading"
                     @click="onResupply(nowSearchInfo.addr||selectInfo.addr)">{{ $t('resupply') }}</el-button>
                 </div>
               </div>
@@ -268,7 +268,8 @@ export default {
       cacheMiners: [],
       nowSearchInfo: {},
       searchLoading: false,
-      nowContractAmount: 0
+      nowContractAmount: 0,
+      inLoading: false
     }
   },
   computed: {
@@ -332,11 +333,13 @@ export default {
       this.amountNumber = (this.walletAmount-0.001)
     },
     async onResupply (addr) {
+      this.inLoading = true;
       const { methods } = await this.$store.dispatch('contract/event', 'Miner');
       const minerGas = this.$store.state.contract.minerGas[this.nowChainName];
       methods.Resupply(addr).send({
         gas: minerGas
       }, (err, txHash) => {
+        this.inLoading = false;
         if (!err) {
           this.$store.dispatch('contract/cochainHashSuccess', { txHash })
         } else {
@@ -345,12 +348,30 @@ export default {
       })
     },
     async onIncome (addr) {
+      this.inLoading = true;
       const { methods } = await this.$store.dispatch('contract/event', 'Miner');
-      methods.sendMiner(addr).send((err, txHash) => {
+      const totalAmount = this.myMinerLists.reduce((a, b) => {
+        return a[4] ? Number(a[4]) + Number(b[4]) : a + Number(b[4]);
+      })
+      const myCoinbase = await this.$store.dispatch('contract/common', { address: this.selectInfo.addr });
+      const { decNum } = await this.$store.dispatch('contract/queyrSymbol', this.selectInfo.addr)
+      myCoinbase.methods.balanceOf(this.walletAddress).call((err, res) => {
         if (!err) {
-          this.$store.dispatch('contract/cochainHashSuccess', { txHash })
-        } else {
-          this.$store.dispatch('contract/cochainHashError', { err })
+          const myAmount = res/Math.pow(10,decNum);
+          if (totalAmount > myAmount) {
+            this.inLoading = false;
+            return this.$alert(this.$t('new02.text7'), 'Tips', {
+              confirmButtonText: this.$t('new04.text4')
+            })
+          }
+          methods.sendMiner(addr).send((err, txHash) => {
+            this.inLoading = false;
+            if (!err) {
+              this.$store.dispatch('contract/cochainHashSuccess', { txHash })
+            } else {
+              this.$store.dispatch('contract/cochainHashError', { err })
+            }
+          })
         }
       })
     },
