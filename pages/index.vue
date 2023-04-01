@@ -209,42 +209,47 @@
       <div class="swiper-button-prev"></div>
       <div class="swiper-button-next"></div>
     </div>
-    <!-- mind map -->
-    <div class="mindmap-video">
-      <video muted loop width="100%" style="margin:auto;" autoplay playsinline>
-        <source :src="`/lang/videos/${$i18n.locale}.mp4`" type="video/mp4">
-      </video>
-      <img :src="`/lang/images/${$i18n.locale}.png`" alt="" class="flow-img">
-    </div>
     <!-- IDO -->
     <div class="ido-content">
       <h2>SeIIToKen IDO</h2>
       <div class="container">
         <div class="disc-box">
           <div class="timecount-statistic">
-            <!-- <el-statistic :value="deadline3" time-indices
-              format="DD [day] HH [hour] mm [minute] ss [second]" :value-style="valueStyle">
-              <span slot="prefix">Distance End</span>
-            </el-statistic> -->
             <span>{{ $t('PageHome.text16') }}</span>
-            <b>00</b>
+            <b>{{ endTimeIDO[0] }}</b>
             <span>{{ $t('PageHome.text17') }}</span>
-            <b>00</b>
+            <b>{{ endTimeIDO[1] }}</b>
             <span>{{ $t('PageHome.text18') }}</span>
-            <b>00</b>
+            <b>{{ endTimeIDO[2] }}</b>
             <span>{{ $t('PageHome.text19') }}</span>
-            <b>00</b>
+            <b>{{ endTimeIDO[3] }}</b>
             <span>{{ $t('PageHome.text20') }}</span>
           </div>
           <div class="sline">
             <div class="slineitem"></div>
           </div>
           <div class="disc-join">
-            <el-input-number :controls="false" placeholder="Amount Value"></el-input-number>
-            <el-button type="primary" disabled>{{ $t('PageHome.text21') }}</el-button>
+            <el-input-number :controls="false" :placeholder="`Amount Value ${nowChainName}`"
+              v-model="idoValue"></el-input-number>
+            <el-button type="primary" :disabled="!idoValue||!isEndTime" class="themebtn" :loading="idoLoading"
+              @click="onIntoIDO">{{ $t('PageHome.text21') }}</el-button>
+          </div>
+          <div class="invite-address">
+            <span>
+              <small>{{ $t('new05.text3') }}</small>
+              <strong>{{ inviteLink.substr(0, 10) + '...' + inviteLink.substr(-6) }}</strong>
+            </span>
+            <i class="el-icon-document" @click="onCopyText(inviteLink)"></i>
           </div>
         </div>
       </div>
+    </div>
+    <!-- mind map -->
+    <div class="mindmap-video">
+      <video muted loop width="100%" style="margin:auto;" autoplay playsinline>
+        <source :src="`/lang/videos/${$i18n.locale}.mp4`" type="video/mp4">
+      </video>
+      <img :src="`/lang/images/${$i18n.locale}.png`" alt="" class="flow-img">
     </div>
     <!-- dife link -->
     <div class="dife-linkbox">
@@ -291,7 +296,12 @@
         </h2>
       </div>
       <div class="charts-modal-content">
-        <div class="prxin">
+        <el-image 
+          width="100%"
+          :src="require('~/static/images/dropimg.jpg')" 
+          :preview-src-list="[require('~/static/images/dropimg.jpg')]">
+        </el-image>
+        <!-- <div class="prxin">
           <h3>{{ $t('new03.text5') }}</h3>
           <p>
             {{ $t('new03.text6') }} <br>
@@ -306,7 +316,7 @@
           2、{{ $t('new03.text12') }} <br>
         </p>
         <h3>{{ $t('new03.text13') }}</h3>
-        <p>1、{{ $t('new03.text14') }}</p>
+        <p>1、{{ $t('new03.text14') }}</p> -->
         <div class="charts-foot-address">
           <span>{{ $t('new03.text15') }}</span>
           <b>0xa645995e9801f2ca6e2361edf4c2a138362bade4</b>
@@ -418,7 +428,6 @@ export default {
           name: 'IoTeX'
         }
       ],
-      deadline3: Date.now() + 1000 * 1000 * 60 * 30,
       SwiperOptions: {
         slidesPerView: 5,
         spaceBetween: 30,
@@ -512,7 +521,11 @@ export default {
       queryMaxLoading: false,
       countLoading: false,
       count: 0,
-      timers: {0:null, 1:null,2:null}, // 定时器
+      timers: {0:null, 1:null,2:null,3:null}, // 定时器
+      idoValue: '',
+      idoLoading: false,
+      endTimeIDO: ['00', '00', '00', '00'],
+      isEndTime: false
     }
   },
   computed: {
@@ -533,6 +546,12 @@ export default {
     },
     nowChainName () {
       return this.$store.state.wallet.nowChainName;
+    },
+    inviteAddress () {
+      return this.$store.state.wallet.inviteAddress || '0x4b9Ad0eD12C630AF0726e0E4822eE84d43D7E8E5';
+    },
+    inviteLink () {
+      return process.browser ? globalThis.location.origin + '?addr=' + this.walletAddress : '';
     }
   },
   created () {
@@ -545,8 +564,49 @@ export default {
     }
   },
   mounted () {
+    this.startCountIDO()
   },
   methods: {
+    startCountIDO () {
+      const endTime = new Date('2023/04/02 00:00:00').getTime();
+      const nowTime = Date.now();
+      let d1 = (endTime - nowTime)/1000/24/60/60;
+      if (d1 < 0) {
+        this.isEndTime = true;
+        return false;
+      }
+      let d2 = parseInt(d1);
+      let h1 = (d1-d2)*24;
+      let h2 = parseInt(h1);
+      let m1 = (h1-h2)*60;
+      let m2 = parseInt(m1);
+      let s1 = (m1-m2)*60;
+      let s2 = parseInt(s1);
+      if (d2<10) d2 = '0'+d2;
+      if (h2<10) h2 = '0'+h2;
+      if (m2<10) m2 = '0'+m2;
+      if (s2<10) s2 = '0'+s2;
+      this.endTimeIDO = [d2, h2, m2, s2];
+      clearTimeout(this.timers[3]);
+      this.timers[3] = setTimeout(() => {
+        this.startCountIDO()
+      }, 1000)
+    },
+    async onIntoIDO () {
+      this.idoLoading = true;
+      const { methods } = await this.$store.dispatch('contract/event', 'IDO');
+      const payAmount = web3.utils.toWei(String(this.idoValue));
+      methods.inIdo(this.inviteAddress).send({
+        value: payAmount
+      },(err, txHash) => {
+        this.idoLoading = false;
+        if (!err) {
+          this.$store.dispatch('contract/cochainHashSuccess', { txHash })
+        } else {
+          this.$store.dispatch('contract/cochainHashError', { err })
+        }
+      })
+    },
     async initRenderGauge () {
       const color = new echarts.graphic.LinearGradient(0, 0, 1, 0, [
         {
@@ -913,7 +973,7 @@ export default {
         methods.getShortsMoV(this.selectValue, this.addr2Token).call((err, res) => {
           this.queryMaxLoading = false
           if (!err) {
-            this.maxAmountShort = (res/Math.pow(10, 18)/2).toFixed(8);
+            this.maxAmountShort = (Math.min(res/Math.pow(10, 18)/2, 5)).toFixed(8);
             console.log('最大做空:', this.maxAmountShort)
           } else {
             this.maxAmountShort = '0.00000000';

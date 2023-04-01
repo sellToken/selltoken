@@ -26,6 +26,10 @@ export default {
   },
   mounted () {
     this.initChainLink();
+    const inviteAddress = localStorage.getItem('inviteAddress') || this.$route.query.addr || '';
+    if (inviteAddress && inviteAddress.length===42) {
+      this.$store.commit('wallet/writeInviteAddress', inviteAddress)
+    }
     const txHash = localStorage.getItem('txHash');
     const oldInfo = localStorage.getItem('oldInfo');
     if (txHash) {

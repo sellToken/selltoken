@@ -1,7 +1,8 @@
 {
   "new05": {
     "text1": "Prevent lightning loan attacks, please wait...",
-    "text2": "The contract is being invoked, please wait..."
+    "text2": "The contract is being invoked, please wait...",
+    "text3": "5% invitation to return commission"
   },
   "new04": {
     "text1": "Please redeem tokens",
@@ -117,7 +118,7 @@
     "text18": "hour",
     "text19": "minute",
     "text20": "second",
-    "text21": "Into IDO(Not Started Yet)",
+    "text21": "Into IDO",
     "text22": "High quality help <span>Defi</span>Project<br> Provide support",
     "text23": "SellToken is a decentralized short trading exchange based on smart contracts. Its operation is completely based on immutable code. According to short trading requests submitted by users, the smart contract automatically executes the short trading operations to complete the user's short trading operations. SellToken means that ten thousand coins can be shorted, and encrypted world tokens can be shorted anytime and anywhere.",
     "text24": "day",

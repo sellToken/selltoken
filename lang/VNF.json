@@ -1,7 +1,8 @@
 {
   "new05": {
     "text1": "Ngăn chặn các cuộc tấn công chớp nhoáng. Chờ một chút....",
-    "text2": "Đang gọi hợp đồng. Chờ một chút...."
+    "text2": "Đang gọi hợp đồng. Chờ một chút....",
+    "text3": "5% lời mời trở lại"
   },
   "new04": {
     "text1": "Vui lòng đổi mã thông báo",
@@ -117,7 +118,7 @@
     "text18": "giờ",
     "text19": "phút",
     "text20": "thứ hai",
-    "text21": "Vào IDO (Chưa bắt đầu)",
+    "text21": "Vào IDO",
     "text22": "Trợ giúp chất lượng cao <span>Defi</span>Project<br> Cung cấp hỗ trợ",
     "text23": "SellToken là một sàn giao dịch bán khống phi tập trung dựa trên các hợp đồng thông minh. Hoạt động của nó hoàn toàn dựa trên mã bất biến. Theo các yêu cầu giao dịch ngắn do người dùng gửi, hợp đồng thông minh sẽ tự động thực hiện các hoạt động giao dịch ngắn để hoàn thành các hoạt động giao dịch ngắn của người dùng. SellToken có nghĩa là có thể rút ngắn mười nghìn xu và mã thông báo thế giới được mã hóa có thể được rút ngắn mọi lúc, mọi nơi.",
     "text24": "ngày",

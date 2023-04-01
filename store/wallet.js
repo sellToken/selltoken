@@ -27,7 +27,8 @@ export const state = () => ({
     "ETH": ETH_ADDRESS,
     "USDC": USDC_ADDRESS
   },
-  pairLists: []
+  pairLists: [],
+  inviteAddress: ''
 })
 
 export const mutations = {
@@ -40,6 +41,10 @@ export const mutations = {
   },
   writeWalletAmount (state, amount) {
     state.amountBNB = amount;
+  },
+  writeInviteAddress (state, address) {
+    state.inviteAddress = address || '';
+    localStorage.setItem('inviteAddress', address)
   }
 }
 
