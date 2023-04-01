@@ -230,7 +230,7 @@
           </div>
           <div class="disc-join">
             <el-input-number :controls="false" :placeholder="`Amount Value ${nowChainName}`"
-              v-model="idoValue"></el-input-number>
+              v-model="idoValue" :min="0.1" :max="2"></el-input-number>
             <el-button type="primary" :disabled="!idoValue||!isEndTime" class="themebtn" :loading="idoLoading"
               @click="onIntoIDO">{{ $t('PageHome.text21') }}</el-button>
           </div>
