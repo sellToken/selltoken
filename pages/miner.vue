@@ -24,7 +24,7 @@
             <div class="write-amount">
               <el-input-number 
                 v-model="amountNumber" controls-position="right" 
-                :min="0.000001" :step="0.1" :max="2">
+                :min="0.000001" :step="0.1" :max="5">
               </el-input-number>
               <div class="amount-unit">
                 <img :src="require(`~/static/images/${nowChainName}.png`)" alt="" class="unitico">

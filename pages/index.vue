@@ -229,10 +229,29 @@
             <div class="slineitem"></div>
           </div>
           <div class="disc-join">
-            <el-input-number :controls="false" :placeholder="`Amount Value ${nowChainName}`"
-              v-model="idoValue" :min="0.1" :max="2"></el-input-number>
-            <el-button type="primary" :disabled="!idoValue||!isEndTime" class="themebtn" :loading="idoLoading"
-              @click="onIntoIDO">{{ $t('PageHome.text21') }}</el-button>
+            <div class="ido-number">
+              <p>IDO总额： {{ idoNumber }} {{ nowChainName }}</p>
+              <p><small>返佣：總金額5%</small><small>营销：總金額10%</small></p>
+            </div>
+            <div class="input-box">
+              <el-input-number :controls="false" :placeholder="`Amount Value ${nowChainName}`"
+                step-strictly :step="0.01" :precision="2"
+                v-model="idoValue" :min="0.1" :max="2"></el-input-number>
+              <div class="unit-max" v-if="idoValue">
+                <span>{{ nowChainName }}</span>
+              </div>
+            </div>
+            <div class="mxbtn">
+              <span class="price">Price: $ 0.013</span>
+              <el-button type="text"
+                @click="idoValue = 2">
+                MAX 2 {{ nowChainName }}
+              </el-button>
+            </div>
+            <div>
+              <el-button type="primary" :disabled="!idoValue||!isEndTime" class="themebtn" :loading="idoLoading"
+                @click="onIntoIDO">{{ $t('PageHome.text21') }}</el-button>
+            </div>
           </div>
           <div class="invite-address">
             <span>
@@ -521,11 +540,12 @@ export default {
       queryMaxLoading: false,
       countLoading: false,
       count: 0,
-      timers: {0:null, 1:null,2:null,3:null}, // 定时器
+      timers: {0:null, 1:null,2:null,3:null,4:null}, // 定时器
       idoValue: '',
       idoLoading: false,
       endTimeIDO: ['00', '00', '00', '00'],
-      isEndTime: false
+      isEndTime: true,
+      idoNumber: 0
     }
   },
   computed: {
@@ -556,6 +576,7 @@ export default {
   },
   created () {
     this.queryMyOrderSell()
+    this.queryNumberIDO()
   },
   destroyed () {
     for (let k in this.timers) {
@@ -564,9 +585,21 @@ export default {
     }
   },
   mounted () {
-    this.startCountIDO()
+    // this.startCountIDO()
   },
   methods: {
+    async queryNumberIDO () {
+      const { methods } = await this.$store.dispatch('contract/event', 'IDO');
+      clearTimeout(this.timers[4])
+      methods.sum().call((err, res) => {
+        if (!err) {
+          this.idoNumber = (res/Math.pow(10,18)).toFixed(8)
+        }
+        this.timers[4] = setTimeout(() => {
+          this.queryNumberIDO()
+        }, 10*1000)
+      })
+    },
     startCountIDO () {
       const endTime = new Date('2023/04/02 00:00:00').getTime();
       const nowTime = Date.now();
