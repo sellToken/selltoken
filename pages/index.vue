@@ -214,7 +214,7 @@
       <h2>SeIIToKen IDO</h2>
       <div class="container">
         <div class="disc-box">
-          <div class="timecount-statistic">
+          <div class="timecount-statistic" v-if="!isEndTime">
             <span>{{ $t('PageHome.text16') }}</span>
             <b>{{ endTimeIDO[0] }}</b>
             <span>{{ $t('PageHome.text17') }}</span>
@@ -225,13 +225,16 @@
             <b>{{ endTimeIDO[3] }}</b>
             <span>{{ $t('PageHome.text20') }}</span>
           </div>
+          <div class="timecount-statistic" v-else>
+            <b style="border:0">IDO进行中...</b>
+          </div>
           <div class="sline">
             <div class="slineitem"></div>
           </div>
           <div class="disc-join">
             <div class="ido-number">
-              <p>IDO总额： {{ idoNumber }} {{ nowChainName }}</p>
-              <p><small>返佣：總金額5%</small><small>营销：總金額10%</small></p>
+              <p>{{ $t('new06.text1') }}： {{ idoNumber }} {{ nowChainName }}</p>
+              <p><small>{{ $t('new06.text2') }}</small><small>{{ $t('new06.text3') }}</small></p>
             </div>
             <div class="input-box">
               <el-input-number :controls="false" :placeholder="`Amount Value ${nowChainName}`"
@@ -242,7 +245,7 @@
               </div>
             </div>
             <div class="mxbtn">
-              <span class="price">Price: $ 0.013</span>
+              <span class="price">{{ $t('new06.text4') }}: $ 0.013</span>
               <el-button type="text"
                 @click="idoValue = 2">
                 MAX 2 {{ nowChainName }}

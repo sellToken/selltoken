@@ -1,4 +1,11 @@
 {
+  "new06": {
+    "text1": "Total IDO",
+    "text2": "Rebate: 5% of total amount",
+    "text3": "Marketing: 10% of total amount",
+    "text4": "Price",
+    "text5": "IDO in progress"
+  },
   "new05": {
     "text1": "Prevent lightning loan attacks, please wait...",
     "text2": "The contract is being invoked, please wait...",
