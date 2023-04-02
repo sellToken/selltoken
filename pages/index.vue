@@ -226,7 +226,7 @@
             <span>{{ $t('PageHome.text20') }}</span>
           </div>
           <div class="timecount-statistic" v-else>
-            <b style="border:0">IDO进行中...</b>
+            <b style="border:0">{{ $t('new06.text5') }}...</b>
           </div>
           <div class="sline">
             <div class="slineitem"></div>
