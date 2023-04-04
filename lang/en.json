@@ -4,7 +4,8 @@
     "text2": "Rebate: 5% of total amount",
     "text3": "Marketing: 10% of total amount",
     "text4": "Price",
-    "text5": "IDO in progress"
+    "text5": "IDO in progress",
+    "text6": "The balance of holding tokens must be greater than the amount of mining income"
   },
   "new05": {
     "text1": "Prevent lightning loan attacks, please wait...",

@@ -360,7 +360,7 @@ export default {
           const myAmount = res/Math.pow(10,decNum);
           if (totalAmount > myAmount) {
             this.inLoading = false;
-            return this.$alert(this.$t('new02.text7'), 'Tips', {
+            return this.$alert(this.$t('new06.text6'), 'Tips', {
               confirmButtonText: this.$t('new04.text4')
             })
           }
