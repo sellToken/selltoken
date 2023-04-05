@@ -211,7 +211,7 @@
     </div>
     <!-- IDO -->
     <div class="ido-content">
-      <h2>SeIIToKen IDO</h2>
+      <h2>SELLC IDO</h2>
       <div class="container">
         <div class="disc-box">
           <div class="timecount-statistic" v-if="!isEndTime">
