@@ -130,7 +130,7 @@
             </p>
             <p class="size-text">
               {{ $t('PageHome.text10') }}：
-              <b>{{ (((shortsInfos[3]/shortsInfos[2])*100)||0).toFixed(2) }}%</b>
+              <b>{{ (Math.min(((shortsInfos[3]/shortsInfos[2])*100)||0, 100)).toFixed(2) }}%</b>
             </p>
           </div>
           <img src="~/static/images/v3.png" alt="" class="j-ico">
