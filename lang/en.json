@@ -4,7 +4,7 @@
     "text2": "Rebate: 5% of total amount",
     "text3": "Marketing: 10% of total amount",
     "text4": "Price",
-    "text5": "IDO in progress",
+    "text5": "IDO has endedEnded",
     "text6": "The balance of holding tokens must be greater than the amount of mining income"
   },
   "new05": {
@@ -121,7 +121,7 @@
     "text13": "Redemption Quantity",
     "text14": "redeem",
     "text15": "Contract Address",
-    "text16": "Distance Start",
+    "text16": "Distance End",
     "text17": "day",
     "text18": "hour",
     "text19": "minute",

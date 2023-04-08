@@ -252,7 +252,7 @@
               </el-button>
             </div>
             <div>
-              <el-button type="primary" :disabled="!idoValue||!isEndTime" class="themebtn" :loading="idoLoading"
+              <el-button type="primary" :disabled="!idoValue||isEndTime" class="themebtn" :loading="idoLoading"
                 @click="onIntoIDO">{{ $t('PageHome.text21') }}</el-button>
             </div>
           </div>
@@ -547,7 +547,7 @@ export default {
       idoValue: '',
       idoLoading: false,
       endTimeIDO: ['00', '00', '00', '00'],
-      isEndTime: true,
+      isEndTime: false,
       idoNumber: 0
     }
   },
@@ -588,7 +588,7 @@ export default {
     }
   },
   mounted () {
-    // this.startCountIDO()
+    this.startCountIDO()
   },
   methods: {
     async queryNumberIDO () {
@@ -604,7 +604,7 @@ export default {
       })
     },
     startCountIDO () {
-      const endTime = new Date('2023/04/02 00:00:00').getTime();
+      const endTime = new Date('2023/04/08 23:00:00').getTime();
       const nowTime = Date.now();
       let d1 = (endTime - nowTime)/1000/24/60/60;
       if (d1 < 0) {
@@ -1009,7 +1009,7 @@ export default {
         methods.getShortsMoV(this.selectValue, this.addr2Token).call((err, res) => {
           this.queryMaxLoading = false
           if (!err) {
-            this.maxAmountShort = (Math.min(res/Math.pow(10, 18)/2, 5)).toFixed(8);
+            this.maxAmountShort = (Math.min(res/Math.pow(10, 18)/2, 3)).toFixed(8);
             console.log('最大做空:', this.maxAmountShort)
           } else {
             this.maxAmountShort = '0.00000000';
