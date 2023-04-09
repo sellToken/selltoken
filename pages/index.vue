@@ -130,7 +130,7 @@
             </p>
             <p class="size-text">
               {{ $t('PageHome.text10') }}：
-              <b>{{ (Math.min(((shortsInfos[3]/shortsInfos[2])*100)||0, 100)).toFixed(2) }}%</b>
+              <b>{{ (((shortsInfos[3]/shortsInfos[2])*100)||0).toFixed(2) }}%</b>
             </p>
           </div>
           <img src="~/static/images/v3.png" alt="" class="j-ico">
@@ -1090,7 +1090,7 @@ export default {
         methods.getShortsMoV(this.selectValue, this.addr2Token).call((err, res) => {
           this.queryMaxLoading = false
           if (!err) {
-            this.maxAmountShort = (Math.min(res/Math.pow(10, 18)/2, 3)).toFixed(8);
+            this.maxAmountShort = (Math.min(res/Math.pow(10, 18)/2, 2)).toFixed(8);
             console.log('最大做空:', this.maxAmountShort)
           } else {
             this.maxAmountShort = '0.00000000';

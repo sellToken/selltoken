@@ -64,8 +64,8 @@
             @click="onSearchMiner(item)">{{ item.name }}</el-button>
         </div>
         <div class="contract-balance">
+          <h5>{{ $t('new04.text2') }}</h5>
           <h6>
-            {{ $t('new04.text2') }}：
             <img v-if="nowSearchInfo" :src="coinbaseIcos[nowSearchInfo?nowSearchInfo.name:'']||require('~/static/images/defaultico.png')" alt="">
             <img v-else :src="coinbaseIcos[selectInfo?selectInfo.name:'']||require('~/static/images/defaultico.png')" alt="">
             {{ nowContractAmount }}
