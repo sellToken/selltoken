@@ -367,6 +367,10 @@
     }
   }
 }
+.difelink-title {
+  padding-bottom: 20px;
+  @include flexBox;
+}
 .mindmap-video {
   position: relative;
   display: flex;
@@ -418,12 +422,12 @@
         
       }
       @keyframes speedgroup1 {
-        0% { transform: translateX(-50%) translateZ(0px); } 
-        100% { transform: translateX(0) translateZ(0px); } 
+        0% { transform: translateX(-25%) translateZ(0px); } 
+        100% { transform: translateX(25%) translateZ(0px); } 
       }
       @keyframes speedgroup2 {
-        0% { transform: translateX(0) translateZ(0px); } 
-        100% { transform: translateX(-50%) translateZ(0px); } 
+        0% { transform: translateX(25%) translateZ(0px); } 
+        100% { transform: translateX(-25%) translateZ(0px); } 
       }
       li {
         position: relative;
@@ -442,10 +446,11 @@
           box-shadow: 0 0 10px rgba(31, 34, 38, 0.1), 0 5px 10px rgba(31, 34, 38, 0.15);
         }
         img {
-          width: 88px;
+          width: 80px;
           height: 40px;
           object-fit: contain;
           margin-left: -20px;
+          margin-right: 8px;
         }
         span {
           color: #1f2226;

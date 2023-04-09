@@ -281,7 +281,26 @@
           <p>{{ $t('PageHome.text23') }}</p>
         </div>
       </div>
+      <div class="difelink-title">
+        <h2>{{ $t('new06.text7') }}</h2>
+      </div>
       <div class="link-logo">
+        <ul class="link-line-item linitem2">
+          <li
+            v-for="(item, index) in aLinkItem3" :key="index">
+            <a :href="item.link" target="_blank">
+              <img :src="item.icon" alt="" :style="{
+                backgroundColor: item.color,
+                width: item.width,
+                height: item.height
+              }">
+              <span>{{ item.name }}</span>
+            </a>
+          </li>
+        </ul>
+        <div class="difelink-title" style="margin-top: 50px;">
+          <h2>{{ $t('new06.text8') }}</h2>
+        </div>
         <ul class="link-line-item">
           <li
             v-for="(item, index) in aLinkItem1" :key="index">
@@ -406,6 +425,37 @@ export default {
        100: '100%',
       },
       sliderLineValue: 0,
+      aLinkItem3: [
+        {
+          icon: require('~/static/images/vlogo4.webp'),
+          name: '',
+          link: 'https://www.pinksale.finance/',
+          height: '100px',
+          width: '200px'
+        },
+        {
+          icon: require('~/static/images/vlogo5.png'),
+          name: 'Marketing',
+          link: 'https://t.me/Dwen_Exchange'
+        },
+        {
+          icon: require('~/static/images/vlogo6.png'),
+          name: '',
+          link: 'https://www.dexview.com/',
+          height: '80px',
+          width: '160px'
+        },
+        {
+          icon: require('~/static/images/vlogo1.jpeg'),
+          name: 'BSCDaily',
+          link: 'https://twitter.com/bsc_daily'
+        },
+        {
+          icon: require('~/static/images/vlogo2.png'),
+          name: 'BSCNews',
+          link: 'https://www.bsc.news/'
+        }
+      ],
       aLinkItem1: [
         {
           icon: require('~/static/images/Arbitrum.svg'),
@@ -436,16 +486,6 @@ export default {
           icon: require('~/static/images/Fandom.svg'),
           name: 'Fantom',
           link: '#'
-        },
-        {
-          icon: require('~/static/images/vlogo1.jpeg'),
-          name: 'BSCDaily',
-          link: 'https://twitter.com/bsc_daily'
-        },
-        {
-          icon: require('~/static/images/vlogo2.png'),
-          name: 'BSCNews',
-          link: 'https://www.bsc.news/'
         },
         {
           icon: require('~/static/images/vlogo3.svg'),
@@ -489,23 +529,6 @@ export default {
           icon: require('~/static/images/Iotex.svg'),
           name: 'IoTeX',
           link: '#'
-        },
-        {
-          icon: require('~/static/images/vlogo4.webp'),
-          name: '',
-          link: 'https://www.pinksale.finance/',
-          height: '100px',
-          width: '200px'
-        },
-        {
-          icon: require('~/static/images/vlogo5.png'),
-          name: '',
-          link: 'https://t.me/Dwen_Exchange'
-        },
-        {
-          icon: require('~/static/images/vlogo6.png'),
-          name: '',
-          link: 'https://www.dexview.com/'
         }
       ],
       SwiperOptions: {
