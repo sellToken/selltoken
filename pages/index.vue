@@ -210,7 +210,7 @@
       <div class="swiper-button-next"></div>
     </div>
     <!-- IDO -->
-    <div class="ido-content">
+    <!-- <div class="ido-content" >
       <h2>SELLC IDO</h2>
       <div class="container">
         <div class="disc-box">
@@ -265,7 +265,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- mind map -->
     <div class="mindmap-video">
       <video muted loop width="100%" style="margin:auto;" autoplay playsinline>
@@ -285,15 +285,27 @@
         <ul class="link-line-item">
           <li
             v-for="(item, index) in aLinkItem1" :key="index">
-            <img :src="item.icon" alt="">
-            <span>{{ item.name }}</span>
+            <a :href="item.link" target="_blank">
+              <img :src="item.icon" alt="" :style="{
+                backgroundColor: item.color,
+                width: item.width,
+                height: item.height
+              }">
+              <span>{{ item.name }}</span>
+            </a>
           </li>
         </ul>
         <ul class="link-line-item linitem2">
           <li
             v-for="(item, index) in aLinkItem2" :key="index">
-            <img :src="item.icon" alt="">
-            <span>{{ item.name }}</span>
+            <a :href="item.link" target="_blank">
+              <img :src="item.icon" alt="" :style="{
+                backgroundColor: item.color,
+                width: item.width,
+                height: item.height
+              }">
+              <span>{{ item.name }}</span>
+            </a>
           </li>
         </ul>
       </div>
@@ -397,57 +409,103 @@ export default {
       aLinkItem1: [
         {
           icon: require('~/static/images/Arbitrum.svg'),
-          name: 'Arbitrum'
+          name: 'Arbitrum',
+          link: '#'
         },
         {
           icon: require('~/static/images/Avalanche.svg'),
-          name: 'Avalanche'
+          name: 'Avalanche',
+          link: '#'
         },
         {
           icon: require('~/static/images/Binance.svg'),
-          name: 'Binance'
+          name: 'Binance',
+          link: '#'
         },
         {
           icon: require('~/static/images/Ethereum.svg'),
-          name: 'Ethereum'
+          name: 'Ethereum',
+          link: '#'
         },
         {
           icon: require('~/static/images/Solana.svg'),
-          name: 'Solana'
+          name: 'Solana',
+          link: '#'
         },
         {
           icon: require('~/static/images/Fandom.svg'),
-          name: 'Fantom'
+          name: 'Fantom',
+          link: '#'
+        },
+        {
+          icon: require('~/static/images/vlogo1.jpeg'),
+          name: 'BSCDaily',
+          link: 'https://twitter.com/bsc_daily'
+        },
+        {
+          icon: require('~/static/images/vlogo2.png'),
+          name: 'BSCNews',
+          link: 'https://www.bsc.news/'
+        },
+        {
+          icon: require('~/static/images/vlogo3.svg'),
+          name: 'CERTIK',
+          link: 'https://certik.com',
+          color: '#000'
         }
       ],
       aLinkItem2: [
         {
           icon: require('~/static/images/Moonbeam.svg'),
-          name: 'Moonbeam'
+          name: 'Moonbeam',
+          link: '#'
         },
         {
           icon: require('~/static/images/Near.svg'),
-          name: 'Near'
+          name: 'Near',
+          link: '#'
         },
         {
           icon: require('~/static/images/Nervos.svg'),
-          name: 'Nervos'
+          name: 'Nervos',
+          link: '#'
         },
         {
           icon: require('~/static/images/Optimism.svg'),
-          name: 'Optimism'
+          name: 'Optimism',
+          link: '#'
         },
         {
           icon: require('~/static/images/Polygon.svg'),
-          name: 'Polygon'
+          name: 'Polygon',
+          link: '#'
         },
         {
           icon: require('~/static/images/Harmony.svg'),
-          name: 'Harmony'
+          name: 'Harmony',
+          link: '#'
         },
         {
           icon: require('~/static/images/Iotex.svg'),
-          name: 'IoTeX'
+          name: 'IoTeX',
+          link: '#'
+        },
+        {
+          icon: require('~/static/images/vlogo4.webp'),
+          name: '',
+          link: 'https://www.pinksale.finance/',
+          height: '100px',
+          width: '200px'
+        },
+        {
+          icon: require('~/static/images/vlogo5.png'),
+          name: '',
+          link: 'https://t.me/Dwen_Exchange'
+        },
+        {
+          icon: require('~/static/images/vlogo6.png'),
+          name: '',
+          link: 'https://www.dexview.com/'
         }
       ],
       SwiperOptions: {
@@ -588,7 +646,7 @@ export default {
     }
   },
   mounted () {
-    this.startCountIDO()
+    // this.startCountIDO()
   },
   methods: {
     async queryNumberIDO () {

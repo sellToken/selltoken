@@ -436,7 +436,7 @@
         height: 100px;
         min-width: 240px;
         box-sizing: border-box;
-        @include flexBox(flex-start);
+        @include flexBox;
         &:hover {
           z-index: 1;
           box-shadow: 0 0 10px rgba(31, 34, 38, 0.1), 0 5px 10px rgba(31, 34, 38, 0.15);
@@ -445,11 +445,18 @@
           width: 88px;
           height: 40px;
           object-fit: contain;
+          margin-left: -20px;
         }
         span {
           color: #1f2226;
           font-size: 18px;
           font-family: "Inter-Bold", sans-serif;
+        }
+        a {
+          flex: 1;
+          display: flex;
+          height: 100%;
+          @include flexBox;
         }
       }
     }
