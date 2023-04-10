@@ -22,6 +22,7 @@
         </el-carousel>
       </div>
       <div class="container">
+        <img src="~/static/images/hico.png" class="fixed-ico" v-if="showMobileNavbar||maxWidthNavbar" />
         <div class="left-navbar">
           <div class="menubtn" @click="showMobileNavbar = true"><i class="el-icon-s-grid"></i></div>
           <div class="logo">
@@ -351,6 +352,13 @@ export default {
   left: 0;
   top: 0;
   z-index: 1200;
+  .fixed-ico {
+    position: absolute;
+    left: -120px;
+    top: 0px;
+    width: 146px;
+    z-index: 6;
+  }
   .container {
     padding: 18px 20px;
     @include flexBox(space-between);
@@ -583,6 +591,11 @@ export default {
 @media screen and (max-width: 750px) {
   .fixed-header {
     z-index: 100;
+    .fixed-ico {
+      left: 200px;
+      top: 50px;
+      z-index: 99999;
+    }
     .container {
       padding: 0 10px;
       height: calc(100% - 30px);
