@@ -36,7 +36,7 @@
           <el-button type="text" @click="toRoute('/miner')">{{ $t('PageHeader.Miner') }}</el-button>
           <el-button type="text" @click="toRoute('/liquidity')">{{ $t('PageHeader.Liquidity') }}</el-button>
         </div>
-        <auto-search @select="onSelectCoinbase" @clear="onClearSelectInfo"
+        <auto-search @select="onSelectCoinbase" @clear="onClearSelectInfo" ref="autoSearchRef"
           :content="$t(`new03.text1_${nowChainName}`)"></auto-search>
         <h3 class="pair-h3">{{ $t('PageHome.text3') }}</h3>
         <div class="pair-content">
@@ -137,9 +137,31 @@
         </div>
       </div>
     </div>
+    <!-- 做空池项目 -->
+    <div class="make-pool" v-if="dexList.length">
+      <div class="container">
+        <div class="make-title">
+          <h2>{{ $t('new06.text9') }}</h2>
+          <p>SHORT POOL ITEMS</p>
+          <div class="make-line">
+            <span>{{ $t('new06.text10') }}</span>
+          </div>
+        </div>
+        <div class="swiper-pools" v-swiper:mySwiper="SwiperPool">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide" v-for="(item, index) in dexList" :key="index"
+              @click="onSelectDex(item)">
+              <img :src="item.icon || require('~/static/images/defaultico.png')" class="aico" />
+              <p>{{ item.name }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-pagination-pool"></div>
+    </div>
     <!-- 订单 -->
     <div class="orderinfo-box">
-      <div class="swiper-orderinfo" v-swiper:mySwiper="SwiperOptions">
+      <div class="swiper-orderinfo" v-swiper:mySwiperOrder="SwiperOptions">
         <div class="swiper-wrapper">
           <div class="swiper-slide" v-for="(item, index) in myOrderLists" :key="index">
             <div class="orderinfo-item">
@@ -570,6 +592,47 @@ export default {
           prevEl: '.orderinfo-box .swiper-button-prev',
         }
       },
+      SwiperPool: {
+        slidesPerView: 5,
+        spaceBetween: 30,
+        slidesPerGroup: 6,
+        loop: false,
+        loopFillGroupWithBlank: false,
+        autoplay: false,
+        observeParents: true,
+        observer: true,
+        breakpoints: {
+          1920: {
+            slidesPerView: 6,
+            spaceBetween: 30,
+            slidesPerGroup: 6,
+          },
+          1440: {
+            slidesPerView: 6,
+            spaceBetween: 20,
+            slidesPerGroup: 6,
+          },
+          1080: {
+            slidesPerView: 6,
+            spaceBetween: 30,
+            slidesPerGroup: 6,
+          },
+          750: {
+            slidesPerView: 4,
+            spaceBetween: 30,
+            slidesPerGroup: 4,
+          },
+          300: {
+            slidesPerView: 4,
+            spaceBetween: 10,
+            slidesPerGroup: 4,
+          }
+        },
+        pagination: {
+          el: '.make-pool .swiper-pagination-pool',
+          clickable: true
+        }
+      },
       selectValue: '',
       selectInfo: null,
       selectPairIndex: -1,
@@ -629,7 +692,8 @@ export default {
       idoLoading: false,
       endTimeIDO: ['00', '00', '00', '00'],
       isEndTime: false,
-      idoNumber: 0
+      idoNumber: 0,
+      dexList: []
     }
   },
   computed: {
@@ -669,9 +733,19 @@ export default {
     }
   },
   mounted () {
-    // this.startCountIDO()
+    this.getCoinList()
   },
   methods: {
+    async getCoinList () {
+      this.$axios.get('/coinbase.json')
+      .then(({ data }) => {
+        this.dexList = data;
+      })
+    },
+    onSelectDex (item) {
+      item.isAdd = true
+      this.$refs.autoSearchRef.handleSelectCoinbase(item)
+    },
     async queryNumberIDO () {
       const { methods } = await this.$store.dispatch('contract/event', 'IDO');
       clearTimeout(this.timers[4])
@@ -1045,7 +1119,7 @@ export default {
       const { methods } = await this.$store.dispatch('contract/event');
       const amount = web3.utils.toWei(String(this.amountNumber), 'ether');
       return new Promise((resolve) => {
-        methods.ShortStart(this.selectValue, this.walletAddress, 100).send({
+        methods.ShortStart(this.selectValue, this.walletAddress, 2).send({
           value: amount
         },(err, txHash) => {
           if (!err) {

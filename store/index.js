@@ -3,6 +3,7 @@ export const state = () => ({
     "TRDT": require('~/static/images/TRDT-logo.png'),
     "SELLC": require('~/static/images/SELLC.png'),
     "USDT": require('~/static/images/USDT.png'),
+    "HNC": require('~/static/images/HNC.png'),
   }
 })
 
