@@ -164,6 +164,9 @@ export const actions = {
       case 'IDO':
         ContractAbi = await import('@/contract/IDO.json');
       break;
+      case 'STOCK':
+        ContractAbi = await import('@/contract/STOCK.json');
+      break;
     }
     const chainName = rootState.wallet.nowChainName;
     const ADDRESS = ContractAbi[`${chainName}_ADDRESS`];

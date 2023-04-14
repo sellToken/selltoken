@@ -10,24 +10,6 @@
       <div class="page-title">
         <h1>{{ $t('PageHome.text1') }}</h1>
         <h2><span v-html="$t('PageHome.text2')"></span></h2>
-        <div class="home-landing-animation-cover" @click="initRenderCharts">
-          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="full" viewBox="0 0 510 510">
-            <rect width="510" height="510" x="0" y="0" id="0" fill="none" fill-opacity="1"></rect>
-            <path d="M255 25.9A20 20 0 0 1 276.7 5.9A250 250 0 0 1 496.5 190.3A20 20 0 0 1 480.6 215.2L308.9 245.5A5 5 0 0 1 303.2 241.9A50 50 0 0 0 259.5 205.2A5 5 0 0 1 255 200.2Z" fill="#5470c6" stroke="white" stroke-width="4" stroke-linejoin="round" transform-origin="255px 255px" class="zr0-cls-0"></path>
-            <path d="M443.3 221.8A18 18 0 0 1 464.3 238.1A210 210 0 0 1 393.8 412.6A18 18 0 0 1 367.4 409.6L287.2 299.3A5 5 0 0 1 287.9 292.6A50 50 0 0 0 304.8 250.8A5 5 0 0 1 308.9 245.5Z" fill="#91cc75" stroke="white" stroke-width="4" stroke-linejoin="round" transform-origin="255px 255px" class="zr0-cls-1"></path>
-            <path d="M356.8 395.2A16 16 0 0 1 352.1 418.3A190 190 0 0 1 206.7 438.8A16 16 0 0 1 195.7 417.8L236.3 306.5A5 5 0 0 1 242.2 303.3A50 50 0 0 0 280.6 298A5 5 0 0 1 287.2 299.3Z" fill="#fac858" stroke="white" stroke-width="4" stroke-linejoin="round" transform-origin="255px 255px" class="zr0-cls-2"></path>
-            <path d="M201.9 401A14 14 0 0 1 182.8 408.9A170 170 0 0 1 103.7 332.6A14 14 0 0 1 110.9 313.2L204.2 275.5A5 5 0 0 1 210.5 277.9A50 50 0 0 0 233.7 300.2A5 5 0 0 1 236.3 306.5Z" fill="#ee6666" stroke="white" stroke-width="4" stroke-linejoin="round" transform-origin="255px 255px" class="zr0-cls-3"></path>
-            <path d="M132.2 304.6A12 12 0 0 1 116.2 297A145 145 0 0 1 112.6 227.8A12 12 0 0 1 127.7 218.5L202.3 239.9A5 5 0 0 1 205.9 245.6A50 50 0 0 0 207.1 269.4A5 5 0 0 1 204.2 275.5Z" fill="#73c0de" stroke="white" stroke-width="4" stroke-linejoin="round" transform-origin="255px 255px" class="zr0-cls-4"></path>
-            <path d="M144.9 223.4A10 10 0 0 1 138.3 210.2A125 125 0 0 1 160.7 173A10 10 0 0 1 175.4 172.6L217 215.6A5 5 0 0 1 217.1 222.3A50 50 0 0 0 208.4 236.9A5 5 0 0 1 202.3 239.9Z" fill="#3ba272" stroke="white" stroke-width="4" stroke-linejoin="round" transform-origin="255px 255px" class="zr0-cls-5"></path>
-            <path d="M184.4 181.9A8 8 0 0 1 185 170.1A110 110 0 0 1 209.4 154.9A8 8 0 0 1 220.2 159.4L236.3 203.5A5 5 0 0 1 233.7 209.8A50 50 0 0 0 223.7 216A5 5 0 0 1 217 215.6Z" fill="#fc8452" stroke="white" stroke-width="4" stroke-linejoin="round" transform-origin="255px 255px" class="zr0-cls-6"></path>
-            <path d="M222.9 166.8A6 6 0 0 1 226.9 159A100 100 0 0 1 248.6 155.2A6 6 0 0 1 255 161.2L255 200.2A5 5 0 0 1 250.5 205.2A50 50 0 0 0 242.2 206.7A5 5 0 0 1 236.3 203.5Z" fill="#9a60b4" stroke="white" stroke-width="4" stroke-linejoin="round" transform-origin="255px 255px" class="zr0-cls-7"></path>
-          </svg>
-          <div id="play-landing-animation">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path>
-            </svg>
-          </div>
-        </div>
       </div>
       <!-- 操作池 -->
       <div class="operation-pool">
@@ -907,74 +889,6 @@ export default {
       } else {
         this.$router.push(this.localePath(url))
       }
-    },
-    async initRenderCharts () {
-      this.showChartsModal = true
-      if (this.initCharts) return false;
-      const option = {
-        title: {
-          text: this.$t('new03.text17'),
-          subtext: 'Fake Data',
-          left: 'center',
-          textStyle: {
-            color: '#ffffff',
-            fontSize: 28,
-          }
-        },
-        legend: {
-          orient: 'horizontal',
-          left: 'center',
-          bottom: 20,
-          textStyle: {
-            color: '#fff'
-          }
-        },
-        tooltip: {
-          formatter: function (item) {
-            return `
-              <div style="display:flex;align-items:center; margin-bottom:10px;">
-                <i style="width:8px;height:8px;border-radius:50%;background:${item.color}"></i>
-              </div>
-              <span style="margin-right:10px;">${item.name}：</span>
-              <b style="color:${item.color}">${item.value}%</b>
-            `;
-          },
-          trigger: 'item'
-        },
-        series: [
-          {
-            name: this.$t('new03.text17'),
-            type: 'pie',
-            radius: '50%',
-            label: {
-              color: '#ffffff'
-            },
-            data: [
-              { value: 10, name: 'Short liquidity' },
-              { value: 5, name: 'air-drop' },
-              { value: 40, name: 'LP  liquidity' },
-              { value: 40, name: 'IDO' },
-              { value: 5, name: 'Team' }
-            ],
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
-            }
-          }
-        ]
-      };
-      this.$nextTick(() => {
-        this.initCharts = true
-        const myChart = echarts.init(document.getElementById('modalCharts'));
-        myChart.setOption(option);
-        myChart.on('click', (params) => {
-          this.showChartsModalInfo = true;
-          // this.nowSelectChartsInfo = params.data;
-        });
-      })
     },
     onChangeSlider () {
       let num = Number(this.maxAmountShort)*this.sliderLineValue/100;

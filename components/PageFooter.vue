@@ -76,6 +76,24 @@
                 </span>
               </a>
             </li>
+            <li class="vw100item">
+              <a class="aintext" tabindex="0" aria-disabled="false" href="https://bscscan.com/token/0xa645995e9801F2ca6e2361eDF4c2A138362BADe4" role="link" target="_blank" rel="noreferrer">
+                <span class="atext">
+                  <div class="gintext">
+                    SELLC
+                  </div>
+                </span>
+              </a>
+            </li>
+            <li class="vw100item">
+              <a class="aintext" tabindex="0" aria-disabled="false" href="https://bscscan.com/token/0x61f834516504fc02b3cd80d41722df08fd030141" role="link" target="_blank" rel="noreferrer">
+                <span class="atext">
+                  <div class="gintext">
+                    TRDT
+                  </div>
+                </span>
+              </a>
+            </li>
           </ul>
         </li>
         <li class="vlistitem">

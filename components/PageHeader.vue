@@ -218,6 +218,10 @@ export default {
         {
           name: 'Testnet',
           path: 'https://test.selltoken.org'
+        },
+        {
+          name: 'IDO',
+          path: '/ido'
         }
       ]
     },
