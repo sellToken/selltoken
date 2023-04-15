@@ -16,7 +16,7 @@
               <img src="~/static/images/TRDT.png" class="unitico" />
             </p>
             <p>
-              {{ $t('new07.text2') }} <span class="ml10">{{ airdropInfo[1] }}</span>
+              {{ $t('new07.text10') }} <span class="ml10">{{ airdropInfo[1] }}</span>
               <img src="~/static/images/TRDT.png" class="unitico" />
             </p>
             <p>
@@ -24,7 +24,7 @@
               <img src="~/static/images/TRDT.png" class="unitico" />
             </p>
             <p>
-              {{ $t('new07.text4') }} <span class="ml10">{{ airdropInfo[3] }} {{ $t('PageHome.text17') }}</span>
+              {{ $t('new07.text4') }} <span class="ml10">{{ airdropInfo[3] }} {{ $t('new07.text11') }}</span>
             </p>
             <p>
               {{ $t('new07.text5') }} <span class="ml10 textcolor">{{ airdropInfo[2] }}</span>
@@ -38,7 +38,7 @@
           <div class="otips">
             <p>
               {{ $t('new07.text6') }}: <br>
-              <span>{{ $t('new07.text7') }}</span>
+              <span>{{ $t('new07.text12') }}</span>
             </p>
           </div>
         </div>
