@@ -17,6 +17,7 @@
     .ido-pool {
       position: relative;
       width: 395px;
+      max-width: 100%;
       min-height: 468px;
       padding: 30px 28px;
       box-sizing: border-box;
@@ -64,6 +65,19 @@
         .themebtn {
           width: 100%;
         }
+      }
+    }
+  }
+}
+@media screen and (max-width: 750px) {
+  .page-ido {
+    min-height: 1100px;
+    .ido-content {
+      .container {
+        flex-direction: column;
+      }
+      .ido-pool {
+        margin-top: 30px;
       }
     }
   }
