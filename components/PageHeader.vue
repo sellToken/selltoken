@@ -22,11 +22,11 @@
         </el-carousel>
       </div>
       <div class="container">
-        <img src="~/static/images/hico.png" class="fixed-ico" v-if="showMobileNavbar||maxWidthNavbar" />
+        <!-- <img src="~/static/images/hico.gif" class="fixed-ico" v-if="showMobileNavbar||maxWidthNavbar" /> -->
         <div class="left-navbar">
           <div class="menubtn" @click="showMobileNavbar = true"><i class="el-icon-s-grid"></i></div>
           <div class="logo">
-            <img src="~/static/images/logo.png" class="img" />
+            <img src="~/static/images/logo.gif" class="img" />
           </div>
           <ul class="navbar-list" v-if="showMobileNavbar||maxWidthNavbar">
             <li v-for="(item, index) in navbarList" :key="index">
@@ -377,7 +377,8 @@ export default {
     }
     .logo {
       width: 134px;
-      height: 52px;
+      height: 134px;
+      margin: -41px 0;
       @include flexBox;
       .img {
         width: 100%;
