@@ -103,7 +103,7 @@
                 :style="{backgroundColor: '#48c774'}"></div>
               <div class="o-top">
                 <div class="ot-logo">
-                  <img :src="coinbaseIcos[item[3]]||require('~/static/images/defaultico.png')" alt="">
+                  <img :src="coinbaseIcos[item[6]]||require('~/static/images/defaultico.png')" alt="">
                 </div>
                 <strong>{{ $t('PageHome.text25') }}</strong>
                 <!-- <div class="o-types">
@@ -122,7 +122,7 @@
                 <div class="o-cellitem">
                   <span>{{ $t('new02.text1') }}：</span>
                   <strong >
-                    <img src="~/static/images/defaultico.png" class="sico" />
+                    <img :src="coinbaseIcos[item[6]]||require('~/static/images/defaultico.png')" class="sico" />
                     {{ item[1] }}
                   </strong>
                 </div>
@@ -141,7 +141,7 @@
                 <div class="o-cellitem">
                   <span>{{ $t('new02.text4') }}：</span>
                   <strong >
-                    <img src="~/static/images/defaultico.png" class="sico" />
+                    <img :src="coinbaseIcos[item[6]]||require('~/static/images/defaultico.png')" class="sico" />
                     {{ item[4] }}
                   </strong>
                 </div>
@@ -335,13 +335,23 @@ export default {
           if (res[0].length) {
             let nowTime = Date.now()/1000;
             this.myMinerLists = res[0].map((addr, index) => {
+              this.$store.dispatch('contract/common', {
+                address: addr
+              }).then((symbol) => {
+                symbol.methods.symbol().call((error, result) => {
+                  if (!error) {
+                    this.$set(this.myMinerLists[index], 6, result)
+                  }
+                })
+              })
               return {
                 0: addr,
                 1: (res[1][index]/Math.pow(10,18)).toFixed(8),
                 2: new Date(Number(res[2][index]+'000')).toLocaleString(),
                 3: ((res[3][index]/10000-1)*1000).toFixed(3) + '‰',
                 4: (res[4][index]/Math.pow(10,18)).toFixed(8),
-                5: nowTime > (Number(res[2][index])+86400)
+                5: nowTime > (Number(res[2][index])+86400),
+                6: ''
               }
             })
           }
