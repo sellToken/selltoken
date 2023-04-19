@@ -21,7 +21,7 @@
             </div>
             <div class="raddbox">
               <span class="balance-text">{{ item.balance }}</span>
-              <div v-if="!['TRDT', 'SELLC', 'XRP'].includes(item.name)">
+              <div v-if="!defaultContracts.includes(item.name)">
                 <img src="~/static/images/add2.png" alt="" class="addico" v-if="item.isAdd" @click.stop="onAddCoinbase(item)">
                 <img src="~/static/images/add.png" alt="" class="addico" v-else>
               </div>
@@ -104,6 +104,14 @@ export default {
       selectValue: '',
       contractLists: [
         {
+          "addr": '0x2170ed0880ac9a755fd29b2688956bd959f933f8', 
+          "pairs": "",
+          "name": "ETH",
+          "balance": "0.00",
+          "isAdd": true,
+          "chainName": "BNB"
+        },
+        {
           "addr": require('@/contract/ABI').TRDT_ADDRESS, 
           "pairs": "",
           "name": "TRDT",
@@ -129,7 +137,8 @@ export default {
         }
       ],
       waitImportInfo: {},
-      isUnderstand: false
+      isUnderstand: false,
+      defaultContracts: []
     }
   },
   computed: {
@@ -141,6 +150,7 @@ export default {
     }
   },
   mounted () {
+    this.defaultContracts = this.contractLists.map(item => item.name);
     this.selectValue = this.defaultAddress;
     let cacheList = localStorage.getItem('contractLists');
     this.contractLists = cacheList ? JSON.parse(cacheList) : this.contractLists;
