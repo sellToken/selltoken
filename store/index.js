@@ -4,6 +4,7 @@ export const state = () => ({
     "SELLC": require('~/static/images/SELLC.png'),
     "USDT": require('~/static/images/USDT.png'),
     "HNC": require('~/static/images/HNC.png'),
+    "XRP": require('~/static/images/XRP.png')
   }
 })
 

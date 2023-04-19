@@ -21,7 +21,7 @@
             </div>
             <div class="raddbox">
               <span class="balance-text">{{ item.balance }}</span>
-              <div v-if="!['TRDT', 'SELLC'].includes(item.name)">
+              <div v-if="!['TRDT', 'SELLC', 'XRP'].includes(item.name)">
                 <img src="~/static/images/add2.png" alt="" class="addico" v-if="item.isAdd" @click.stop="onAddCoinbase(item)">
                 <img src="~/static/images/add.png" alt="" class="addico" v-else>
               </div>
@@ -107,6 +107,14 @@ export default {
           "addr": require('@/contract/ABI').TRDT_ADDRESS, 
           "pairs": "",
           "name": "TRDT",
+          "balance": "0.00",
+          "isAdd": true,
+          "chainName": "BNB"
+        },
+        {
+          "addr": "0x1d2f0da169ceb9fc7b3144628db156f3f6c60dbe", 
+          "pairs": "",
+          "name": "XRP",
           "balance": "0.00",
           "isAdd": true,
           "chainName": "BNB"

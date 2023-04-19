@@ -66,7 +66,7 @@
         <div class="contract-balance">
           <h5>{{ $t('new04.text2') }}</h5>
           <h6>
-            <img v-if="nowSearchInfo" :src="coinbaseIcos[nowSearchInfo?nowSearchInfo.name:'']||require('~/static/images/defaultico.png')" alt="">
+            <img v-if="nowSearchInfo && nowSearchInfo.name" :src="coinbaseIcos[nowSearchInfo.name]||require('~/static/images/defaultico.png')" alt="">
             <img v-else :src="coinbaseIcos[selectInfo?selectInfo.name:'']||require('~/static/images/defaultico.png')" alt="">
             {{ nowContractAmount }}
           </h6>
@@ -81,7 +81,7 @@
                 :style="{backgroundColor: '#7cbbf1'}"></div>
               <div class="o-top">
                 <div class="ot-logo">
-                  <img v-if="nowSearchInfo" :src="coinbaseIcos[nowSearchInfo?nowSearchInfo.name:'']||require('~/static/images/defaultico.png')" alt="">
+                  <img v-if="nowSearchInfo && nowSearchInfo.name" :src="coinbaseIcos[nowSearchInfo.name]||require('~/static/images/defaultico.png')" alt="">
                   <img v-else :src="coinbaseIcos[selectInfo?selectInfo.name:'']||require('~/static/images/defaultico.png')" alt="">
                 </div>
                 <strong>{{ $t('PageMiner.text1') }}</strong>

@@ -7,6 +7,13 @@
         "balance": "0.00"
     },
     {
+        "icon": "https://selltoken.org/XRP.png",
+        "name": "XRP",
+        "addr": "0x1d2f0da169ceb9fc7b3144628db156f3f6c60dbe",
+        "pairs": "BNB",
+        "balance": "0.00"
+    },
+    {
         "icon": "https://selltoken.org/images/TRDT-logo.png",
         "name": "TRDT",
         "addr": "0x61f834516504fc02b3cd80d41722df08fd030141",
