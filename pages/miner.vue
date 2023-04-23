@@ -24,7 +24,7 @@
             <div class="write-amount">
               <el-input-number 
                 v-model="amountNumber" controls-position="right" 
-                :min="0.000001" :step="0.1" :max="2">
+                :min="0.000001" :step="0.1" :max="1">
               </el-input-number>
               <div class="amount-unit">
                 <img :src="require(`~/static/images/${nowChainName}.png`)" alt="" class="unitico">
@@ -130,9 +130,9 @@
                   <el-button class="inbtntext-int1" 
                     :disabled="(!nowSearchInfo.addr&&!selectInfo.addr)||!item[5]" :loading="inLoading"
                     @click="onIncome(nowSearchInfo.addr||selectInfo.addr)">{{ $t('income') }}</el-button>
-                  <el-button class="inbtntext-int2" 
+                  <!-- <el-button class="inbtntext-int2" 
                     :disabled="(!nowSearchInfo.addr&&!selectInfo.addr)||!item[5]" :loading="inLoading"
-                    @click="onResupply(nowSearchInfo.addr||selectInfo.addr)">{{ $t('resupply') }}</el-button>
+                    @click="onResupply(nowSearchInfo.addr||selectInfo.addr)">{{ $t('resupply') }}</el-button> -->
                 </div>
               </div>
               <div v-else>
