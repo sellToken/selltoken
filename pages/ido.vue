@@ -67,7 +67,7 @@
           </div>
           <div class="idobtn">
             <el-button 
-              class="themebtn" :disabled="isNotReleaseTime" :loading="idoLoading"
+              class="themebtn" :disabled="true || isNotReleaseTime" :loading="idoLoading"
               @click="onRelease">{{ $t('new07.text3') }}</el-button>
           </div>
           <div class="otips">

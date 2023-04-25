@@ -458,6 +458,20 @@ export default {
           icon: require('~/static/images/vlogo2.png'),
           name: 'BSCNews',
           link: 'https://www.bsc.news/'
+        },
+        {
+          icon: require('~/static/images/diamond.jpeg'),
+          name: '',
+          link: 'https://d65535.com/DMS_Global',
+          height: '80px',
+          width: '180px'
+        },
+        {
+          icon: require('~/static/images/we.png'),
+          name: '',
+          link: 'https://www.coingecko.com/',
+          height: '80px',
+          width: '180px'
         }
       ],
       aLinkItem1: [
