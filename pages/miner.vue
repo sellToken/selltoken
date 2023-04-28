@@ -364,7 +364,10 @@ export default {
               confirmButtonText: this.$t('new04.text4')
             })
           }
-          methods.sendMiner(addr).send((err, txHash) => {
+          const minerGas = this.$store.state.contract.minerGas[this.nowChainName];
+          methods.sendMiner(addr).send({
+            gas: minerGas
+          }, (err, txHash) => {
             this.inLoading = false;
             if (!err) {
               this.$store.dispatch('contract/cochainHashSuccess', { txHash })
