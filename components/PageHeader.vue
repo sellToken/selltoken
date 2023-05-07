@@ -200,6 +200,10 @@ export default {
           path: 'https://app.selltoken.org/#/swap'
         },
         {
+          name: 'LP-Swap',
+          path: '/lpSwap'
+        },
+        {
           name: this.$t('PageHeader.Miner'),
           path: '/miner'
         },
@@ -214,10 +218,6 @@ export default {
         {
           name: this.$t('PageHeader.CertiK'),
           path: 'https://www.certik.com/projects/selltoken'
-        },
-        {
-          name: 'Testnet',
-          path: 'https://test.selltoken.org'
         },
         {
           name: 'IDO',

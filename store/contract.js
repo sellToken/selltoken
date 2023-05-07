@@ -170,6 +170,9 @@ export const actions = {
       case 'Airdrop':
         ContractAbi = await import('@/contract/Airdrop.json');
       break;
+      case 'LPSwap':
+        ContractAbi = await import('@/contract/LPSwap.json');
+      break;
     }
     const chainName = rootState.wallet.nowChainName;
     const ADDRESS = ContractAbi[`${chainName}_ADDRESS`];
