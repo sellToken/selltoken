@@ -204,6 +204,10 @@ export default {
           path: '/lpSwap'
         },
         {
+          name: 'Community',
+          path: '/community'
+        },
+        {
           name: this.$t('PageHeader.Miner'),
           path: '/miner'
         },

@@ -1,5 +1,9 @@
 <template>
   <div class="page-community">
+    <div class="top-navbarlist">
+      <nuxt-link to="/lpIncome" class="aintext">LP mining income</nuxt-link>
+      <nuxt-link to="/community" class="aintext active">Community mining income</nuxt-link>
+    </div>
     <div class="container">
       <div class="top-title">
         <h2>My community</h2>
@@ -11,9 +15,12 @@
           <span>My inviter's address</span>
         </div>
         <div class="invite-celllink">
-          <input class="invite-input" disabled placeholder="No invitation address" />
-          <el-button class="invite-btn" disabled
-            @click="onCopyText()">Copy Link</el-button>
+          <input class="invite-input" disabled placeholder="No invitation address" v-model="inviteLink" />
+          <el-button class="invite-btn"
+            @click="onCopyText(inviteLink)">Copy Link</el-button>
+        </div>
+        <div style="margin-top: -20px;">
+          <el-alert type="error" title="代币挖矿参与100USDT以上，邀请链接生效。" :closable="false"></el-alert>
         </div>
         <div class="sw-title">
           <img src="@/static/images/comico2.png" />
@@ -91,6 +98,12 @@ export default {
     },
     nowChainName () {
       return this.$store.state.wallet.nowChainName;
+    },
+    inviteAddress () {
+      return this.$store.state.wallet.inviteAddress || '0x2F98Fa813Ced7Aa9Fd6788aB624b2F3F292B9239';
+    },
+    inviteLink () {
+      return process.browser ? globalThis.location.origin + '?addr=' + this.walletAddress : '';
     }
   },
   methods: {

@@ -1,4 +1,4 @@
-.page-community {
+.page-lpincome {
   background: url('~/static/images/combg.jpg') no-repeat top center;
   min-height: 500px;
   .top-title {
@@ -133,6 +133,137 @@
     @include flexBox;
   }
 }
+.lpincome-pair {
+  position: relative;
+  margin-left: 30px;
+  border-radius: 150px;
+  background: linear-gradient(to right, #e1e9fd, #fdebde);
+  border: 2px solid #8237e0;
+  height: 42px;
+  padding: 0 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .stbico {
+    flex: 1;
+    border-radius: 100px;
+    @include flexBox;
+    padding: 0 10px;
+    height: 30px;
+    .ico {
+      width: 20px;
+      height: 20px;
+    }
+    .stspan {
+      font-size: 14px;
+      margin-left: 10px;
+      color: #333;
+    }
+    &.active {
+      background: rgba(#8237e0, 0.8);
+      .stspan {
+        color: #fff;
+      }
+    }
+    &.disabled {
+      cursor: no-drop;
+      .stspan {
+        color: #999;
+      }
+    }
+  }
+}
+.right-tokens {
+  display: flex;
+  margin-left: auto;
+}
+.lpincome-foot {
+  padding-bottom: 32px;
+  padding-top: 20px;
+  margin-left: -6px;
+  .cell-incomeinfo {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px;
+    .c-item {
+      height: 86px;
+      border-radius: 24px;
+      background: linear-gradient(to right, #6eb8fe, #9389ee);
+      box-sizing: border-box;
+      padding: 16px;
+      flex: 1;
+      margin: 0 6px;
+      color: #fff;
+      p {
+        margin-top: 6px;
+      }
+      &:nth-child(2) {
+        background: linear-gradient(to right, #9788ee, #ce85fe);
+      }
+    }
+  }
+}
+.right-income {
+  padding: 20px;
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: normal;
+  }
+  .sbtn-cell {
+    width: 100%;
+    @include flexBox;
+    .themebtn-token,
+    .themebtn-token-plain {
+      flex: 1;
+      height: 58px;
+      border-radius: 100px;
+      font-size: 16px;
+    }
+  }
+  .aricotextbox {
+    margin: 0 0 10px;
+    padding: 0;
+    border: 0;
+    height: 48px;
+    .stbico {
+      height: 48px;
+    }
+  }
+}
+.themebtn-token {
+  background: #877adb;
+  border-color: #877adb;
+  &:active {
+    opacity: 0.6;
+  }
+  &.is-disabled {
+    opacity: 1 !important;
+    background: #999 !important;
+    border-color: #999 !important;
+  }
+}
+.themebtn-token-plain {
+  border-width: 2px !important;
+  border-color: #877adb !important;
+  color: #877adb !important;
+  background: rgba(#877adb, 0.1) !important;
+  &:active {
+    opacity: 0.6;
+  }
+  &.is-disabled {
+    opacity: 1 !important;
+    color: #999 !important;
+    background: #f8f8f8 !important;
+    border-color: #999 !important;
+  }
+}
+.income-number {
+  padding: 0 0 30px;
+}
 @media screen and (max-width: 750px) {
   .community-box {
     padding: 0 16px !important;
@@ -152,10 +283,28 @@
       height: auto !important;
       min-height: 96px;
       flex-wrap: wrap;
+      padding: 20px 0;
       .select-token {
-        margin: 10px 0 !important;
-        width: 100%;
+        margin-top: 10px;
+        margin-left: 0;
       }
     }
+  }
+  .right-tokens {
+    flex-direction: column;
+    margin: 10px 0;
+    width: 100%;
+    .lpincome-pair {
+      margin-top: 10px;
+      margin-left: 0;
+    }
+  }
+  .lkico {
+    margin: auto;
+  }
+  .wxtext {
+    width: 100%;
+    margin: 10px 0 0 !important;
+    text-align: center;
   }
 }

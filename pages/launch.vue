@@ -231,7 +231,7 @@ export default {
       const { methods } = await this.$store.dispatch('contract/event', 'LPSwap');
       const addr1 = this.selectTokens[0].addr;
       const addr2 = this.stbIndex == 0 ? SELLC_ADDRESS : USDT_ADDRESS;
-      const sellNum = this.selectValues[1];
+      const sellNum =  web3.utils.toWei(String(this.selectValues[1]), 'ether');
       this.subLoading = true;
       methods.addLiquidity(addr1, addr2, sellNum).send((err, txHash) => {
         this.subLoading = false;

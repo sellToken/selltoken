@@ -219,7 +219,8 @@ export default {
       const { methods } = await this.$store.dispatch('contract/event', 'LPSwap');
       const addr1 = this.selectTokens[0].addr;
       const addr2 = this.selectTokens[1].addr;
-      const sellNum = this.selectValues[0];
+      const { decUnit } = await this.$store.dispatch('contract/queyrSymbol', addr1)
+      const sellNum = web3.utils.toWei(String(this.selectValues[0]), decUnit);
       this.subLoading = true;
       methods.sell(addr1, addr2, sellNum).send((err, txHash) => {
         this.subLoading = false;
