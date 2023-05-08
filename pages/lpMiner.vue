@@ -87,7 +87,21 @@
                 <div class="income-number">
                   <el-input-number :controls="false" :placeholder="$t('new08.text15')"
                     :precision="4"
-                    v-model="writeNumber" :min="100"></el-input-number>
+                    v-model="writeNumber" :min="100"
+                    @change="onInputNumber"></el-input-number>
+                </div>
+                <div class="balance-box">
+                  <h5>{{ $t('new08.text16') }}:</h5>
+                  <div class="flexbox-cell">
+                    <p>
+                      <img src="@/static/images/SELLC.png" class="ico" />
+                      <span>{{ balanceInfo['SELLC'] }}</span>
+                    </p>
+                    <p>
+                      <img src="@/static/images/USDT.png" class="ico" />
+                      <span>{{ balanceInfo['USDT'] }}</span>
+                    </p>
+                  </div>
                 </div>
                 <div class="sbtn-auth-cell">
                   <el-button type="primary" round class="themebtn-token"
@@ -122,6 +136,23 @@
         <search-token @select="onSelectToken"></search-token>
       </div>
     </el-dialog>
+    <!-- <el-dialog title="维护中" :visible.sync="showWH" @closed="closePage">
+      <div>
+        <p>
+          LP-Swap 维护20-50分钟
+          <br /><br />
+          1、解决用户卖出代币网体返佣可能存在转移到其他地址后出售，上级就没有返佣。<br />
+          2、解决大额USDT夹子问题
+          <br /><br />
+          更改为：
+          <br />
+          用户取款收益的时候直接50%返佣给网体，卖出代币100%销毁用户得到50%金本位和50%代币
+        </p>
+        <div style="text-align: center; margin-top: 20px;">
+          <el-button type="primary" @click="showWH = false">好的</el-button>
+        </div>
+      </div>
+    </el-dialog> -->
   </div>
 </template>
 
@@ -133,6 +164,7 @@ export default {
   name: 'community',
   data () {
     return {
+      showWH: false,
       showSelectToken: false,
       selectTokenInfo: {},
       stbIndex: -1,
@@ -145,7 +177,12 @@ export default {
       timer: null,
       isAuth1: false,
       isAuth2: false,
-      authLoading: false
+      authLoading: false,
+      balanceInfo: {
+        SELLC: 0,
+        USDT: 0,
+      },
+      balanceTimer: null
     }
   },
   computed: {
@@ -177,11 +214,39 @@ export default {
   },
   created () {
     this.chkAuth()
+    this.queryBalance('SELLC');
+    this.queryBalance('USDT');
+    this.balanceTimer = setInterval(() => {
+      this.queryBalance('SELLC');
+      this.queryBalance('USDT');
+    }, 10000)
   },
   destroyed () {
     clearTimeout(this.timer);
+    clearInterval(this.balanceTimer);
   },
   methods: {
+    closePage () {
+      this.$router.push(this.localePath('/lpSwap'))
+    },
+    onInputNumber () {
+      console.log(111, this.writeNumber)
+      if (this.trIndex == 1 && this.writeNumber >= 300) {
+        this.$alert(
+          this.$t('new08.text35'),
+          'Tips',
+          {
+          type: 'warning'
+        })
+      }
+    },
+    async queryBalance (coinbase) {
+      const { methods } = await this.$store.dispatch('contract/common', { coinbase });
+      methods.balanceOf(this.walletAddress).call((err, res) => {
+        console.log(coinbase+'余额', (res/Math.pow(10, 18)).toFixed(4))
+        this.balanceInfo[coinbase] = (res/Math.pow(10, 18)).toFixed(4);
+      })
+    },
     async queryAllCoinbase (addr) {
       const { methods } = await this.$store.dispatch('contract/event');
       return new Promise((resolve, reject) => {
@@ -370,6 +435,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/pages/lpIncome.scss';
+@import '@/assets/pages/lpMiner.scss';
 
 </style>
