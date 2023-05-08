@@ -1,10 +1,10 @@
 <template>
   <div class="page-community">
     <div class="top-navbarlist">
-      <nuxt-link to="/lpMiner" class="aintext">LP mining income</nuxt-link>
-      <nuxt-link to="/lpSwap" class="aintext">Swap</nuxt-link>
-      <nuxt-link to="/community" class="aintext active">Community mining income</nuxt-link>
-      <nuxt-link to="/launch" class="aintext">{{ $t('new08.text1') }}</nuxt-link>
+      <nuxt-link :to="localePath('/lpMiner')" class="aintext">{{ $t('new08.nav1') }}</nuxt-link>
+      <nuxt-link :to="localePath('/lpSwap')" class="aintext">{{ $t('new08.nav2') }}</nuxt-link>
+      <nuxt-link :to="localePath('/community')" class="aintext active">{{ $t('new08.nav3') }}</nuxt-link>
+      <nuxt-link :to="localePath('/launch')" class="aintext">{{ $t('new08.text1') }}</nuxt-link>
     </div>
     <div class="container">
       <div class="top-title">

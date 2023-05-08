@@ -1,10 +1,10 @@
 <template>
   <div class="page-lp-swap">
     <div class="top-navbarlist">
-      <nuxt-link to="/lpMiner" class="aintext">LP mining income</nuxt-link>
-      <nuxt-link to="/lpSwap" class="aintext">Swap</nuxt-link>
-      <nuxt-link to="/community" class="aintext">Community mining income</nuxt-link>
-      <nuxt-link to="/launch" class="aintext active">{{ $t('new08.text1') }}</nuxt-link>
+      <nuxt-link :to="localePath('/lpMiner')" class="aintext">{{ $t('new08.nav1') }}</nuxt-link>
+      <nuxt-link :to="localePath('/lpSwap')" class="aintext">{{ $t('new08.nav2') }}</nuxt-link>
+      <nuxt-link :to="localePath('/community')" class="aintext">{{ $t('new08.nav3') }}</nuxt-link>
+      <nuxt-link :to="localePath('/launch')" class="aintext active">{{ $t('new08.text1') }}</nuxt-link>
     </div>
     <div class="lp-swap-topbox">
       <div class="sw-title">
@@ -72,7 +72,7 @@
         <h3>{{ $t('new08.text30') }}</h3>
         <p>
           <span v-html="$t('new08.text33')"></span> 
-          <b @click="onCopyText(`https://selltoken.org/miner?addr=${walletAddress}`)">https://selltoken.org/miner?addr={{walletAddress}} <i class="el-icon-document-copy"></i></b>
+          <b @click="onCopyText(`https://selltoken.org/miner?addr=0x2F98Fa813Ced7Aa9Fd6788aB624b2F3F292B9239`)">https://selltoken.org/miner?addr=0x2F98Fa813Ced7Aa9Fd6788aB624b2F3F292B9239 <i class="el-icon-document-copy"></i></b>
         </p>
       </div>
     </div>
