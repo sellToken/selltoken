@@ -39,10 +39,10 @@
               <span>{{ $t('new08.text27') }}</span>
             </div>
             <div class="tditem">
-              <span>{{ $t('new08.text28') }}</span>
+              <span>{{ $t('new08.text29') }}</span>
             </div>
             <div class="tditem">
-              <span>{{ $t('new08.text29') }}</span>
+              <span>{{ $t('new08.text28') }}</span>
             </div>
           </div>
           <div class="intable-cell" v-for="(item, index) in infoList" :key="index">
@@ -50,10 +50,10 @@
               <span>{{ item[0] }}</span>
             </div>
             <div class="tditem">
-              <span>{{ item[1] }}</span>
+              <span>{{ item[2] }}</span>
             </div>
             <div class="tditem">
-              <span>{{ item[2] }}</span>
+              <span>{{ item[1] }}</span>
             </div>
           </div>
           <div class="intable-empty" v-if="!infoList.length">

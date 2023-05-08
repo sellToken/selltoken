@@ -1,9 +1,9 @@
 <template>
   <div class="page-lp-swap">
     <div class="top-navbarlist">
-      <nuxt-link to="/lpMiner" class="aintext">LP mining income</nuxt-link>
-      <nuxt-link to="/lpSwap" class="aintext active">Swap</nuxt-link>
-      <nuxt-link to="/community" class="aintext">Community mining income</nuxt-link>
+      <nuxt-link to="/lpMiner" class="aintext">{{ $t('new08.nav1') }}</nuxt-link>
+      <nuxt-link to="/lpSwap" class="aintext active">{{ $t('new08.nav2') }}</nuxt-link>
+      <nuxt-link to="/community" class="aintext">{{ $t('new08.nav3') }}</nuxt-link>
       <nuxt-link to="/launch" class="aintext">{{ $t('new08.text1') }}</nuxt-link>
     </div>
     <div class="lp-swap-topbox">
@@ -35,17 +35,18 @@
         <div class="sw-cell">
           <h6>{{ $t('new08.text16') }} <small>{{ selectTokens[1].balance }}</small></h6>
           <div class="sw-input">
-            <div class="leftarrow">
+            <div class="leftarrow" style="width: 100%;">
+              <img :src="coinbaseIcos[selectTokens[1].name]||require('~/static/images/defaultico.png')" class="coico" />
               <span :class="{active: !!selectTokens[1].name}">{{ selectTokens[1].name || 'Select Token' }}</span>
-              <img src="@/static/images/swaparrow.png" alt="">
+              <!-- <img src="@/static/images/swaparrow.png" alt=""> -->
             </div>
             <!-- <div class="maxtext" @click="onMax(1)">
               <span>MAX</span>
             </div> -->
-            <div class="rinput-box">
+            <!-- <div class="rinput-box">
               <input type="number" class="rinput" placeholder="0" min="0" disabled
                 v-model="selectValues[1]" />
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="sw-btn">
@@ -202,10 +203,21 @@ export default {
               {
                 type: 'warning'
             })
+            this.selectTokens[1] = {}
           } else {
-            this.queryAllCoinbase(pairAddr)
-            .then((tokenInfo) => {
-              this.selectTokens[1] = tokenInfo;
+            this.$store.dispatch('contract/queyrSymbol', pairAddr)
+            .then(({ decNum }) => {
+              this.queryAllCoinbase(pairAddr)
+              .then((addrInfo) => {
+                this.selectTokens[1] = {
+                  "addr": pairAddr, 
+                  "name": addrInfo[0],
+                  "pairs": addrInfo[1],
+                  "balance": (addrInfo[2]/Math.pow(10,decNum)).toFixed(4),
+                  "isAdd": false,
+                  "chainName": this.nowChainName || 'BNB'
+                };
+              })
             })
           }
         }

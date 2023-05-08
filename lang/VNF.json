@@ -1,8 +1,11 @@
 {
   "new08": {
+    "nav1": "Thu nhập khai thác LP",
+    "nav2": "Swap",
+    "nav3": "Thu nhập khai thác cộng đồng",
     "text1": "Dự án khởi động",
     "text2": "Lợi ích khai thác mỏ LP",
-    "text3": "Sau khi đầu tư tiền, hợp đồng sẽ tự động được bơm vào nhóm thanh khoản để có được sức mạnh tính toán LP. Khả năng tính toán LP đến từ tiểu phương N của tổng số tiền đầu tư * hệ số. N là số ngày mà một mining pool được tạo ra. Cùng một khoản đầu tư, càng muộn thì khả năng tính toán LP càng lớn.",
+    "text3": "Sau khi tiền được đầu tư, hợp đồng sẽ được tự động đưa vào nhóm thanh khoản để có được sức mạnh tính toán LP. Đối với cùng một số tiền đầu tư, LP thu được càng muộn thì khả năng tính toán càng lớn.",
     "text4": "Chọn Token",
     "text5": "LP cuối cùng",
     "text6": "LP chờ đợi lợi nhuận",

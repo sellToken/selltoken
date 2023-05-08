@@ -22,11 +22,11 @@
               <img src="@/static/images/swaparrow.png" />
             </div>
             <div class="lpincome-pair">
-              <div class="stbico" :class="{active: stbIndex == 0}" @click="onTab(0)">
+              <div class="stbico" :class="{active: stbIndex == 0}">
                 <img src="@/static/images/SELLC.png" class="ico" />
                 <p class="stspan">SELLC</p>
               </div>
-              <div class="stbico" :class="{active: stbIndex == 1}" @click="onTab(1)">
+              <div class="stbico" :class="{active: stbIndex == 1}">
                 <img src="@/static/images/USDT.png" class="ico" />
                 <p class="stspan">USDT</p>
               </div>
@@ -135,9 +135,9 @@ export default {
     return {
       showSelectToken: false,
       selectTokenInfo: {},
-      stbIndex: 0,
+      stbIndex: -1,
       stbTokens: [SELLC_ADDRESS, USDT_ADDRESS],
-      trIndex: 0,
+      trIndex: 1,
       infos: {},
       subLoading: false,
       writeNumber: 100,
@@ -176,19 +176,29 @@ export default {
     }
   },
   created () {
-    this.querySellcNumber()
     this.chkAuth()
   },
   destroyed () {
     clearTimeout(this.timer);
   },
   methods: {
+    async queryAllCoinbase (addr) {
+      const { methods } = await this.$store.dispatch('contract/event');
+      return new Promise((resolve, reject) => {
+        methods.getTokenName(addr).call((err, res) => {
+          if (!err) {
+            resolve(res)
+          } else {
+            reject(err)
+          }
+        })
+      })
+    },
     async queryPairInfo () {
       const { methods } = await this.$store.dispatch('contract/event', 'LPSwap');
       return new Promise((resolve, reject) => {
         methods.myReward(this.selectTokenInfo.addr).call((err, pairAddr) => {
           if (!err) {
-            console.log(pairAddr)
             if (pairAddr == 0) {
               this.$alert(
                 this.$t('new08.text34'),
@@ -196,11 +206,16 @@ export default {
                 {
                   type: 'warning'
               })
-              this.selectTokenInfo = {}
-              this.infos = {}
+              this.selectTokenInfo = {};
+              this.infos = {};
+              this.stbIndex = -1;
               reject(false)
             } else {
-              resolve(true)
+              this.queryAllCoinbase(pairAddr)
+              .then((addrInfo) => {
+                this.stbIndex = addrInfo[0] === 'SELLC' ? 0 : 1
+              })
+              resolve(pairAddr)
             }
           }
         })

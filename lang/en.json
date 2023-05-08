@@ -1,8 +1,11 @@
 {
   "new08": {
+    "nav1": "LP mining income",
+    "nav2": "Swap",
+    "nav3": "Community mining income",
     "text1": "Project Launch",
     "text2": "LP mining income",
-    "text3": "After the funds are invested, the contract will be automatically injected into the liquidity pool to obtain LP computing power. The LP computing power comes from the Nth power of the total amount of invested funds * coefficient. N represents the number of days the mining pool was created. The same investment amount, the later the LP computing power is obtained bigger.",
+    "text3": "After the funds are invested, the contract will automatically be injected into the liquidity pool to obtain LP computing power. The later the investment amount is obtained, the greater the LP computing power.",
     "text4": "Select Tokens",
     "text5": "LP Total computing power",
     "text6": "LP waiting for returns",

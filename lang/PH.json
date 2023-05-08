@@ -1,8 +1,11 @@
 {
   "new08": {
+    "nav1": "Kita sa pagmimina ng LP",
+    "nav2": "Swap",
+    "nav3": "Kita sa pagmimina ng komunidad",
     "text1": "Launch ng Proyekto",
     "text2": "Ingatan sa pagmimina ng LP",
-    "text3": "Pagkatapos ng pag-invest sa kapital, ang kontrata ay awtomatiko na ipasok sa pool ng likwididad upang makakuha ng kapangyarihan ng LP computing. Ang kapangyarihan ng LP sa kompyuter ay nagmula sa kapangyarihan ng Nth ng koeficiente ng kabuuang pondo ng investasyon. N represents the number of days to create the mining pool. Sa susunod na ang halaga ng pag-invest ay makukuha, mas malaki ang kapangyarihan ng LP computing.",
+    "text3": "Matapos mamuhunan ang mga pondo, ang kontrata ay awtomatikong mai-inject sa liquidity pool para makakuha ng LP computing power. Para sa parehong halaga ng pamumuhunan, ang mamaya ang LP ay nakuha, mas malaki ang computing power.",
     "text4": "Piliin ang mga Token",
     "text5": "LP total na kapangyarihan ng kompyuter",
     "text6": "Hinihintay ng LP ang pagbabalik",
