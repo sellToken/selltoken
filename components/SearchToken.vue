@@ -28,7 +28,7 @@
       append-to-body>
       <div>
         <el-alert
-          :title="content"
+          :title="content || $t('new08.text18')"
           type="warning"
           :closable="false">
         </el-alert>
@@ -107,6 +107,14 @@ export default {
           "addr": "0xa645995e9801f2ca6e2361edf4c2a138362bade4", 
           "pairs": "",
           "name": "SELLC",
+          "balance": "0.00",
+          "isAdd": true,
+          "chainName": "BNB"
+        },
+        {
+          "addr": "0x8121d345b16469f38bd3b82ee2a547f6be54f9c9", 
+          "pairs": "",
+          "name": "QiQi",
           "balance": "0.00",
           "isAdd": true,
           "chainName": "BNB"

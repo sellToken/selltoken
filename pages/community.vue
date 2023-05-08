@@ -1,30 +1,32 @@
 <template>
   <div class="page-community">
     <div class="top-navbarlist">
-      <nuxt-link to="/lpIncome" class="aintext">LP mining income</nuxt-link>
+      <nuxt-link to="/lpMiner" class="aintext">LP mining income</nuxt-link>
+      <nuxt-link to="/lpSwap" class="aintext">Swap</nuxt-link>
       <nuxt-link to="/community" class="aintext active">Community mining income</nuxt-link>
+      <nuxt-link to="/launch" class="aintext">{{ $t('new08.text1') }}</nuxt-link>
     </div>
     <div class="container">
       <div class="top-title">
-        <h2>My community</h2>
-        <p>You can bind the invitation relationship here, or you can copy the invitation link to invite your friends to join. When you and your friends have new currency holdings every day, you can get promotion rewards.</p>
+        <h2>{{ $t('new08.text21') }}</h2>
+        <p>{{ $t('new08.text22') }}</p>
       </div>
       <div class="community-box">
         <div class="sw-title">
           <img src="@/static/images/comico1.png" />
-          <span>My inviter's address</span>
+          <span>{{ $t('new08.text23') }}</span>
         </div>
         <div class="invite-celllink">
           <input class="invite-input" disabled placeholder="No invitation address" v-model="inviteLink" />
           <el-button class="invite-btn"
-            @click="onCopyText(inviteLink)">Copy Link</el-button>
+            @click="onCopyText(inviteLink)">{{ $t('new08.text24') }}</el-button>
         </div>
         <div style="margin-top: -20px;">
-          <el-alert type="error" title="代币挖矿参与100USDT以上，邀请链接生效。" :closable="false"></el-alert>
+          <el-alert type="error" :title="$t('new08.text25')" :closable="false"></el-alert>
         </div>
         <div class="sw-title">
           <img src="@/static/images/comico2.png" />
-          <span>Invite data directly</span>
+          <span>{{ $t('new08.text26') }}</span>
           <div class="select-token" @click="showSelectToken = true">
             <img :src="coinbaseIcos[selectTokenInfo.name]||require('~/static/images/defaultico.png')" class="coinico" />
             <span>{{ selectTokenInfo.name || 'Select Token' }}</span>
@@ -34,13 +36,13 @@
         <div class="intable-list">
           <div class="intable-cell thin">
             <div class="tditem">
-              <span>地址</span>
+              <span>{{ $t('new08.text27') }}</span>
             </div>
             <div class="tditem">
-              <span>LP挖矿</span>
+              <span>{{ $t('new08.text28') }}</span>
             </div>
             <div class="tditem">
-              <span>佣金</span>
+              <span>{{ $t('new08.text29') }}</span>
             </div>
           </div>
           <div class="intable-cell" v-for="(item, index) in infoList" :key="index">
@@ -61,9 +63,9 @@
       </div>
       <div class="community-tips">
         <div class="linktextbox">
-          <h3>提示：</h3>
+          <h3>{{ $t('new08.text30') }}</h3>
           <p>
-            本网体关系终身享受平台所有项目方创建挖矿项目的自动返佣，每个项目都需要挖矿100USDT以上，否则返佣烧伤，当用户挖矿收入卖出代币的50％进行网体奖励，总计10代，30%，15%，15%，10%，10%，4%，4%，4%，4%，4%，层级不足10代自动沉淀矿池，上级地址挖矿小于100USDT，会被烧伤。
+            {{ $t('new08.text31') }}
           </p>
         </div>
       </div>
@@ -103,7 +105,7 @@ export default {
       return this.$store.state.wallet.inviteAddress || '0x2F98Fa813Ced7Aa9Fd6788aB624b2F3F292B9239';
     },
     inviteLink () {
-      return process.browser ? globalThis.location.origin + '?addr=' + this.walletAddress : '';
+      return process.browser ? globalThis.location.origin + '/lpMiner?addr=' + this.walletAddress : '';
     }
   },
   methods: {

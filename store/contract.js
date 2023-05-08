@@ -29,6 +29,10 @@ export const state = () => ({
     'BNB': 150000,
     'ETH': 150000
   },
+  liquidityGas: {
+    'BNB': 3000000,
+    'ETH': 3000000,
+  },
   gasPrice: '5000000000',
   txHash: '',
   chainLoading: false,

@@ -1,14 +1,20 @@
 <template>
   <div class="page-lp-swap">
+    <div class="top-navbarlist">
+      <nuxt-link to="/lpMiner" class="aintext">LP mining income</nuxt-link>
+      <nuxt-link to="/lpSwap" class="aintext active">Swap</nuxt-link>
+      <nuxt-link to="/community" class="aintext">Community mining income</nuxt-link>
+      <nuxt-link to="/launch" class="aintext">{{ $t('new08.text1') }}</nuxt-link>
+    </div>
     <div class="lp-swap-topbox">
       <div class="sw-title">
         <img src="@/static/images/swapico1.png" />
         <span>Swap</span>
-        <nuxt-link to="/launch" class="morelink">项目发射 <i class="el-icon-d-arrow-right"></i></nuxt-link>
+        <nuxt-link to="/launch" class="morelink">{{ $t('new08.text1') }} <i class="el-icon-d-arrow-right"></i></nuxt-link>
       </div>
       <div class="sw-formcell">
         <div class="sw-cell">
-          <h6>Balance <small>{{ selectTokens[0].balance }}</small></h6>
+          <h6>{{ $t('new08.text16') }} <small>{{ selectTokens[0].balance }}</small></h6>
           <div class="sw-input">
             <div class="leftarrow" @click="showSelectToken = true, nowIndex = 0">
               <span :class="{active: !!selectTokens[0].name}">{{ selectTokens[0].name || 'Select Token' }}</span>
@@ -27,7 +33,7 @@
           <img src="@/static/images/swapico2.png" />
         </div>
         <div class="sw-cell">
-          <h6>Balance <small>{{ selectTokens[1].balance }}</small></h6>
+          <h6>{{ $t('new08.text16') }} <small>{{ selectTokens[1].balance }}</small></h6>
           <div class="sw-input">
             <div class="leftarrow">
               <span :class="{active: !!selectTokens[1].name}">{{ selectTokens[1].name || 'Select Token' }}</span>
@@ -48,20 +54,20 @@
             @click="onAuthContract(selectTokens[0].addr)">{{ $t('authorize') }}</el-button>
           <el-button type="primary" round class="themebtn-token"
             :disabled="!selectTokens[1].addr || !selectValues[0]" :loading="subLoading"
-            @click="onExchangeToken">Exchange Token</el-button>
+            @click="onExchangeToken">{{ $t('new08.text19') }}</el-button>
         </div>
       </div>
     </div>
     <div class="lp-swap-bottombox">
       <div class="sw-title">
         <img src="@/static/images/swapico3.png" />
-        <span>Cumulative Total Burned Tokens</span>
+        <span>{{ $t('new08.text20') }}</span>
       </div>
       <div class="sw-formcell">
         <div class="sw-cell">
           <div class="sw-input">
-            <div class="leftarrow">
-              <span>IPP</span>
+            <div class="leftarrow" @click="showSelectToken = true, nowIndex = 2">
+              <span :class="{active: !!selectTokens[2].name}">{{ selectTokens[2].name || 'Select Token' }}</span>
               <img src="@/static/images/swaparrow.png" alt="">
             </div>
             <div class="rinput-box">
@@ -89,11 +95,13 @@ export default {
       nowIndex: -1,
       selectTokens: {
         0: {},
-        1: {}
+        1: {},
+        2: {}
       },
       selectValues: {
         0: '',
-        1: ''
+        1: '',
+        2: ''
       },
       subLoading: false,
       authLoading: false,
@@ -118,16 +126,19 @@ export default {
   watch: {
     txChainHash () { // 监听授权状态
       if (!this.txChainHash) {
-        if (this.selectTokens[0].addr) {
-          this.queryAllowance(this.selectTokens[0].addr)
-          .then((authAmount) => {
-            this.isAuth = !!authAmount
-          })
-        }
+        this.chkAuth()
       }
     }
   },
   methods: {
+    chkAuth () {
+      if (this.selectTokens[0].addr) {
+        this.queryAllowance(this.selectTokens[0].addr)
+        .then((authAmount) => {
+          this.isAuth = !!authAmount
+        })
+      }
+    },
     async queryBurnedBalance () {
       const { methods } = await this.$store.dispatch('contract/common', {
         address: this.selectTokens[0].addr
@@ -186,7 +197,7 @@ export default {
         if (!err) {
           if (pairAddr == 0) {
             this.$alert(
-              '代币未添加挖矿LP',
+              this.$t('new08.text34'),
               'Tips', 
               {
                 type: 'warning'
@@ -203,12 +214,12 @@ export default {
     onSelectToken (token) {
       this.selectTokens[this.nowIndex] = token;
       this.selectValues[this.nowIndex] = '';
-      this.queryAllowance(token.addr)
-      .then((authAmount) => {
-        this.isAuth = !!authAmount
-      })
-      this.queryPairInfo();
-      this.queryBurnedBalance();
+      if (this.nowIndex == 2) {
+        this.queryBurnedBalance();
+      } else {
+        this.chkAuth()
+        this.queryPairInfo();
+      }
       this.nowIndex = -1;
       this.showSelectToken = false;
     },

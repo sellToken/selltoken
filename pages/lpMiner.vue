@@ -1,18 +1,20 @@
 <template>
   <div class="page-lpincome">
     <div class="top-navbarlist">
-      <nuxt-link to="/lpIncome" class="aintext active">LP mining income</nuxt-link>
+      <nuxt-link to="/lpMiner" class="aintext active">LP mining income</nuxt-link>
+      <nuxt-link to="/lpSwap" class="aintext">Swap</nuxt-link>
       <nuxt-link to="/community" class="aintext">Community mining income</nuxt-link>
+      <nuxt-link to="/launch" class="aintext">{{ $t('new08.text1') }}</nuxt-link>
     </div>
     <div class="container">
       <div class="top-title">
-        <h2>LP mining income</h2>
-        <p>After the funds are invested, the contract will be automatically injected into the liquidity pool to obtain LP computing power. The LP computing power comes from the Nth power of the total amount of invested funds * coefficient. N represents the number of days the mining pool was created. The same investment amount, the later the LP computing power is obtained bigger.</p>
+        <h2>{{ $t('new08.text2') }}</h2>
+        <p>{{ $t('new08.text3') }}</p>
       </div>
       <div class="community-box">
         <div class="sw-title">
           <img src="@/static/images/linkico.png" class="lkico" />
-          <span class="wxtext">Select Tokens</span>
+          <span class="wxtext">{{ $t('new08.text4') }}</span>
           <div class="right-tokens">
             <div class="select-token" @click="showSelectToken = true" style="margin-left: 0">
               <img :src="coinbaseIcos[selectTokenInfo.name]||require('~/static/images/defaultico.png')" class="coinico" />
@@ -36,45 +38,41 @@
             <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
               <div class="cell-incomeinfo">
                 <div class="c-item">
-                  <h5>LP总算力</h5>
+                  <h5>{{ $t('new08.text5') }}</h5>
                   <p>{{ infos[6] || '-' }}</p>
                 </div>
                 <div class="c-item">
-                  <h5>LP累计收益</h5>
-                  <p>{{ infos[0] || '-' }}</p>
+                  <h5>{{ $t('new08.text10') }}</h5>
+                  <p>{{ infos[3] || '-' }}</p>
                 </div>
               </div>
               <div class="cell-incomeinfo">
                 <div class="c-item">
-                  <h5>个人LP算力</h5>
+                  <h5>{{ $t('new08.text7') }}</h5>
                   <p>{{ infos[5] || '-' }}</p>
                 </div>
-                <div class="c-item">
-                  <h5>每日收益</h5>
-                  <p>{{ infos[2] || '-' }}</p>
-                </div>
               </div>
               <div class="cell-incomeinfo">
                 <div class="c-item">
-                  <h5>挖矿时间</h5>
+                  <h5>{{ $t('new08.text9') }}</h5>
                   <p>{{ infos[1] || '-' }}</p>
                 </div>
                 <div class="c-item">
-                  <h5>每秒收益</h5>
-                  <p>{{ infos[3] || '-' }}</p>
+                  <h5>{{ $t('new08.text6') }}</h5>
+                  <p>{{ infos[0] || '-' }}</p>
                 </div>
               </div>
               <div class="cell-incomeinfo">
                 <div class="c-item"
                   style="background: linear-gradient(to right, #9588ed, #fcb273)">
-                  <h5>佣金收益</h5>
+                  <h5>{{ $t('new08.text11') }}</h5>
                   <p>{{ infos[4] || '-' }}</p>
                 </div>
               </div>
             </el-col>
             <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
               <div class="right-income">
-                <h2>投入币种</h2>
+                <h2>{{ $t('new08.text12') }}</h2>
                 <div class="lpincome-pair aricotextbox">
                   <div class="stbico" :class="{active: trIndex == 0, disabled: stbIndex == 1}" 
                     @click="onTabTrn(0)">
@@ -87,22 +85,31 @@
                   </div>
                 </div>
                 <div class="income-number">
-                  <el-input-number :controls="false" placeholder="请输入数量"
-                    :disabled="trIndex == 0" :precision="4"
+                  <el-input-number :controls="false" :placeholder="$t('new08.text15')"
+                    :precision="4"
                     v-model="writeNumber" :min="100"></el-input-number>
                 </div>
-                <div>
-
+                <div class="sbtn-auth-cell">
+                  <el-button type="primary" round class="themebtn-token"
+                    :disabled="isAuth1" :loading="authLoading"
+                    @click="onAuthContract(stbTokens[0])">
+                    {{ isAuth1 ? $t('new08.text17') : $t('authorize') }} SELLC
+                  </el-button>
+                  <el-button type="primary" round class="themebtn-token"
+                    :disabled="isAuth2" :loading="authLoading"
+                    @click="onAuthContract(stbTokens[1])">
+                    {{ isAuth2 ? $t('new08.text17') : $t('authorize') }} USDT
+                  </el-button>
                 </div>
                 <div class="sbtn-cell">
                   <el-button type="primary" class="themebtn-token-plain" plain round
-                    :disabled="!infos[4] || infos[4]<=0" 
+                    :disabled="isWithdrawDisabled" 
                     :loading="subLoading" 
-                    @click="onWithdraw">取款</el-button>
+                    @click="onWithdraw">{{ $t('new08.text13') }}</el-button>
                   <el-button type="primary" class="themebtn-token" round
                     :loading="subLoading"
-                    :disabled="!selectTokenInfo.addr"
-                    @click="onSubStake">stake</el-button>
+                    :disabled="!selectTokenInfo.addr || (trIndex == 0 ? !isAuth1 : !isAuth2)"
+                    @click="onSubStake">{{ $t('new08.text14') }} {{ ['SELLC', 'USDT'][trIndex] }}</el-button>
                 </div>
               </div>
             </el-col>
@@ -133,7 +140,12 @@ export default {
       trIndex: 0,
       infos: {},
       subLoading: false,
-      writeNumber: 100
+      writeNumber: 100,
+      isWithdrawDisabled: true,
+      timer: null,
+      isAuth1: false,
+      isAuth2: false,
+      authLoading: false
     }
   },
   computed: {
@@ -156,10 +168,87 @@ export default {
       return process.browser ? globalThis.location.origin + '?addr=' + this.walletAddress : '';
     }
   },
+  watch: {
+    txChainHash () { // 监听授权状态
+      if (!this.txChainHash) {
+        this.chkAuth()
+      }
+    }
+  },
   created () {
     this.querySellcNumber()
+    this.chkAuth()
+  },
+  destroyed () {
+    clearTimeout(this.timer);
   },
   methods: {
+    async queryPairInfo () {
+      const { methods } = await this.$store.dispatch('contract/event', 'LPSwap');
+      return new Promise((resolve, reject) => {
+        methods.myReward(this.selectTokenInfo.addr).call((err, pairAddr) => {
+          if (!err) {
+            console.log(pairAddr)
+            if (pairAddr == 0) {
+              this.$alert(
+                this.$t('new08.text34'),
+                'Tips', 
+                {
+                  type: 'warning'
+              })
+              this.selectTokenInfo = {}
+              this.infos = {}
+              reject(false)
+            } else {
+              resolve(true)
+            }
+          }
+        })
+      })
+    },
+    chkAuth () {
+      if (this.stbTokens[0]) {
+        this.queryAllowance(this.stbTokens[0])
+        .then((authAmount) => {
+          this.isAuth1 = !!authAmount
+        })
+      }
+      if (this.stbTokens[1]) {
+        this.queryAllowance(this.stbTokens[1])
+        .then((authAmount) => {
+          this.isAuth2 = !!authAmount
+        })
+      }
+    },
+    async onAuthContract (address) { // 执行授权
+      this.authLoading = true;
+      const { methods } = await this.$store.dispatch('contract/common', { address });
+      const contract = await this.$store.dispatch('contract/event', 'LPSwap');
+      const authAmount = '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
+      methods.approve(contract._address, authAmount).send((err, txHash) => {
+        this.authLoading = false;
+        if (!err) {
+          this.$store.dispatch('contract/cochainHashSuccess', { txHash })
+        } else {
+          this.$store.dispatch('contract/cochainHashError', { err })
+        }
+      })
+    },
+    async queryAllowance (address) { // 查询授权
+      const { methods } = await this.$store.dispatch('contract/common', { address });
+      const contract = await this.$store.dispatch('contract/event', 'LPSwap');
+      const { decNum } = await this.$store.dispatch('contract/queyrSymbol', address)
+      return new Promise((resolve, reject) => {
+        methods.allowance(this.walletAddress, contract._address).call((err, res) => {
+          if (err) {
+            reject(err)
+          } else {
+            console.log('查询授权：', res/Math.pow(10, decNum))
+            resolve(res/Math.pow(10, decNum))
+          }
+        })
+      })
+    },
     async querySellcNumber () {
       const { methods } = await this.$store.dispatch('contract/event', 1);
       const { decNum } = await this.$store.dispatch('contract/queyrSymbol', this.stbTokens[0]);
@@ -206,17 +295,18 @@ export default {
     onTabTrn (index) {
       if (this.stbIndex !== 1) {
         this.trIndex = index;
-      }
-      if (index == 0) {
-        this.querySellcNumber()
-      } else {
-        this.writeNumber = 100
+        if (index == 0) {
+          this.querySellcNumber()
+        } else {
+          this.writeNumber = 100
+        }
       }
     },
     onTab (index) {
       this.stbIndex = index;
       if (index == 1) {
         this.trIndex = index;
+        this.writeNumber = 100;
       }
       this.queryInfos()
     },
@@ -234,24 +324,31 @@ export default {
       const { methods } = await this.$store.dispatch('contract/event', 'LPSwap');
       const { decNum } = await this.$store.dispatch('contract/queyrSymbol', addr1);
       methods.infos(addr1, addr2, this.walletAddress).call((err, res) => {
-        console.log(res)
         if (!err) {
           this.infos = {
-            0: (res[0]/Math.pow(10,decNum)).toFixed(8),
-            1: res[1],
+            0: (res[0]/Math.pow(10,decNum)).toFixed(4),
+            1: new Date(Number(res[1]+'000')).toLocaleString(),
             2: (res[2]/Math.pow(10,decNum)).toFixed(8),
             3: (res[3]/Math.pow(10,decNum)).toFixed(8),
             4: (res[4]/Math.pow(10,decNum)).toFixed(8),
-            5: res[5],
-            6: res[6],
+            5: (res[5]/Math.pow(10,decNum)).toFixed(0),
+            6: (res[6]/Math.pow(10,decNum)).toFixed(0)
           }
+          this.isWithdrawDisabled = !(Date.now()-(res[1]*1000)>3600000);
         }
+        clearTimeout(this.timer)
+        this.timer = setTimeout(() => {
+          this.queryInfos()
+        }, 10000)
       })
     },
     onSelectToken (token) {
       this.selectTokenInfo = token;
       this.showSelectToken = false;
-      this.queryInfos()
+      this.queryPairInfo()
+      .then(() => {
+        this.queryInfos()
+      })
     }
   }
 }

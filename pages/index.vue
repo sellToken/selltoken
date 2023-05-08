@@ -10,6 +10,9 @@
       <div class="page-title">
         <h1>{{ $t('PageHome.text1') }}</h1>
         <h2><span v-html="$t('PageHome.text2')"></span></h2>
+        <nuxt-link to="/lpMiner">
+          <img src="@/static/images/homehot.png" class="homehot" />
+        </nuxt-link>
       </div>
       <!-- 操作池 -->
       <div class="operation-pool">

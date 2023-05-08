@@ -1,13 +1,19 @@
 <template>
   <div class="page-lp-swap">
+    <div class="top-navbarlist">
+      <nuxt-link to="/lpMiner" class="aintext">LP mining income</nuxt-link>
+      <nuxt-link to="/lpSwap" class="aintext">Swap</nuxt-link>
+      <nuxt-link to="/community" class="aintext">Community mining income</nuxt-link>
+      <nuxt-link to="/launch" class="aintext active">{{ $t('new08.text1') }}</nuxt-link>
+    </div>
     <div class="lp-swap-topbox">
       <div class="sw-title">
         <img src="@/static/images/swapico1.png" />
-        <span>项目发射</span>
+        <span>{{ $t('new08.text1') }}</span>
       </div>
       <div class="sw-formcell">
         <div class="sw-cell">
-          <h6>Balance <small>{{ selectTokens[0].balance }}</small></h6>
+          <h6>{{ $t('new08.text16') }} <small>{{ selectTokens[0].balance }}</small></h6>
           <div class="sw-input">
             <div class="leftarrow" @click="showSelectToken = true, nowIndex = 0">
               <span :class="{active: !!selectTokens[0].name}">{{ selectTokens[0].name || 'Select Token' }}</span>
@@ -20,7 +26,7 @@
           </div>
         </div>
         <div class="sw-cell">
-          <h6>Balance <small>{{ nowAmount }}</small></h6>
+          <h6>{{ $t('new08.text16') }} <small>{{ nowAmount }}</small></h6>
           <div class="sw-input">
             <div class="leftarrow left-tabitem">
               <div class="stbico" :class="{active: stbIndex == 0}" @click="onTab(0)">
@@ -45,31 +51,28 @@
           <el-button type="primary" round class="themebtn-token"
             :disabled="isAuth1" :loading="authLoading"
             @click="onAuthContract(stbTokens[stbIndex])">
-            {{ isAuth1 ? '已授权' : $t('authorize') }} {{ ['SELLC', 'USDT'][stbIndex] || '' }}
+            {{ isAuth1 ? $t('new08.text17') : $t('authorize') }} {{ ['SELLC', 'USDT'][stbIndex] || '' }}
           </el-button>
           <el-button type="primary" round class="themebtn-token"
             :disabled="isAuth2 || !selectTokens[0].addr" :loading="authLoading"
             @click="onAuthContract(selectTokens[0].addr)">
-            {{ isAuth2 ? '已授权' : $t('authorize') }} {{ selectTokens[0].name || '' }}
+            {{ isAuth2 ? $t('new08.text17') : $t('authorize') }} {{ selectTokens[0].name || '' }}
           </el-button>
         </div>
         <div class="sw-btn">
           <el-button type="primary" round class="themebtn-token"
             :disabled="!selectTokens[0].addr || !selectValues[1] || !isAuth1 || !isAuth2" 
             :loading="subLoading"
-            @click="onAddLiquidity">add Liquidity</el-button>
+            @click="onAddLiquidity">{{ $t('new08.text32') }}</el-button>
         </div>
       </div>
     </div>
     <div class="lp-swap-bottombox">
       <div class="linktextbox">
-        <h3>提示：</h3>
+        <h3>{{ $t('new08.text30') }}</h3>
         <p>
-          代币90% <br />
-          矿池10% <br />
-          矿池开源合约 <b @click="onCopyText('0x5AAD822B1244EE29525F9bAd6F151EF010a5Ff83')">0x5AAD822B1244EE29525F9bAd6F151EF010a5Ff83 <i class="el-icon-document-copy"></i></b> <br />
-          项目方创建第一个挖矿请使用链接，否则失败，创建成功后请使用项目方自己的邀请地址启动项目 <b
-            @click="onCopyText(`https://selltoken.org/miner?addr=${walletAddress}`)">https://selltoken.org/miner?addr={{walletAddress}} <i class="el-icon-document-copy"></i></b>
+          <span v-html="$t('new08.text33')"></span> 
+          <b @click="onCopyText(`https://selltoken.org/miner?addr=${walletAddress}`)">https://selltoken.org/miner?addr={{walletAddress}} <i class="el-icon-document-copy"></i></b>
         </p>
       </div>
     </div>
@@ -85,10 +88,14 @@
 import {
   SELLC_ADDRESS, USDT_ADDRESS
 } from '@/contract/ABI';
+import {
+  BNB_ADDRESS
+} from '@/contract/Miner';
 export default {
   name: 'Launch',
   data () {
     return {
+      MinerAddress: BNB_ADDRESS,
       showSelectToken: false,
       nowIndex: -1,
       selectTokens: {
@@ -126,19 +133,29 @@ export default {
   watch: {
     txChainHash () { // 监听授权状态
       if (!this.txChainHash) {
-        if (this.selectTokens[0].addr) {
-          this.queryAllowance(this.selectTokens[0].addr)
-          .then((authAmount) => {
-            this.isAuth = !!authAmount
-          })
-        }
+        this.chkAuth()
       }
     }
   },
   mounted () {
     this.queryBurnedBalance();
+    this.chkAuth();
   },
   methods: {
+    chkAuth () {
+      if (this.stbTokens[this.stbIndex]) {
+        this.queryAllowance(this.stbTokens[this.stbIndex])
+        .then((authAmount) => {
+          this.isAuth1 = !!authAmount
+        })
+      }
+      if (this.selectTokens[0].addr) {
+        this.queryAllowance(this.selectTokens[0].addr)
+        .then((authAmount) => {
+          this.isAuth2 = !!authAmount
+        })
+      }
+    },
     onCopyText (text) {
       this.$copyText(text).then((e) => {
         console.log(e)
@@ -149,6 +166,7 @@ export default {
     },
     onTab (index) {
       this.stbIndex = index;
+      this.chkAuth();
       this.queryBurnedBalance();
     },
     async queryBurnedBalance () {
@@ -215,10 +233,7 @@ export default {
     onSelectToken (token) {
       this.selectTokens[this.nowIndex] = token;
       this.selectValues[this.nowIndex] = '';
-      this.queryAllowance(token.addr)
-      .then((authAmount) => {
-        this.isAuth = !!authAmount
-      })
+      this.chkAuth();
       this.queryTotalSupply();
       this.queryBurnedBalance();
       this.nowIndex = -1;
@@ -233,7 +248,10 @@ export default {
       const addr2 = this.stbIndex == 0 ? SELLC_ADDRESS : USDT_ADDRESS;
       const sellNum =  web3.utils.toWei(String(this.selectValues[1]), 'ether');
       this.subLoading = true;
-      methods.addLiquidity(addr1, addr2, sellNum).send((err, txHash) => {
+      const liquidityGas = this.$store.state.contract.liquidityGas[this.nowChainName];
+      methods.addLiquidity(addr1, addr2, sellNum).send({
+        gas: liquidityGas
+      },(err, txHash) => {
         this.subLoading = false;
         if (!err) {
           this.$store.dispatch('contract/cochainHashSuccess', { txHash })

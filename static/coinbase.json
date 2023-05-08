@@ -1,5 +1,12 @@
 [
     {
+        "icon": "https://selltoken.org/eth.png",
+        "name": "ETH",
+        "addr": "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
+        "pairs": "BNB",
+        "balance": "0.00"
+    },
+    {
         "icon": "https://selltoken.org/images/SELLC.png",
         "name": "SELLC",
         "addr": "0xa645995e9801F2ca6e2361eDF4c2A138362BADe4",

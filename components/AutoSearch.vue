@@ -134,6 +134,14 @@ export default {
           "balance": "0.00",
           "isAdd": true,
           "chainName": "BNB"
+        },
+        {
+          "addr": "0x8121d345b16469f38bd3b82ee2a547f6be54f9c9", 
+          "pairs": "",
+          "name": "QiQi",
+          "balance": "0.00",
+          "isAdd": true,
+          "chainName": "BNB"
         }
       ],
       waitImportInfo: {},

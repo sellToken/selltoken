@@ -317,3 +317,19 @@
     font-size: 16px;
   }
 }
+@media screen and (max-width: 750px) {
+  .top-navbarlist {
+    .aintext {
+      margin: 0;
+      font-size: 12px;
+      flex: 1;
+      &.active {
+        &::after {
+          width: 50px;
+          height: 4px;
+          margin-left: -25px;
+        }
+      }
+    }
+  }
+}
