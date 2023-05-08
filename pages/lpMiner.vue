@@ -109,7 +109,7 @@
                   <el-button type="primary" class="themebtn-token" round
                     :loading="subLoading"
                     :disabled="!selectTokenInfo.addr || (trIndex == 0 ? !isAuth1 : !isAuth2)"
-                    @click="onSubStake">{{ $t('new08.text14') }} {{ ['SELLC', 'USDT'][trIndex] }}</el-button>
+                    @click="onSubStake">{{ $t('new08.text14') }}</el-button>
                 </div>
               </div>
             </el-col>
@@ -214,8 +214,8 @@ export default {
               this.queryAllCoinbase(pairAddr)
               .then((addrInfo) => {
                 this.stbIndex = addrInfo[0] === 'SELLC' ? 0 : 1
+                resolve(pairAddr)
               })
-              resolve(pairAddr)
             }
           }
         })

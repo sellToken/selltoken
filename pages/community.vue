@@ -50,10 +50,10 @@
               <span>{{ item[0] }}</span>
             </div>
             <div class="tditem">
-              <span>{{ item[2] }}</span>
+              <span>{{ item[1] }}</span>
             </div>
             <div class="tditem">
-              <span>{{ item[1] }}</span>
+              <span>{{ item[2] }}</span>
             </div>
           </div>
           <div class="intable-empty" v-if="!infoList.length">

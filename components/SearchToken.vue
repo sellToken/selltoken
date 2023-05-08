@@ -34,7 +34,8 @@
         </el-alert>
         <div class="contract-address" v-if="waitImportInfo.name">
           <h5>
-            <img :src="coinbaseIcos[waitImportInfo.name]||require('~/static/images/defaultico.png')" />
+            <img :src="coinbaseIcos[waitImportInfo.name]||require('~/static/images/defaultico.png')"
+              style="max-width: 30px; max-height: 30px;" />
             {{ waitImportInfo.name }}
           </h5>
           <p>{{ waitImportInfo.addr.substr(0, 4) }}...{{ waitImportInfo.addr.substr(-4) }}</p>
